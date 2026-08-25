@@ -115,12 +115,12 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:lin
     <div class="form">
       <div class="field">
         <label><ruby>クラス（年）<rt>ねん</rt></ruby></label>
-        <input id="grade" type="number" min="1" max="6" placeholder="例：6">
+        <input id="grade" type="number" min="1" max="6" placeholder="例：1">
       </div>
 
       <div class="field">
         <label><ruby>クラス（組）<rt>くみ</rt></ruby></label>
-        <input id="klass" type="number" min="1" max="9" placeholder="例：2">
+        <input id="klass" type="number" min="1" max="9" placeholder="例：1">
       </div>
 
       <div class="field" style="grid-column:1/-1">
@@ -527,8 +527,16 @@ function onInput(){
 
   const el=document.getElementById("typing");
   const v=normalize(el.value);
+  const candidates=expected();
 
-  if(expected().includes(v)){
+  /*
+   * 「ん」で終わる言葉は nn が必須。
+   * 最後の n 1文字では絶対に正答にしない。
+   */
+  const endsWithN= current[0].endsWith("ん");
+  const singleNAtEnd = endsWithN && /n$/.test(v) && !/nn$/.test(v);
+
+  if(!singleNAtEnd && candidates.includes(v)){
 
     correct++;
     typedChars+=v.length;
@@ -562,7 +570,6 @@ function onInput(){
     updateHighlights();
   }
 }
-
 function updateStats(){
 
   const elapsed=Math.max(.001,(performance.now()-startTime)/1000);
