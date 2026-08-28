@@ -162,7 +162,18 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:lin
       <div id="roman" class="roman">---</div>
 
       <div class="inputrow">
-  <input id="typing" class="typing" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="タイピング入力">
+<input
+  id="typing"
+  class="typing"
+  type="text"
+  inputmode="latin"
+  lang="en"
+  autocomplete="off"
+  autocapitalize="off"
+  autocorrect="off"
+  spellcheck="false"
+  enterkeyhint="done"
+  aria-label="タイピング入力">
 </div>
 
 <div id="feedback" class="feedback"></div>
@@ -620,39 +631,25 @@ function startGame(){
   prepareTypingInput();
 
 
-  show("game");
+show("game");
+renderKeyboard();
+nextWord();
 
-  renderKeyboard();
+startTime=performance.now();
+endTime=startTime+60000;
 
-  nextWord();
+const typing=document.getElementById("typing");
 
+typing.setAttribute("inputmode","latin");
+typing.setAttribute("lang","en");
+typing.setAttribute("autocorrect","off");
+typing.setAttribute("autocapitalize","off");
+typing.setAttribute("spellcheck","false");
 
-  startTime=performance.now();
+typing.focus();
 
-  endTime=startTime+60000;
-
-
-  const typing=document.getElementById("typing");
-
-  typing.value="";
-
-  /*
-   * 画面遷移後にフォーカス。
-   */
-  setTimeout(()=>{
-
-    prepareTypingInput();
-
-    typing.focus();
-
-    updateHighlights();
-
-  },100);
-
-
-  clearInterval(timer);
-
-  timer=setInterval(tick,50);
+clearInterval(timer);
+timer=setInterval(tick,50);
 }
 
 
@@ -1872,6 +1869,14 @@ const typing=
   document.getElementById(
     "typing"
   );
+
+
+// iPadで回答欄を英字入力として扱う
+typing.setAttribute("inputmode","latin");
+typing.setAttribute("lang","en");
+typing.setAttribute("autocorrect","off");
+typing.setAttribute("autocapitalize","off");
+typing.setAttribute("spellcheck","false");
 
 
 typing.addEventListener(
