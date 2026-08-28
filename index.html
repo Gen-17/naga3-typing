@@ -405,12 +405,21 @@ const DISPLAY_MAP={
 };
 
 function displayWord(word){
-
   const d=DISPLAY_MAP[word];
 
-  return d
-    ? '<ruby>'+escapeHtml(d[0])+'<rt>'+escapeHtml(d[1])+'</rt></ruby>'
-    : escapeHtml(word);
+  if(!d){
+    return escapeHtml(word);
+  }
+
+  // ルビが設定されていない場合は文字だけ表示
+  if(!d[1]){
+    return escapeHtml(d[0]);
+  }
+
+  // ルビがある場合は漢字＋ルビ
+  return '<ruby>'+escapeHtml(d[0])+
+         '<rt>'+escapeHtml(d[1])+
+         '</rt></ruby>';
 }
 
 
