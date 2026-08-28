@@ -73,7 +73,9 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:lin
 .rank3{color:#e7aa76;font-weight:900}
 .result{text-align:center}
 .bigscore{font-size:58px;color:var(--yellow);font-weight:900}
-.substats{display:flex;justify-content:center;gap:25px;flex-wrap:wrap;color:var(--muted)}
+.score-formula{margin:10px auto 22px;padding:12px 18px;max-width:700px;border-radius:12px;background:#08111f;border:1px solid #29445c;color:#8ca4bc;font-size:16px;font-weight:700;line-height:1.7;}
+.score-formula b{color:#fff;}
+.substats{display:flex;justify-content:center;gap:25px;flex-wrap:wrap;color:var(--muted);}
 .substats b{color:#fff}
 .ruby{font-size:.45em;color:#8ca4bc;display:block;line-height:1.1;letter-spacing:.08em}
 .small{font-size:12px;color:var(--muted);text-align:center;margin-top:12px}
@@ -213,8 +215,9 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:lin
   </div>
 
   <div class="card result">
-    <div id="resultName"></div>
-    <div class="bigscore" id="resultScore">0</div>
+     <div id="resultName"></div>
+     <div class="bigscore" id="resultScore">0</div>
+     <div id="scoreFormula" class="score-formula"></div>
 
     <div class="substats">
       <div>正解 <b id="resultCorrect">0</b></div>
@@ -1407,6 +1410,14 @@ function finish(){
     .textContent=
       speed.toFixed(1);
 
+
+  document
+    .getElementById("scoreFormula").innerHTML =
+  `<b>スコア計算</b><br>
+   入力した文字数 × 正確さ × 速さボーナス<br>
+   ${typedChars} × ${Math.round(accuracy*100)}% × ${(1+Math.min(speed/10,1)).toFixed(2)}
+   ＝ ${score}`;
+  
 
   const ranks=getRanks();
 
