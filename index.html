@@ -1845,41 +1845,6 @@ renderKeyboard();
 
 </script>
 
-
-<script>
-
-/*
- * iPadのボタン操作対応
- */
-
-document.addEventListener(
-  "DOMContentLoaded",
-  function(){
-
-    document
-      .querySelectorAll("button")
-      .forEach(function(btn){
-
-        btn.addEventListener(
-          "touchend",
-          function(e){
-
-            e.preventDefault();
-
-            btn.click();
-
-          },
-          {passive:false}
-        );
-
-      });
-
-  }
-);
-
-</script>
-
-
 <script>
 
 /*
@@ -1892,107 +1857,65 @@ document.addEventListener(
  * のボタンを置いてください。
  */
 
-(function(){
+</script>
+  
+<script>
+document.addEventListener("DOMContentLoaded", function () {
 
-  function backToStart(){
+  const backBtn = document.getElementById("backToStartBtn");
 
-    if(
-      !confirm(
-        "大会（たいかい）を中断（ちゅうだん）して、最初（さいしょ）の画面（がめん）にもどりますか？"
-      )
-    ){
+  if (!backBtn) return;
 
-      return;
+  function backToStart(e) {
 
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
     }
 
+    const ok = confirm(
+      "大会（たいかい）を中断（ちゅうだん）して、最初（さいしょ）の画面（がめん）にもどりますか？"
+    );
 
-    if(timer){
+    if (!ok) return;
 
+    // タイマー停止
+    if (typeof timer !== "undefined") {
       clearInterval(timer);
-
-      timer=null;
-
+      timer = null;
     }
 
-
-    composing=false;
-
-    locked=false;
-
-    current=null;
-
-
-    const input=
-      document.getElementById(
-        "typing"
-      );
-
-
-    if(input){
-
-      input.value="";
-
+    // 回答欄をリセット
+    const input = document.getElementById("typing");
+    if (input) {
+      input.value = "";
       input.blur();
-
     }
 
+    // ゲーム状態をリセット
+    if (typeof locked !== "undefined") locked = false;
+    if (typeof current !== "undefined") current = null;
 
-    show("home");
+    // スタート画面へ
+    if (typeof show === "function") {
+      show("home");
+    }
 
-
-    setTimeout(()=>{
-
-      const grade=
-        document.getElementById(
-          "grade"
-        );
-
-      if(grade)
-        grade.focus();
-
-    },100);
-
+    // 名前入力欄に戻る
+    setTimeout(function () {
+      const grade = document.getElementById("grade");
+      if (grade) grade.focus();
+    }, 100);
   }
 
+  /*
+   * iPadでも1回だけ反応するようにする
+   * clickだけを使うので、touchendとの二重反応を防止
+   */
+  backBtn.addEventListener("click", backToStart);
 
-  document.addEventListener(
-    "DOMContentLoaded",
-    function(){
-
-      const btn=
-        document.getElementById(
-          "backToStartBtn"
-        );
-
-
-      if(!btn)return;
-
-
-      btn.addEventListener(
-        "click",
-        backToStart
-      );
-
-
-      btn.addEventListener(
-        "touchend",
-        function(e){
-
-          e.preventDefault();
-
-          backToStart();
-
-        },
-        {passive:false}
-      );
-
-    }
-  );
-
-})();
-
+});
 </script>
-
+  
 </body>
 </html>
