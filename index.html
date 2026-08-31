@@ -125,10 +125,10 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:lin
         <input id="klass" type="number" min="1" max="9" placeholder="例：1">
       </div>
 
-      <div class="field" style="grid-column:1/-1">
-        <label><ruby>名前<rt>なまえ</rt></ruby></label>
-        <input id="name" maxlength="12" placeholder="名前を入力">
-      </div>
+      <div class="field">
+  　　　　<label><ruby>番号<rt>ばんごう</rt></ruby></label>
+  　　　　<input id="number" type="number" min="1" max="99" placeholder="例：1">
+　　　　　</div>
     </div>
 
     <div class="actions">
@@ -247,7 +247,7 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:lin
         <tr>
           <th>順位</th>
           <th>クラス</th>
-          <th>名前</th>
+          <th>番号</th>
           <th>スコア</th>
           <th>正確さ</th>
           <th>速さ</th>
@@ -593,66 +593,55 @@ function prepareTypingInput(){
    ========================================= */
 
 function startGame(){
-
   const g=document.getElementById("grade").value;
   const k=document.getElementById("klass").value;
-  const n=document.getElementById("name").value.trim();
+  const num=document.getElementById("number").value;
 
-  if(!g||!k||!n){
-
-    document.getElementById("homeNotice").textContent=
-      "クラス（年・組）と名前を入力してください。";
-
+  if(!g||!k||!num){
+    document.getElementById("homeNotice").textContent="学年・組・番号を入力してください。";
     return;
   }
 
+  // 6桁の番号を作成
+  const studentNumber =
+    String(g).padStart(2,"0") +
+    String(k).padStart(2,"0") +
+    String(num).padStart(2,"0");
 
   player={
     grade:g,
     klass:k,
-    name:n
+    number:num,
+    studentNumber:studentNumber
   };
 
-
   pool=shuffle([...WORDS]);
-
   idx=0;
-
   correct=0;
   miss=0;
-
   typedChars=0;
   targetChars=0;
-
   locked=false;
-  composing=false;
 
+  show("game");
+  renderKeyboard();
+  nextWord();
 
-  /*
-   * 回答欄をiPad向けに設定
-   */
-  prepareTypingInput();
+  startTime=performance.now();
+  endTime=startTime+60000;
 
+  const typing=document.getElementById("typing");
 
-show("game");
-renderKeyboard();
-nextWord();
+  typing.setAttribute("inputmode","latin");
+  typing.setAttribute("lang","en");
+  typing.setAttribute("autocorrect","off");
+  typing.setAttribute("autocapitalize","off");
+  typing.setAttribute("spellcheck","false");
 
-startTime=performance.now();
-endTime=startTime+60000;
+  typing.focus();
 
-const typing=document.getElementById("typing");
-
-typing.setAttribute("inputmode","latin");
-typing.setAttribute("lang","en");
-typing.setAttribute("autocorrect","off");
-typing.setAttribute("autocapitalize","off");
-typing.setAttribute("spellcheck","false");
-
-typing.focus();
-
-clearInterval(timer);
-timer=setInterval(tick,50);
+  clearInterval(timer);
+  timer=setInterval(tick,50);
 }
 
 
@@ -1378,10 +1367,8 @@ function finish(){
   saveEntry(entry);
 
 
-  document
-    .getElementById("resultName")
-    .textContent=
-      `${player.grade}年${player.klass}組　${player.name}さん`;
+　document.getElementById("resultName").textContent=
+ 　 `${player.grade}年${player.klass}組　${player.studentNumber}`;
 
 
   document
@@ -1422,12 +1409,7 @@ function finish(){
   const ranks=getRanks();
 
 
-  const rank=
-    ranks.findIndex(
-      x=>
-        x.date===entry.date &&
-        x.name===entry.name
-    )+1;
+  const rank=ranks.findIndex(x=>x.date===entry.date&&x.studentNumber===entry.studentNumber)+1;
 
 
   document
@@ -1522,7 +1504,7 @@ function showRanking(){
 
       `<td>${i+1}</td>
        <td>${r.grade}-${r.klass}</td>
-       <td>${escapeHtml(r.name)}</td>
+       <td>${r.studentNumber}</td>
        <td>${r.score}</td>
        <td>${Math.round(r.accuracy*100)}%</td>
        <td>${r.speed.toFixed(1)}</td>`;
