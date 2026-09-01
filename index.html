@@ -292,6 +292,68 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:lin
 </div>
 
 <script>
+/* =========================================
+   Supabaseランキング設定
+   ========================================= */
+const SUPABASE_URL = "https://wjuikvmdigjmmibihnoo.supabase.co";
+const SUPABASE_KEY = "sb_publishable_GpKdt9MBufZkZLvmUO5Ogw_dD-QWNHu";
+const RANKINGS_TABLE = "rankings";
+let cachedRanks = [];
+let rankingRefreshTimer = null;
+
+async function supabaseRequest(path, options = {}) {
+  const headers = {
+    "apikey": SUPABASE_KEY,
+    "Authorization": `Bearer ${SUPABASE_KEY}`,
+    "Content-Type": "application/json",
+    ...(options.headers || {})
+  };
+
+  const response = await fetch(`${SUPABASE_URL}/rest/v1/${path}`, {
+    ...options,
+    headers
+  });
+
+  if (!response.ok) {
+    const text = await response.text();
+    throw new Error(`Supabase error ${response.status}: ${text}`);
+  }
+
+  const text = await response.text();
+  return text ? JSON.parse(text) : null;
+}
+
+function sortRanks(a) {
+  return (a || []).sort((x,y) =>
+    Number(y.score)-Number(x.score) ||
+    Number(y.accuracy)-Number(x.accuracy) ||
+    Number(y.speed)-Number(x.speed) ||
+    Number(x.date)-Number(y.date)
+  ).slice(0,20);
+}
+
+async function fetchRanks() {
+  const rows = await supabaseRequest(
+    `${RANKINGS_TABLE}?select=*&order=score.desc,accuracy.desc,speed.desc,date.asc&limit=20`
+  );
+  cachedRanks = sortRanks(rows);
+  return cachedRanks;
+}
+
+function startRankingRefresh(){
+  clearInterval(rankingRefreshTimer);
+  rankingRefreshTimer = setInterval(async () => {
+    if(document.getElementById("rank")?.classList.contains("active")){
+      try { await renderRankingTable(); } catch(e) { console.warn(e); }
+    }
+  }, 3000);
+}
+
+function stopRankingRefresh(){
+  clearInterval(rankingRefreshTimer);
+  rankingRefreshTimer = null;
+}
+
 
 const WORDS=[
 ["あさ","asa"],["いぬ","inu"],["うみ","umi"],["えき","eki"],["おと","oto"],["かさ","kasa"],["きつね","kitune","kitsune"],["くるま","kuruma"],["けしき","kesiki","keshiki"],["こえ","koe"],
@@ -554,6 +616,8 @@ function show(id){
   document
     .getElementById(id)
     .classList.add("active");
+
+  if(id !== "rank") stopRankingRefresh();
 }
 
 
@@ -1387,7 +1451,7 @@ function updateStats(){
    終了
    ========================================= */
 
-function finish(){
+async function finish(){
 
   if(locked)return;
 
@@ -1441,7 +1505,15 @@ function finish(){
   };
 
 
-  saveEntry(entry);
+  let ranks=[];
+  try {
+    await saveEntry(entry);
+    ranks = cachedRanks;
+  } catch (error) {
+    console.error(error);
+    alert("ランキングへの保存に失敗しました。通信状態を確認してください。");
+    try { ranks = await fetchRanks(); } catch(e) {}
+  }
 
 
 　document.getElementById("resultName").innerHTML=
@@ -1488,9 +1560,6 @@ function finish(){
    ＝ ${score}`;
   
 
-  const ranks=getRanks();
-
-
   const rank=ranks.findIndex(x=>x.date===entry.date&&x.studentNumber===entry.studentNumber)+1;
 
 
@@ -1510,161 +1579,110 @@ function finish(){
 
 
 /* =========================================
-   ランキング
+   ランキング（Supabase共有）
    ========================================= */
 
-function getRanks(){
-
-  return JSON
-    .parse(
-      localStorage.getItem(
-        "nagas3TypingRanking"
-      )||"[]"
-    )
-    .sort(
-      (a,b)=>
-        b.score-a.score||
-        b.accuracy-a.accuracy||
-        b.speed-a.speed
-    )
-    .slice(0,20);
+async function getRanks(){
+  return await fetchRanks();
 }
 
+async function saveEntry(e){
+  const payload = {
+    grade: Number(e.grade),
+    klass: Number(e.klass),
+    number: Number(e.number),
+    student_number: e.studentNumber,
+    nickname: e.nickname,
+    score: Number(e.score),
+    accuracy: Number(e.accuracy),
+    speed: Number(e.speed),
+    date: Number(e.date)
+  };
 
-function saveEntry(e){
-
-  let a=
-    JSON.parse(
-      localStorage.getItem(
-        "nagas3TypingRanking"
-      )||"[]"
-    );
-
-
-  a.push(e);
-
-
-  a.sort(
-    (x,y)=>
-      y.score-x.score||
-      y.accuracy-x.accuracy||
-      y.speed-x.speed
-  );
-
-
-  localStorage.setItem(
-    "nagas3TypingRanking",
-    JSON.stringify(
-      a.slice(0,20)
-    )
-  );
-}
-
-
-function showRanking(){
-
-  const body=
-    document.getElementById("rankBody");
-
-
-  body.innerHTML="";
-
-
-  getRanks().forEach((r,i)=>{
-
-    const tr=
-      document.createElement("tr");
-
-
-    tr.className=
-      i<3
-      ?"rank"+(i+1)
-      :"";
-
-
-   tr.innerHTML=
-  `<td>${i+1}</td>
-   <td>${r.studentNumber}</td>
-   <td>${r.score}</td>
-   <td>${Math.round(r.accuracy*100)}%</td>
-   <td>${r.speed.toFixed(1)}</td>`;
-
-
-    body.appendChild(tr);
-
+  await supabaseRequest(RANKINGS_TABLE, {
+    method: "POST",
+    headers: { "Prefer": "return=minimal" },
+    body: JSON.stringify(payload)
   });
 
-
-  if(!body.children.length){
-
-    body.innerHTML=
-      '<tr><td colspan="5">まだランキング記録がありません</td></tr>';
-
-  }
-
-
-  show("rank");
+  await fetchRanks();
 }
 
+async function renderRankingTable(){
+  const body = document.getElementById("rankBody");
+  if(!body)return;
+
+  body.innerHTML = '<tr><td colspan="5">ランキングを読み込み中……</td></tr>';
+
+  try {
+    const ranks = await fetchRanks();
+    body.innerHTML = "";
+
+    ranks.forEach((r,i)=>{
+      const tr = document.createElement("tr");
+      tr.className = i<3 ? "rank"+(i+1) : "";
+
+      tr.innerHTML =
+        `<td>${i+1}</td>
+         <td>${escapeHtml(String(r.student_number ?? ""))}</td>
+         <td>${Number(r.score)}</td>
+         <td>${Math.round(Number(r.accuracy)*100)}%</td>
+         <td>${Number(r.speed).toFixed(1)}</td>`;
+
+      body.appendChild(tr);
+    });
+
+    if(!body.children.length){
+      body.innerHTML =
+        '<tr><td colspan="5">まだランキング記録がありません</td></tr>';
+    }
+  } catch(error){
+    console.error(error);
+    body.innerHTML =
+      '<tr><td colspan="5">ランキングを読み込めませんでした。通信状態を確認してください。</td></tr>';
+  }
+}
+
+async function showRanking(){
+  await renderRankingTable();
+  show("rank");
+  startRankingRefresh();
+}
 
 /* =========================================
    先生用ランキングリセット
    ========================================= */
-
-function teacherReset(){
-
-  const pw=
-    prompt(
-      "先生用機能です。\nパスワードを入力してください。"
-    );
-
+async function teacherReset(){
+  const pw = prompt(
+    "先生用機能です。\nパスワードを入力してください。"
+  );
 
   if(pw===null)return;
 
-
   if(pw!=="NAGASAN-TEACHER"){
-
-    alert(
-      "パスワードがちがいます。"
-    );
-
+    alert("パスワードがちがいます。");
     return;
   }
 
-
-  if(
-    confirm(
-      "ランキングをすべて消去します。よろしいですか？"
-    )
-  ){
-
-    localStorage.removeItem(
-      "nagas3TypingRanking"
-    );
-
-    showRanking();
-
+  if(confirm("ランキングをすべて消去します。よろしいですか？")){
+    try {
+      await supabaseRequest(`${RANKINGS_TABLE}?id=not.is.null`, {
+        method: "DELETE",
+        headers: { "Prefer": "return=minimal" }
+      });
+      cachedRanks=[];
+      await renderRankingTable();
+      alert("ランキングをリセットしました。");
+    } catch(error){
+      console.error(error);
+      alert("ランキングのリセットに失敗しました。SupabaseのDELETEポリシーを確認してください。");
+    }
   }
 }
-
 
 function clearRanking(){
-
-  if(
-    confirm(
-      "ランキングをすべて消去します。よろしいですか？"
-    )
-  ){
-
-    localStorage.removeItem(
-      "nagas3TypingRanking"
-    );
-
-    showRanking();
-
-  }
+  teacherReset();
 }
-
 
 /* =========================================
    HTMLエスケープ
