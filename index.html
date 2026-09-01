@@ -133,6 +133,24 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:lin
  　　 </div>
 </div>
 
+<div class="field" style="grid-column:1/-1">
+  <label>
+    ニックネーム
+  </label>
+
+  <input
+    id="nickname"
+    type="text"
+    maxlength="12"
+    placeholder="ニックネームを入力"
+    autocomplete="off"
+  >
+
+  <div style="color:var(--red);font-size:13px;margin-top:6px;font-weight:700;text-align:center;">
+    ※ <ruby>本名<rt>ほんみょう</rt></ruby>などの<ruby>個人情報<rt>こじんじょうほう</rt></ruby>は<ruby>入力<rt>にゅうりょく</rt></ruby>しないこと！
+  </div>
+</div>
+    
 <div id="numberPreview" class="number-preview">
   あなたの<ruby>番号<rt>ばんごう</rt></ruby>
   <strong>------</strong>
@@ -599,14 +617,16 @@ function prepareTypingInput(){
    ========================================= */
 
 function startGame(){
-  const g=document.getElementById("grade").value;
-  const k=document.getElementById("klass").value;
-  const num=document.getElementById("number").value;
+const g=document.getElementById("grade").value;
+const k=document.getElementById("klass").value;
+const num=document.getElementById("number").value;
+const nickname=document.getElementById("nickname").value.trim();
 
-  if(!g||!k||!num){
-    document.getElementById("homeNotice").textContent="学年・組・番号を入力してください。";
-    return;
-  }
+ if(!g||!k||!num||!nickname){
+  document.getElementById("homeNotice").textContent=
+    "学年・組・番号・ニックネームを入力してください。";
+  return;
+}
   
   // 6桁の番号を作成
   const studentNumber =
@@ -618,8 +638,9 @@ function startGame(){
     grade:g,
     klass:k,
     number:num,
-    studentNumber:studentNumber
-  };
+    studentNumber:studentNumber,
+    nickname:nickname
+};
 
   pool=shuffle([...WORDS]);
   idx=0;
@@ -1423,8 +1444,13 @@ function finish(){
   saveEntry(entry);
 
 
-　document.getElementById("resultName").textContent=
- 　 `${player.grade}年${player.klass}組　${player.studentNumber}`;
+　document.getElementById("resultName").innerHTML=
+  `<div style="font-size:28px;font-weight:900;color:#fff;">
+    <ruby>${escapeHtml(player.nickname)}<rt>ニックネーム</rt></ruby>
+  </div>
+  <div style="margin-top:8px;font-size:20px;color:var(--yellow);font-weight:800;letter-spacing:.12em;">
+    ${player.studentNumber}
+  </div>`;
 
 
   document
