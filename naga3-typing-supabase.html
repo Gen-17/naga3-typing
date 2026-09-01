@@ -1,0 +1,2109 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>長三タイピング大会</title>
+<style>
+:root{--bg:#050914;--panel:#0b1222;--panel2:#111c31;--blue:#18a9ff;--yellow:#ffd52e;--text:#eaf5ff;--muted:#8ca4bc;--red:#ff5470;--green:#4dffae}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(circle at 50% -10%,#12345c 0,#07101e 42%,#03060d 100%);color:var(--text);font-family:system-ui,-apple-system,"Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;min-height:100vh}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;background:linear-gradient(rgba(24,169,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(24,169,255,.025) 1px,transparent 1px);background-size:36px 36px}
+.wrap{max-width:1120px;margin:auto;padding:24px 18px 40px}
+.screen{display:none}
+.screen.active{display:block}
+.brand{text-align:center;margin:12px 0 22px}
+.brand h1{font-size:clamp(32px,6vw,62px);letter-spacing:.08em;margin:0;color:#fff;text-shadow:0 0 16px rgba(24,169,255,.8)}
+.brand p{margin:8px;color:var(--yellow);font-weight:800;letter-spacing:.25em}
+.card{background:linear-gradient(145deg,rgba(17,28,49,.96),rgba(7,14,27,.96));border:1px solid rgba(24,169,255,.32);border-radius:20px;box-shadow:0 15px 60px #0008,0 0 30px rgba(24,169,255,.08);padding:28px}
+.rules{border-left:4px solid var(--yellow);background:#080f1c;padding:16px 18px;border-radius:12px;line-height:1.9}
+.rules b{color:var(--yellow)}
+.form{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:22px 0}
+.field label{display:block;color:var(--muted);font-size:14px;margin-bottom:7px}
+.field input{width:100%;padding:15px;border-radius:10px;border:1px solid #29445f;background:#050b16;color:#fff;font-size:20px;outline:none}
+.field input:focus{border-color:var(--blue);box-shadow:0 0 0 3px #18a9ff22}
+.btn{border:0;border-radius:12px;padding:15px 24px;font-weight:900;font-size:18px;cursor:pointer;color:#06101b;background:linear-gradient(90deg,var(--blue),#5bd0ff);box-shadow:0 0 24px #18a9ff33}
+.btn.yellow{background:linear-gradient(90deg,var(--yellow),#fff07a)}
+.btn.secondary{background:#17283c;color:#dceeff;border:1px solid #31516e}
+.actions{text-align:center;margin-top:20px}
+.notice{min-height:24px;color:var(--red);font-weight:700;text-align:center;margin-top:10px}
+.number-preview{grid-column:1/-1;text-align:center;margin-top:0;padding:12px 18px;border:2px solid var(--yellow);border-radius:14px;background:#111a28;color:var(--muted);font-size:17px;font-weight:800;}
+.number-preview strong{display:block;margin-top:3px;color:var(--yellow);font-size:42px;line-height:1.1;letter-spacing:.12em;text-shadow:0 0 18px rgba(255,213,46,.65);}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:18px}
+.stat{background:#08111f;border:1px solid #1c3b57;border-radius:12px;padding:12px;text-align:center}
+.stat span{display:block;color:var(--muted);font-size:12px}
+.stat strong{display:block;font-size:24px;color:#fff;margin-top:3px}
+.timer strong{color:var(--yellow)}
+.game-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:18px}
+.question{text-align:center;padding:30px 15px}
+.question .label{color:var(--blue);font-weight:900;letter-spacing:.18em;font-size:13px}
+.word{font-size:clamp(40px,7vw,76px);font-weight:900;margin:4px 0;color:#fff}
+#reading{display:none !important;}
+.roman{font-family:ui-monospace,SFMono-Regular,monospace;color:var(--yellow);font-size:clamp(23px,4vw,38px);font-weight:800;letter-spacing:.06em;min-height:48px}
+.inputrow{display:flex;gap:10px;margin:20px auto 0;max-width:680px}
+.typing{flex:1;padding:16px;border-radius:12px;border:2px solid #27506e;background:#050b16;color:#fff;font:700 24px ui-monospace,monospace;text-align:center;outline:none}
+.typing:focus{border-color:var(--blue);box-shadow:0 0 20px #18a9ff22}
+.typing.good{border-color:var(--green)}
+.typing.bad{border-color:var(--red);animation:shake .16s linear 2}
+@keyframes shake{25%{transform:translateX(-3px)}75%{transform:translateX(3px)}}
+.support{padding:18px}
+.support h3{margin:0 0 12px;font-size:15px;color:var(--muted)}
+.keyboard{display:grid;gap:6px;margin:auto;max-width:570px}
+.krow{display:flex;gap:5px;justify-content:center}
+.key{height:44px;min-width:34px;padding:0 8px;border-radius:7px;border:1px solid #29445c;background:#0c1727;display:grid;place-items:center;font:700 14px ui-monospace,monospace;color:#cfe5f7;transition:.12s}
+.key.wide{min-width:68px}
+.key.space{min-width:260px}
+.key.next{background:var(--yellow);color:#111;border-color:#fff2a0;box-shadow:0 0 18px #ffd52e99;transform:translateY(-2px)}
+.hands{display:flex;justify-content:center;gap:50px;margin-top:18px}
+.hand{position:relative;width:150px;height:105px;border:2px solid #31516e;border-radius:55px 55px 35px 35px;background:#0a1627}
+.finger{position:absolute;width:25px;height:72px;border-radius:16px;background:#15283e;border:1px solid #35536d;bottom:55px}
+.finger.on{background:var(--yellow);border-color:#fff2a0;box-shadow:0 0 15px #ffd52e}
+.f1{left:17px;transform:rotate(-25deg)}
+.f2{left:45px;bottom:68px}
+.f3{left:75px;bottom:72px}
+.f4{left:105px;bottom:61px;transform:rotate(20deg)}
+.thumb{position:absolute;width:55px;height:24px;border-radius:16px;background:#15283e;border:1px solid #35536d;bottom:14px;left:48px;transform:rotate(-18deg)}
+.thumb.on{background:var(--yellow);box-shadow:0 0 15px #ffd52e}
+.handlabel{text-align:center;color:var(--muted);font-size:12px;margin-top:8px}
+.feedback{text-align:center;min-height:28px;font-weight:800}
+.ranking{width:100%;border-collapse:collapse;margin-top:15px}
+.ranking th,.ranking td{padding:11px 8px;border-bottom:1px solid #20384e;text-align:center}
+.ranking th{color:var(--yellow);font-size:13px}
+.me{background:#14314a}
+.rank1{color:#ffe76a;font-weight:900}
+.rank2{color:#d9e5f2;font-weight:900}
+.rank3{color:#e7aa76;font-weight:900}
+.result{text-align:center}
+.bigscore{font-size:58px;color:var(--yellow);font-weight:900}
+.score-formula{margin:10px auto 22px;padding:12px 18px;max-width:700px;border-radius:12px;background:#08111f;border:1px solid #29445c;color:#8ca4bc;font-size:16px;font-weight:700;line-height:1.7;}
+.score-formula b{color:#fff;}
+.substats{display:flex;justify-content:center;gap:25px;flex-wrap:wrap;color:var(--muted);}
+.substats b{color:#fff}
+.ruby{font-size:.45em;color:#8ca4bc;display:block;line-height:1.1;letter-spacing:.08em}
+.small{font-size:12px;color:var(--muted);text-align:center;margin-top:12px}
+
+@media(max-width:800px){
+.game-grid{grid-template-columns:1fr}
+.form,.stats{grid-template-columns:1fr 1fr}
+.key{min-width:25px;padding:0 4px;font-size:11px;height:38px}
+.key.space{min-width:150px}
+.hands{gap:10px}
+.card{padding:18px}
+}
+@media(max-width:480px){
+.stats{grid-template-columns:1fr 1fr}
+.form{grid-template-columns:1fr}
+.key{min-width:20px;font-size:9px}
+.key.wide{min-width:45px}
+.key.space{min-width:100px}
+}
+</style>
+</head>
+
+<body>
+<div class="wrap">
+
+<section id="home" class="screen active">
+  <div class="brand">
+    <h1><ruby>長三<rt>ながさん</rt></ruby>タイピング<ruby>大会<rt>たいかい</rt></ruby></h1>
+    <p><ruby>自分<rt>じぶん</rt></ruby>の<ruby>力<rt>ちから</rt></ruby>をためそう</p>
+  </div>
+
+  <div class="card">
+    <div class="rules">
+      <b><ruby>大会<rt>たいかい</rt></ruby>ルール</b><br>
+      ① <ruby>休<rt>やす</rt></ruby>み<ruby>時間<rt>じかん</rt></ruby>にタイピング<ruby>大会<rt>たいかい</rt></ruby>をするときは、かならず<ruby>先生<rt>せんせい</rt></ruby>に<ruby>伝<rt>つた</rt></ruby>えましょう。<br>
+      ② この<ruby>大会<rt>たいかい</rt></ruby>はランキング<ruby>制<rt>せい</rt></ruby>です。<ruby>始<rt>はじ</rt></ruby>める<ruby>時<rt>とき</rt></ruby>に<ruby>最初<rt>さいしょ</rt></ruby>にクラスと<ruby>名前<rt>なまえ</rt></ruby>を<ruby>書<rt>か</rt></ruby>きましょう。
+    </div>
+
+    <div class="form">
+      <div class="field">
+        <label><ruby>年<rt>ねん</rt></ruby></label>
+        <input id="grade" type="number" min="1" max="6" placeholder="例：1">
+      </div>
+
+      <div class="field">
+        <label><ruby>組<rt>くみ</rt></ruby></label>
+        <input id="klass" type="number" min="1" max="9" placeholder="例：1">
+      </div>
+
+    <div class="field">
+    　　<label><ruby>番号<rt>ばんごう</rt></ruby></label>
+    　　<input id="number" type="number" min="1" max="99" placeholder="例：1">
+ 　　 </div>
+</div>
+
+<div class="field" style="grid-column:1/-1">
+  <label>
+    ニックネーム
+  </label>
+
+  <input
+    id="nickname"
+    type="text"
+    maxlength="12"
+    placeholder="ニックネームを入力"
+    autocomplete="off"
+  >
+
+  <div style="color:var(--red);font-size:13px;margin-top:6px;font-weight:700;text-align:center;">
+    ※ <ruby>本名<rt>ほんみょう</rt></ruby>などの<ruby>個人情報<rt>こじんじょうほう</rt></ruby>は<ruby>入力<rt>にゅうりょく</rt></ruby>しないこと！
+  </div>
+</div>
+    
+<div id="numberPreview" class="number-preview">
+  あなたの<ruby>番号<rt>ばんごう</rt></ruby>
+  <strong>------</strong>
+</div>
+
+<div class="actions">
+      <button type="button" class="btn yellow" onclick="startGame()">大会スタート</button>
+    </div>
+
+    <div id="homeNotice" class="notice"></div>
+
+    <div class="actions">
+      <button type="button" class="btn secondary" onclick="showRanking()">🏆 ランキングを見る</button>
+    </div>
+  </div>
+</section>
+
+<section id="game" class="screen">
+  <div class="brand">
+    <h1 style="font-size:34px"><ruby>長三<rt>ながさん</rt></ruby>タイピング<ruby>大会<rt>たいかい</rt></ruby></h1>
+    <p><ruby>自分<rt>じぶん</rt></ruby>の<ruby>力<rt>ちから</rt></ruby>をためそう</p>
+  </div>
+
+  <div class="stats">
+    <div class="stat timer"><span>TIME</span><strong id="time">60.0</strong></div>
+    <div class="stat"><span>正確さ</span><strong id="accuracy">100%</strong></div>
+    <div class="stat"><span>速さ</span><strong id="speed">0.0</strong></div>
+    <div class="stat"><span>スコア</span><strong id="score">0</strong></div>
+  </div>
+
+  <div class="game-grid">
+    <div class="card question">
+      <div class="label">NEXT WORD</div>
+      <div id="reading" class="reading">---</div>
+      <div id="word" class="word">---</div>
+      <div id="roman" class="roman">---</div>
+
+      <div class="inputrow">
+<input
+  id="typing"
+  class="typing"
+  type="text"
+  inputmode="latin"
+  lang="en"
+  autocomplete="off"
+  autocapitalize="off"
+  autocorrect="off"
+  spellcheck="false"
+  enterkeyhint="done"
+  aria-label="タイピング入力">
+</div>
+
+<div id="feedback" class="feedback"></div>
+
+<div class="actions">
+  <button type="button" id="backToStartBtn" class="btn secondary">
+    ⬅️ スタート画面にもどる
+  </button>
+</div>
+
+<div class="small">次に入力するキーと指が黄色に光ります</div>
+    </div>
+
+    <div class="card support">
+      <h3>⌨️ キーボード　次のキーを確認しよう</h3>
+      <div id="keyboard" class="keyboard"></div>
+
+      <h3 style="margin-top:18px">✋ 使う指</h3>
+      <div class="hands">
+        <div>
+          <div id="leftHand" class="hand"></div>
+          <div class="handlabel">左手</div>
+        </div>
+        <div>
+          <div id="rightHand" class="hand"></div>
+          <div class="handlabel">右手</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="result" class="screen">
+  <div class="brand">
+    <h1 style="font-size:42px">RESULT</h1>
+    <p><ruby>大会結果<rt>たいかいけっか</rt></ruby></p>
+  </div>
+
+  <div class="card result">
+     <div id="resultName"></div>
+     <div class="bigscore" id="resultScore">0</div>
+     <div id="scoreFormula" class="score-formula"></div>
+
+    <div class="substats">
+      <div>正解 <b id="resultCorrect">0</b></div>
+      <div>ミス <b id="resultMiss">0</b></div>
+      <div>正確さ <b id="resultAccuracy">0%</b></div>
+      <div>速さ <b id="resultSpeed">0.0</b></div>
+    </div>
+
+    <h2 id="resultRank"></h2>
+
+    <div class="actions">
+      <button type="button" class="btn yellow" onclick="showRanking()">🏆 ランキングを見る</button>
+      <button type="button" class="btn secondary" onclick="goHome()">もう一度挑戦</button>
+    </div>
+  </div>
+</section>
+
+<section id="rank" class="screen">
+  <div class="brand">
+    <h1 style="font-size:42px">RANKING</h1>
+    <p><ruby>長三<rt>ながさん</rt></ruby>タイピング<ruby>大会<rt>たいかい</rt></ruby> TOP 20</p>
+  </div>
+
+  <div class="card">
+    <table class="ranking">
+      <thead>
+        <tr>
+          <th>順位</th>
+          <th>番号</th>
+          <th>スコア</th>
+          <th>正確さ</th>
+          <th>速さ</th>
+        </tr>
+      </thead>
+      <tbody id="rankBody"></tbody>
+    </table>
+
+    <div class="actions">
+      <button type="button" class="btn yellow" onclick="goHome()">大会に挑戦する</button>
+      <button type="button" class="btn secondary" onclick="teacherReset()">先生用：ランキングをリセット</button>
+    </div>
+
+    <div class="small">ランキングはこのブラウザに保存されます。</div>
+  </div>
+</section>
+
+</div>
+
+<script>
+/* =========================================
+   Supabaseランキング設定
+   ========================================= */
+const SUPABASE_URL = "https://wjuikvmdigjmmibihnoo.supabase.co";
+const SUPABASE_KEY = "sb_publishable_GpKdt9MBufZkZLvmUO5Ogw_dD-QWNHu";
+const RANKINGS_TABLE = "rankings";
+let cachedRanks = [];
+let rankingRefreshTimer = null;
+
+async function supabaseRequest(path, options = {}) {
+  const headers = {
+    "apikey": SUPABASE_KEY,
+    "Authorization": `Bearer ${SUPABASE_KEY}`,
+    "Content-Type": "application/json",
+    ...(options.headers || {})
+  };
+
+  const response = await fetch(`${SUPABASE_URL}/rest/v1/${path}`, {
+    ...options,
+    headers
+  });
+
+  if (!response.ok) {
+    const text = await response.text();
+    throw new Error(`Supabase error ${response.status}: ${text}`);
+  }
+
+  const text = await response.text();
+  return text ? JSON.parse(text) : null;
+}
+
+function sortRanks(a) {
+  return (a || []).sort((x,y) =>
+    Number(y.score)-Number(x.score) ||
+    Number(y.accuracy)-Number(x.accuracy) ||
+    Number(y.speed)-Number(x.speed) ||
+    Number(x.date)-Number(y.date)
+  ).slice(0,20);
+}
+
+async function fetchRanks() {
+  const rows = await supabaseRequest(
+    `${RANKINGS_TABLE}?select=*&order=score.desc,accuracy.desc,speed.desc,date.asc&limit=20`
+  );
+  cachedRanks = sortRanks(rows);
+  return cachedRanks;
+}
+
+function startRankingRefresh(){
+  clearInterval(rankingRefreshTimer);
+  rankingRefreshTimer = setInterval(async () => {
+    if(document.getElementById("rank")?.classList.contains("active")){
+      try { await renderRankingTable(); } catch(e) { console.warn(e); }
+    }
+  }, 3000);
+}
+
+function stopRankingRefresh(){
+  clearInterval(rankingRefreshTimer);
+  rankingRefreshTimer = null;
+}
+
+
+const WORDS=[
+["あさ","asa"],["いぬ","inu"],["うみ","umi"],["えき","eki"],["おと","oto"],["かさ","kasa"],["きつね","kitune","kitsune"],["くるま","kuruma"],["けしき","kesiki","keshiki"],["こえ","koe"],
+["さくら","sakura"],["しお","sio","shio"],["すいか","suika"],["せかい","sekai"],["そら","sora"],["たこ","tako"],["ちず","tizu","chizu"],["つき","tuki","tsuki"],["てがみ","tegami"],["とけい","tokei"],
+["なつ","natu","natsu"],["にじ","nizi","niji"],["ぬの","nuno"],["ねこ","neko"],["のり","nori"],["はな","hana"],["ひこうき","hikouki"],["ふね","hune","fune"],["へや","heya"],["ほし","hosi","hoshi"],
+["まど","mado"],["みず","mizu"],["むし","musi","mushi"],["めがね","megane"],["もり","mori"],["やま","yama"],["ゆき","yuki"],["よる","yoru"],["らいおん","raionn"],["りんご","rinngo"],["るすばん","rusubann"],["れきし","rekisi","rekishi"],["ろうそく","rousoku"],
+["わに","wani"],["でんしゃ","dennsya","dennsha"],["しんぶん","sinnbunn","shinnbunn"],["がっこう","gakkou"],["せんせい","sennsei"],["ともだち","tomodati","tomodachi"],["きょうしつ","kyousitu","kyousitsu","kyoushitu","kyoushitsu"],["べんきょう","bennkyou"],["じかん","zikann","jikann"],["じてんしゃ","zitensya","jitensya","zitensha","jitensha"],
+["しょうがくせい","syougakusei","shougakusei"],["しゅくだい","syukudai","shukudai"],["しょくいんしつ","shokuinnshitu","shokuinnshitsu","shokuinnsitu","shokuinnsitsu","syokuinnshitu","syokuinnshitsu","syokuinnsitu","syokuinnsitsu"],
+["ちょうちょ","tyoutyo","choutyo","tyoucho","choucho"],["ちゅうしゃじょう","chuushazyou","chuushajou","chuusyazyou","chuusyajou","tyuushazyou","tyuushajou","tyuusyazyou","tyuusyajou"],["ちょきん","tyokinn","chokinn"],["じゃんけん","zyannkenn","jannkenn"],["じゅぎょう","zyugyou","jugyou"],["じょうず","zyouzu","jouzu"],
+["でんき","dennki"],["きゅうしょく","kyuusyoku","kyuushoku"],["きょうかしょ","kyoukasyo","kyoukasho"],["たいいく","taiiku"],["おんがく","onngaku"],["さんすう","sannsuu"],["こくご","kokugo"],["りか","rika"],["しゃかい","syakai","shakai"],["ずこう","zukou"],["どうぶつ","doubutu","doubutsu"],
+["くつ","kutu","kutsu"],["ぼうし","bousi","boushi"],["えんぴつ","ennpitu","ennpitsu"],["けしごむ","kesigomu","keshigomu"],["じょうぎ","zyougi","jougi"],["きゅうけい","kyuukei"],["うんどうかい","unndoukai"],["たんじょうび","tannjoubi","tannzyoubi"],["おしょうがつ","osyougatu","oshougatsu","osyougatsu","oshougatu"],["なかよし","nakayosi","nakayoshi"],
+["あいさつ","aisatu","aisatsu"],["ありがとう","arigatou"],["おはよう","ohayou"],["こんにちは","konnnichiha","konnnitiha"],["さようなら","sayounara"],["いただきます","itadakimasu"],["ごちそうさま","gotisousama","gochisousama"],["がんばる","gannbaru"],["たのしい","tanosii","tanoshii"],["うれしい","uresii","ureshii"],
+["でんしゃ","dennsya","dennsha"],["しょうぼうしゃ","syoubousya","syoubousha","shoubousha","shoubousya"],["きゅうきゅうしゃ","kyuukyuusya","kyuukyuusha"],["ゆうびんきょく","yuubinnkyoku"],["としょかん","tosyokann","toshokann"],["こうえん","kouen"],["すいぞくかん","suizokukan"],["どうぶつえん","doubutuen","doubutsuen"],["おしろ","osiro","oshiro"],["えいが","eiga"]
+];
+
+const DISPLAY_MAP={
+
+  /* あ行 */
+  "あさ":["朝","あさ"],
+  "いぬ":["犬","いぬ"],
+  "うみ":["海","うみ"],
+  "えき":["駅","えき"],
+  "おと":["音","おと"],
+
+  /* か行 */
+  "かさ":["傘","かさ"],
+  "きつね":["キツネ",""],
+  "くるま":["車","くるま"],
+  "けしき":["景色","けしき"],
+  "こえ":["声","こえ"],
+
+  /* さ行 */
+  "さくら":["桜","さくら"],
+  "しお":["塩","しお"],
+  "すいか":["スイカ",""],
+  "せかい":["世界","せかい"],
+  "そら":["空","そら"],
+
+  /* た行 */
+  "たこ":["タコ",""],
+  "ちず":["地図","ちず"],
+  "つき":["月","つき"],
+  "てがみ":["手紙","てがみ"],
+  "とけい":["時計","とけい"],
+
+  /* な行 */
+  "なつ":["夏","なつ"],
+  "にじ":["虹","にじ"],
+  "ぬの":["布","ぬの"],
+  "ねこ":["猫","ねこ"],
+  "のり":["海苔","のり"],
+
+  /* は行 */
+  "はな":["花","はな"],
+  "ひこうき":["飛行機","ひこうき"],
+  "ふね":["船","ふね"],
+  "へや":["部屋","へや"],
+  "ほし":["星","ほし"],
+
+  /* ま行 */
+  "まど":["窓","まど"],
+  "みず":["水","みず"],
+  "むし":["虫","むし"],
+  "めがね":["眼鏡","めがね"],
+  "もり":["森","もり"],
+
+  /* や行 */
+  "やま":["山","やま"],
+  "ゆき":["雪","ゆき"],
+  "よる":["夜","よる"],
+
+  /* ら行 */
+  "らいおん":["ライオン",""],
+  "りんご":["リンゴ",""],
+  "るすばん":["留守番","るすばん"],
+  "れきし":["歴史","れきし"],
+  "ろうそく":["ろうそく",""],
+
+  /* わ行 */
+  "わに":["ワニ","わに"],
+
+  /* 学校・生活 */
+  "でんしゃ":["電車","でんしゃ"],
+  "しんぶん":["新聞","しんぶん"],
+  "がっこう":["学校","がっこう"],
+  "せんせい":["先生","せんせい"],
+  "ともだち":["友達","ともだち"],
+  "きょうしつ":["教室","きょうしつ"],
+  "べんきょう":["勉強","べんきょう"],
+  "じかん":["時間","じかん"],
+  "じてんしゃ":["自転車","じてんしゃ"],
+  "しょうがくせい":["小学生","しょうがくせい"],
+  "しゅくだい":["宿題","しゅくだい"],
+  "しょくいんしつ":["職員室","しょくいんしつ"],
+  "ちゅうしゃじょう":["駐車場","ちゅうしゃじょう"],
+  "ちょきん":["貯金","ちょきん"],
+  "じゃんけん":["ジャンケン",""],
+  "じゅぎょう":["授業","じゅぎょう"],
+  "じょうず":["上手","じょうず"],
+
+  /* 教科 */
+  "きゅうしょく":["給食","きゅうしょく"],
+  "きょうかしょ":["教科書","きょうかしょ"],
+  "たいいく":["体育","たいいく"],
+  "おんがく":["音楽","おんがく"],
+  "さんすう":["算数","さんすう"],
+  "こくご":["国語","こくご"],
+  "りか":["理科","りか"],
+  "しゃかい":["社会","しゃかい"],
+  "ずこう":["図工","ずこう"],
+  "どうぶつ":["動物","どうぶつ"],
+
+  /* 学用品 */
+  "くつ":["靴","くつ"],
+  "ぼうし":["帽子","ぼうし"],
+  "えんぴつ":["鉛筆","えんぴつ"],
+  "けしごむ":["消しゴム","けしごむ"],
+  "じょうぎ":["定規","じょうぎ"],
+  "きゅうけい":["休憩","きゅうけい"],
+
+  /* 学校行事・生活 */
+  "うんどうかい":["運動会","うんどうかい"],
+  "たんじょうび":["誕生日","たんじょうび"],
+  "おしょうがつ":["お正月","おしょうがつ"],
+  "なかよし":["仲良し","なかよし"],
+
+  /* あいさつ・気持ち */
+  "あいさつ":["挨拶","あいさつ"],
+  "ありがとう":["ありがとう",""],
+  "おはよう":["おはよう",""],
+  "こんにちは":["こんにちは",""],
+  "さようなら":["さようなら",""],
+  "いただきます":["いただきます",""],
+  "ごちそうさま":["ごちそうさま",""],
+  "がんばる":["頑張る","がんばる"],
+  "たのしい":["楽しい","たのしい"],
+  "うれしい":["嬉しい","うれしい"],
+
+  /* 乗り物・施設 */
+  "しょうぼうしゃ":["消防車","しょうぼうしゃ"],
+  "きゅうきゅうしゃ":["救急車","きゅうきゅうしゃ"],
+  "ゆうびんきょく":["郵便局","ゆうびんきょく"],
+  "としょかん":["図書館","としょかん"],
+  "こうえん":["公園","こうえん"],
+  "すいぞくかん":["水族館","すいぞくかん"],
+  "どうぶつえん":["動物園","どうぶつえん"],
+  "おしろ":["お城","おしろ"],
+  "えいが":["映画","えいが"]
+};
+
+function displayWord(word){
+  const d=DISPLAY_MAP[word];
+
+  if(!d){
+    return escapeHtml(word);
+  }
+
+  // ルビが設定されていない場合は文字だけ表示
+  if(!d[1]){
+    return escapeHtml(d[0]);
+  }
+
+  // ルビがある場合は漢字＋ルビ
+  return '<ruby>'+escapeHtml(d[0])+
+         '<rt>'+escapeHtml(d[1])+
+         '</rt></ruby>';
+}
+
+
+/* =========================================
+   ローマ字候補
+   ========================================= */
+
+/*
+ * 「ん」は nn のみ。
+ *
+ * 以前は
+ * "ん":["n","nn"]
+ * だったが、
+ * 今回は n 1文字を完全に不正解にする。
+ */
+const variants={
+
+  "し":["si","shi"],
+
+  "ん":["nn"],
+
+  "つ":["tu","tsu"],
+  "ち":["ti","chi"],
+  "ふ":["hu","fu"],
+  "じ":["zi","ji"],
+
+  "しゃ":["sya","sha"],
+  "しゅ":["syu","shu"],
+  "しょ":["syo","sho"],
+
+  "ちゃ":["tya","cha"],
+  "ちゅ":["tyu","chu"],
+  "ちょ":["tyo","cho"],
+
+  "じゃ":["zya","ja"],
+  "じゅ":["zyu","ju"],
+  "じょ":["zyo","jo"],
+
+  "きゅ":["kyu"]
+};
+
+
+/* =========================================
+   キーボード
+   ========================================= */
+
+const keyRows=[
+  "1234567890-=",
+  "qwertyuiop[]",
+  "asdfghjkl;'",
+  "zxcvbnm,./"
+];
+
+
+/* =========================================
+   ゲーム変数
+   ========================================= */
+
+let current;
+let pool=[];
+let idx=0;
+let timer=null;
+
+let startTime=0;
+let endTime=0;
+
+let correct=0;
+let miss=0;
+
+let typedChars=0;
+let targetChars=0;
+
+let locked=false;
+
+let player={};
+
+
+/*
+ * iPad日本語IMEの変換中かどうか。
+ */
+let composing=false;
+
+
+/* =========================================
+   画面切り替え
+   ========================================= */
+
+function show(id){
+
+  document
+    .querySelectorAll(".screen")
+    .forEach(x=>x.classList.remove("active"));
+
+  document
+    .getElementById(id)
+    .classList.add("active");
+
+  if(id !== "rank") stopRankingRefresh();
+}
+
+
+function goHome(){
+
+  if(timer){
+    clearInterval(timer);
+    timer=null;
+  }
+
+  composing=false;
+  locked=false;
+  current=null;
+
+  const typing=document.getElementById("typing");
+
+  if(typing){
+    typing.value="";
+    typing.blur();
+  }
+
+  show("home");
+
+  document.getElementById("homeNotice").textContent="";
+}
+
+
+/* =========================================
+   回答欄をiPad向けに設定
+   ========================================= */
+
+function prepareTypingInput(){
+
+  const el=document.getElementById("typing");
+
+  if(!el)return;
+
+  /*
+   * iPadに英字入力が望ましいことを伝える。
+   *
+   * OSのキーボードそのものを強制変更する
+   * ことはできないが、英字入力向けの
+   * input mode を指定する。
+   */
+
+  el.setAttribute("inputmode","latin");
+  el.setAttribute("lang","en");
+
+  el.setAttribute("autocomplete","off");
+  el.setAttribute("autocapitalize","off");
+  el.setAttribute("autocorrect","off");
+
+  el.setAttribute("spellcheck","false");
+
+  el.style.imeMode="disabled";
+}
+
+
+/* =========================================
+   ゲーム開始
+   ========================================= */
+
+function startGame(){
+const g=document.getElementById("grade").value;
+const k=document.getElementById("klass").value;
+const num=document.getElementById("number").value;
+const nickname=document.getElementById("nickname").value.trim();
+
+ if(!g||!k||!num||!nickname){
+  document.getElementById("homeNotice").textContent=
+    "学年・組・番号・ニックネームを入力してください。";
+  return;
+}
+  
+  // 6桁の番号を作成
+  const studentNumber =
+    String(g).padStart(2,"0") +
+    String(k).padStart(2,"0") +
+    String(num).padStart(2,"0");
+
+  player={
+    grade:g,
+    klass:k,
+    number:num,
+    studentNumber:studentNumber,
+    nickname:nickname
+};
+
+  pool=shuffle([...WORDS]);
+  idx=0;
+  correct=0;
+  miss=0;
+  typedChars=0;
+  targetChars=0;
+  locked=false;
+
+  show("game");
+  renderKeyboard();
+  nextWord();
+
+  startTime=performance.now();
+  endTime=startTime+60000;
+
+  const typing=document.getElementById("typing");
+
+  typing.setAttribute("inputmode","latin");
+  typing.setAttribute("lang","en");
+  typing.setAttribute("autocorrect","off");
+  typing.setAttribute("autocapitalize","off");
+  typing.setAttribute("spellcheck","false");
+
+  typing.focus();
+
+  clearInterval(timer);
+  timer=setInterval(tick,50);
+}
+
+
+/* =========================================
+   6桁番号のリアルタイム表示
+   ========================================= */
+
+function updateNumberPreview(){
+
+  const grade=document.getElementById("grade").value;
+  const klass=document.getElementById("klass").value;
+  const number=document.getElementById("number").value;
+
+  const preview=document.querySelector("#numberPreview strong");
+
+  if(!preview)return;
+
+  if(grade && klass && number){
+
+    const studentNumber=
+      String(grade).padStart(2,"0")+
+      String(klass).padStart(2,"0")+
+      String(number).padStart(2,"0");
+
+    preview.textContent=studentNumber;
+
+  }else{
+
+    preview.textContent="------";
+
+  }
+}
+
+
+/* 学年・組・番号を入力するたびに更新 */
+["grade","klass","number"].forEach(function(id){
+
+  const input=document.getElementById(id);
+
+  if(input){
+
+    input.addEventListener("input",updateNumberPreview);
+    input.addEventListener("change",updateNumberPreview);
+
+  }
+
+});
+
+
+/* 最初にも一度表示を更新 */
+updateNumberPreview();
+
+
+/* =========================================
+   タイマー
+   ========================================= */
+
+function tick(){
+
+  const left=Math.max(
+    0,
+    endTime-performance.now()
+  );
+
+  document.getElementById("time").textContent=
+    (left/1000).toFixed(1);
+
+  updateStats();
+
+
+  if(left<=0){
+
+    finish();
+
+  }
+}
+
+
+/* =========================================
+   シャッフル
+   ========================================= */
+
+function shuffle(a){
+
+  for(
+    let i=a.length-1;
+    i>0;
+    i--
+  ){
+
+    let j=Math.floor(
+      Math.random()*(i+1)
+    );
+
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+
+  return a;
+}
+
+
+/* =========================================
+   正規化
+   ========================================= */
+
+function normalize(s){
+
+  return s
+    .toLowerCase()
+    .replace(
+      /[Ａ-Ｚａ-ｚ０-９]/g,
+      c=>String.fromCharCode(
+        c.charCodeAt(0)-65248
+      )
+    );
+}
+
+
+/* =========================================
+   正答候補生成
+   ========================================= */
+
+function makeCandidates(word,roman){
+
+  let arr=[roman];
+
+  const item=
+    WORDS.find(x=>x[0]===word);
+
+  if(item){
+
+    arr.push(
+      ...item.slice(1)
+    );
+
+  }
+
+
+  /*
+   * variantsから自動生成
+   */
+
+  const mora=splitKana(word);
+
+
+  if(mora){
+
+    let out=[""];
+
+
+    for(const m of mora){
+
+      const vv=
+        variants[m] ||
+        [romanizeBasic(m)];
+
+      let next=[];
+
+
+      for(const a of out){
+
+        for(const b of vv){
+
+          next.push(a+b);
+
+        }
+
+      }
+
+
+      out=next;
+
+    }
+
+
+    arr.push(...out);
+
+  }
+
+
+  return [
+    ...new Set(
+      arr.filter(Boolean)
+    )
+  ];
+}
+
+
+/* =========================================
+   かな分割
+   ========================================= */
+
+function splitKana(s){
+
+  const chars=[...s];
+
+  const out=[];
+
+
+  for(
+    let i=0;
+    i<chars.length;
+    i++
+  ){
+
+    let c=chars[i];
+
+    let n=chars[i+1]||"";
+
+
+    if(
+      (c==="し"||
+       c==="ち"||
+       c==="じ")
+      &&
+      "ゃゅょ".includes(n)
+    ){
+
+      out.push(c+n);
+
+      i++;
+
+    }else{
+
+      out.push(c);
+
+    }
+
+  }
+
+
+  return out;
+}
+
+
+/* =========================================
+   基本ローマ字
+   ========================================= */
+
+function romanizeBasic(m){
+
+  const map={
+
+    "あ":"a",
+    "い":"i",
+    "う":"u",
+    "え":"e",
+    "お":"o",
+
+    "か":"ka",
+    "き":"ki",
+    "く":"ku",
+    "け":"ke",
+    "こ":"ko",
+
+    "さ":"sa",
+    "す":"su",
+    "せ":"se",
+    "そ":"so",
+
+    "た":"ta",
+    "て":"te",
+    "と":"to",
+
+    "な":"na",
+    "に":"ni",
+    "ぬ":"nu",
+    "ね":"ne",
+    "の":"no",
+
+    "は":"ha",
+    "ひ":"hi",
+    "へ":"he",
+    "ほ":"ho",
+
+    "ま":"ma",
+    "み":"mi",
+    "む":"mu",
+    "め":"me",
+    "も":"mo",
+
+    "や":"ya",
+    "ゆ":"yu",
+    "よ":"yo",
+
+    "ら":"ra",
+    "り":"ri",
+    "る":"ru",
+    "れ":"re",
+    "ろ":"ro",
+
+    "わ":"wa",
+    "を":"wo",
+
+    /*
+     * 「ん」は nn
+     */
+    "ん":"nn",
+
+    "が":"ga",
+    "ぎ":"gi",
+    "ぐ":"gu",
+    "げ":"ge",
+    "ご":"go",
+
+    "ざ":"za",
+    "ず":"zu",
+    "ぜ":"ze",
+    "ぞ":"zo",
+
+    "だ":"da",
+    "ぢ":"di",
+    "づ":"du",
+    "で":"de",
+    "ど":"do",
+
+    "ば":"ba",
+    "び":"bi",
+    "ぶ":"bu",
+    "べ":"be",
+    "ぼ":"bo",
+
+    "ぱ":"pa",
+    "ぴ":"pi",
+    "ぷ":"pu",
+    "ぺ":"pe",
+    "ぽ":"po",
+
+    "っ":"xtsu",
+
+    "ー":"-"
+
+  };
+
+
+  return map[m]||"";
+}
+
+
+/* =========================================
+   次の問題
+   ========================================= */
+
+function nextWord(){
+
+  if(idx>=pool.length){
+
+    pool=shuffle([...WORDS]);
+
+    idx=0;
+
+  }
+
+
+  current=pool[idx++];
+
+
+  /*
+   * 日本語表示
+   */
+
+  document
+    .getElementById("reading")
+    .textContent=current[0];
+
+
+  /*
+   * 漢字＋ルビ
+   */
+
+  document
+    .getElementById("word")
+    .innerHTML=
+      displayWord(current[0]);
+
+
+  /*
+   * ★重要★
+   *
+   * 問題画面に表示するローマ字は
+   * current[1] の1つだけ。
+   *
+   * makeCandidates() はここでは使わない。
+   */
+
+  document
+    .getElementById("roman")
+    .textContent=current[1];
+
+
+  const typing=
+    document.getElementById("typing");
+
+  typing.value="";
+
+  typing.className="typing";
+
+
+  document
+    .getElementById("feedback")
+    .textContent="";
+
+
+  /*
+   * 表示スペルの文字数
+   */
+
+  targetChars+=current[1].length;
+
+
+  updateHighlights();
+}
+
+
+/* =========================================
+   正答候補
+   ========================================= */
+
+function expected(){
+
+  /*
+   * ★正答判定では複数候補を使用
+   */
+
+  return makeCandidates(
+    current[0],
+    current[1]
+  );
+}
+
+
+/* =========================================
+   入力途中の判定
+   ========================================= */
+
+function isPrefix(v){
+
+  return expected()
+    .some(x=>x.startsWith(v));
+}
+
+
+/* =========================================
+   iPad日本語IME対策
+   ========================================= */
+
+/*
+ * 日本語文字が入ってしまった場合、
+ * ローマ字以外を除去する。
+ */
+function cleanRomanInput(value){
+
+  value=normalize(value);
+
+  /*
+   * a-z、数字、ハイフン以外を削除
+   */
+  value=value.replace(/[^a-z0-9\-]/g,"");
+
+  return value;
+}
+
+
+/* =========================================
+   入力イベント
+   ========================================= */
+
+function onInput(){
+
+  if(locked)return;
+
+  const el=
+    document.getElementById("typing");
+
+
+  /*
+   * IME変換中は正答判定しない。
+   */
+  if(composing){
+
+    /*
+     * 日本語文字が入った場合でも
+     * そのまま判定しない。
+     */
+
+    return;
+  }
+
+
+  /*
+   * 日本語IMEから文字が入ってきた場合、
+   * ローマ字以外を削除。
+   */
+
+  const original=el.value;
+
+  const v=cleanRomanInput(original);
+
+
+  if(original!==v){
+
+    el.value=v;
+
+  }
+
+
+  const candidates=expected();
+
+
+  /*
+   * 「ん」で終わる言葉は nn 必須。
+   */
+
+  const endsWithN=
+    current[0].endsWith("ん");
+
+
+  const singleNAtEnd=
+    endsWithN &&
+    /n$/.test(v) &&
+    !/nn$/.test(v);
+
+
+  /*
+   * 正解
+   */
+
+  if(
+    !singleNAtEnd &&
+    candidates.includes(v)
+  ){
+
+    correct++;
+
+    typedChars+=v.length;
+
+
+    el.className="typing good";
+
+    document
+      .getElementById("feedback")
+      .textContent="GOOD!";
+
+
+    setTimeout(()=>{
+
+      /*
+       * 次の問題へ行く前に
+       * IME状態をリセット
+       */
+
+      composing=false;
+
+      nextWord();
+
+      /*
+       * iPadで回答欄のフォーカスを維持
+       */
+
+      el.focus();
+
+    },80);
+
+
+    updateStats();
+
+    return;
+  }
+
+
+  /*
+   * 途中入力
+   */
+
+  if(!isPrefix(v)){
+
+    miss++;
+
+
+    el.className="typing bad";
+
+    document
+      .getElementById("feedback")
+      .textContent=
+        "もう一度！";
+
+
+    setTimeout(()=>{
+
+      el.value="";
+
+      el.className="typing";
+
+      document
+        .getElementById("feedback")
+        .textContent="";
+
+
+      updateHighlights();
+
+      el.focus();
+
+    },170);
+
+
+  }else{
+
+    el.className="typing";
+
+    updateHighlights();
+
+  }
+}
+
+
+/* =========================================
+   IME開始
+   ========================================= */
+
+document
+  .getElementById("typing")
+  .addEventListener(
+    "compositionstart",
+    function(){
+
+      composing=true;
+
+    }
+  );
+
+
+/* =========================================
+   IME終了
+   ========================================= */
+
+document
+  .getElementById("typing")
+  .addEventListener(
+    "compositionend",
+    function(){
+
+      composing=false;
+
+      /*
+       * IMEから日本語が確定された場合、
+       * ローマ字だけを残す。
+       */
+
+      const el=
+        document.getElementById("typing");
+
+      const cleaned=
+        cleanRomanInput(el.value);
+
+      el.value=cleaned;
+
+      updateHighlights();
+
+    }
+  );
+
+
+/* =========================================
+   統計
+   ========================================= */
+
+function updateStats(){
+
+  const elapsed=
+    Math.max(
+      .001,
+      (performance.now()-startTime)/1000
+    );
+
+
+  const accuracy=
+    typedChars+miss
+    ?typedChars/(typedChars+miss)
+    :1;
+
+
+  const speed=
+    typedChars/elapsed;
+
+
+  const sc=
+    Math.round(
+      typedChars*
+      accuracy*
+      (
+        1+
+        Math.min(speed/10,1)
+      )
+    );
+
+
+  document
+    .getElementById("accuracy")
+    .textContent=
+      Math.round(accuracy*100)+"%";
+
+
+  document
+    .getElementById("speed")
+    .textContent=
+      speed.toFixed(1);
+
+
+  document
+    .getElementById("score")
+    .textContent=sc;
+}
+
+
+/* =========================================
+   終了
+   ========================================= */
+
+async function finish(){
+
+  if(locked)return;
+
+
+  locked=true;
+
+  clearInterval(timer);
+
+  timer=null;
+
+
+  document
+    .getElementById("typing")
+    .blur();
+
+
+  const elapsed=60;
+
+
+  const accuracy=
+    typedChars+miss
+    ?typedChars/(typedChars+miss)
+    :1;
+
+
+  const speed=
+    typedChars/elapsed;
+
+
+  const score=
+    Math.round(
+      typedChars*
+      accuracy*
+      (
+        1+
+        Math.min(speed/10,1)
+      )
+    );
+
+
+  const entry={
+
+    ...player,
+
+    score,
+    accuracy,
+    speed,
+
+    date:Date.now()
+
+  };
+
+
+  let ranks=[];
+  try {
+    await saveEntry(entry);
+    ranks = cachedRanks;
+  } catch (error) {
+    console.error(error);
+    alert("ランキングへの保存に失敗しました。通信状態を確認してください。");
+    try { ranks = await fetchRanks(); } catch(e) {}
+  }
+
+
+　document.getElementById("resultName").innerHTML=
+  `<div style="font-size:28px;font-weight:900;color:#fff;">
+    <ruby>${escapeHtml(player.nickname)}<rt>ニックネーム</rt></ruby>
+  </div>
+  <div style="margin-top:8px;font-size:20px;color:var(--yellow);font-weight:800;letter-spacing:.12em;">
+    ${player.studentNumber}
+  </div>`;
+
+
+  document
+    .getElementById("resultScore")
+    .textContent=score;
+
+
+  document
+    .getElementById("resultCorrect")
+    .textContent=correct;
+
+
+  document
+    .getElementById("resultMiss")
+    .textContent=miss;
+
+
+  document
+    .getElementById("resultAccuracy")
+    .textContent=
+      Math.round(accuracy*100)+"%";
+
+
+  document
+    .getElementById("resultSpeed")
+    .textContent=
+      speed.toFixed(1);
+
+
+  document
+    .getElementById("scoreFormula").innerHTML =
+  `<b>スコア計算</b><br>
+   入力した文字数 × 正確さ × 速さボーナス<br>
+   ${typedChars} × ${Math.round(accuracy*100)}% × ${(1+Math.min(speed/10,1)).toFixed(2)}
+   ＝ ${score}`;
+  
+
+  const rank=ranks.findIndex(x=>x.date===entry.date&&x.studentNumber===entry.studentNumber)+1;
+
+
+  document
+    .getElementById("resultRank")
+    .textContent=
+
+      rank>0&&rank<=20
+
+      ?`🏆 現在 ${rank}位！`
+
+      :"ランキング入りをめざそう！";
+
+
+  show("result");
+}
+
+
+/* =========================================
+   ランキング（Supabase共有）
+   ========================================= */
+
+async function getRanks(){
+  return await fetchRanks();
+}
+
+async function saveEntry(e){
+  const payload = {
+    grade: Number(e.grade),
+    klass: Number(e.klass),
+    number: Number(e.number),
+    student_number: e.studentNumber,
+    nickname: e.nickname,
+    score: Number(e.score),
+    accuracy: Number(e.accuracy),
+    speed: Number(e.speed),
+    date: Number(e.date)
+  };
+
+  await supabaseRequest(RANKINGS_TABLE, {
+    method: "POST",
+    headers: { "Prefer": "return=minimal" },
+    body: JSON.stringify(payload)
+  });
+
+  await fetchRanks();
+}
+
+async function renderRankingTable(){
+  const body = document.getElementById("rankBody");
+  if(!body)return;
+
+  body.innerHTML = '<tr><td colspan="5">ランキングを読み込み中……</td></tr>';
+
+  try {
+    const ranks = await fetchRanks();
+    body.innerHTML = "";
+
+    ranks.forEach((r,i)=>{
+      const tr = document.createElement("tr");
+      tr.className = i<3 ? "rank"+(i+1) : "";
+
+      tr.innerHTML =
+        `<td>${i+1}</td>
+         <td>${escapeHtml(String(r.student_number ?? ""))}</td>
+         <td>${Number(r.score)}</td>
+         <td>${Math.round(Number(r.accuracy)*100)}%</td>
+         <td>${Number(r.speed).toFixed(1)}</td>`;
+
+      body.appendChild(tr);
+    });
+
+    if(!body.children.length){
+      body.innerHTML =
+        '<tr><td colspan="5">まだランキング記録がありません</td></tr>';
+    }
+  } catch(error){
+    console.error(error);
+    body.innerHTML =
+      '<tr><td colspan="5">ランキングを読み込めませんでした。通信状態を確認してください。</td></tr>';
+  }
+}
+
+async function showRanking(){
+  await renderRankingTable();
+  show("rank");
+  startRankingRefresh();
+}
+
+/* =========================================
+   先生用ランキングリセット
+   ========================================= */
+async function teacherReset(){
+  const pw = prompt(
+    "先生用機能です。\nパスワードを入力してください。"
+  );
+
+  if(pw===null)return;
+
+  if(pw!=="NAGASAN-TEACHER"){
+    alert("パスワードがちがいます。");
+    return;
+  }
+
+  if(confirm("ランキングをすべて消去します。よろしいですか？")){
+    try {
+      await supabaseRequest(`${RANKINGS_TABLE}?id=not.is.null`, {
+        method: "DELETE",
+        headers: { "Prefer": "return=minimal" }
+      });
+      cachedRanks=[];
+      await renderRankingTable();
+      alert("ランキングをリセットしました。");
+    } catch(error){
+      console.error(error);
+      alert("ランキングのリセットに失敗しました。SupabaseのDELETEポリシーを確認してください。");
+    }
+  }
+}
+
+function clearRanking(){
+  teacherReset();
+}
+
+/* =========================================
+   HTMLエスケープ
+   ========================================= */
+
+function escapeHtml(s){
+
+  return s.replace(
+    /[&<>"']/g,
+
+    c=>
+      ({
+        "&":"&amp;",
+        "<":"&lt;",
+        ">":"&gt;",
+        '"':"&quot;",
+        "'":"&#039;"
+      }[c])
+  );
+}
+
+
+/* =========================================
+   キーボード
+   ========================================= */
+
+function keyForChar(ch){
+
+  const c=ch.toLowerCase();
+
+
+  if(c===" ")
+    return "space";
+
+
+  return c;
+}
+
+
+/* =========================================
+   キー・指のハイライト
+   ========================================= */
+
+function updateHighlights(){
+
+  const el=
+    document.getElementById("typing");
+
+
+  const v=
+    normalize(el.value);
+
+
+  const cands=
+    expected();
+
+
+  const next=
+    new Set();
+
+
+  for(const x of cands){
+
+    if(
+      x.startsWith(v) &&
+      x.length>v.length
+    ){
+
+      next.add(
+        x[v.length]
+      );
+
+    }
+
+  }
+
+
+  const first=
+    [...next][0]||"";
+
+
+  document
+    .querySelectorAll(".key")
+    .forEach(
+      k=>
+        k.classList.remove("next")
+    );
+
+
+  const key=
+    Array.from(
+      document.querySelectorAll(".key")
+    )
+    .find(
+      k=>
+        k.dataset.key===
+        keyForChar(first)
+    );
+
+
+  if(key)
+    key.classList.add("next");
+
+
+  const hand=
+    document.getElementById(
+      "leftHand"
+    );
+
+
+  const rh=
+    document.getElementById(
+      "rightHand"
+    );
+
+
+  hand.innerHTML="";
+
+  rh.innerHTML="";
+
+
+  addFingers(first);
+}
+
+
+function addFingers(ch){
+
+  const c=
+    ch.toLowerCase();
+
+
+  let side="L";
+  let f=0;
+
+
+  if("qaz".includes(c))
+    f=1;
+
+  else if("wsx".includes(c))
+    f=2;
+
+  else if("edc".includes(c))
+    f=3;
+
+  else if("rfvtgb".includes(c))
+    f=4;
+
+  else if("yhnujm".includes(c))
+    side="R",f=4;
+
+  else if("ik,".includes(c))
+    side="R",f=3;
+
+  else if("ol.".includes(c))
+    side="R",f=2;
+
+  else if("p;/".includes(c))
+    side="R",f=1;
+
+  else if(c===" "){
+
+    document
+      .getElementById("leftHand")
+      .innerHTML=
+        '<div class="thumb on"></div>';
+
+    document
+      .getElementById("rightHand")
+      .innerHTML=
+        '<div class="thumb on"></div>';
+
+    return;
+  }
+
+
+  const h=
+    document.createElement("div");
+
+
+  h.className=
+    "finger on f"+f;
+
+
+  (
+    side==="L"
+    ?document.getElementById("leftHand")
+    :document.getElementById("rightHand")
+  )
+  .appendChild(h);
+}
+
+
+/* =========================================
+   キーボード描画
+   ========================================= */
+
+function renderKeyboard(){
+
+  const kb=
+    document.getElementById(
+      "keyboard"
+    );
+
+
+  kb.innerHTML="";
+
+
+  const makeRow=(str)=>{
+
+    const row=
+      document.createElement("div");
+
+
+    row.className="krow";
+
+
+    [...str].forEach(c=>{
+
+      const k=
+        document.createElement("div");
+
+
+      k.className="key";
+
+      k.dataset.key=c;
+
+      k.textContent=
+        c.toUpperCase();
+
+
+      row.appendChild(k);
+
+    });
+
+
+    kb.appendChild(row);
+
+  };
+
+
+  keyRows.forEach(makeRow);
+
+
+  const r=
+    document.createElement("div");
+
+
+  r.className="krow";
+
+
+  const s=
+    document.createElement("div");
+
+
+  s.className=
+    "key space";
+
+
+  s.dataset.key="space";
+
+  s.textContent="SPACE";
+
+
+  r.appendChild(s);
+
+  kb.appendChild(r);
+}
+
+
+/* =========================================
+   回答欄イベント
+   ========================================= */
+
+const typing=
+  document.getElementById(
+    "typing"
+  );
+
+
+// iPadで回答欄を英字入力として扱う
+typing.setAttribute("inputmode","latin");
+typing.setAttribute("lang","en");
+typing.setAttribute("autocorrect","off");
+typing.setAttribute("autocapitalize","off");
+typing.setAttribute("spellcheck","false");
+
+
+typing.addEventListener(
+  "input",
+  onInput
+);
+
+
+typing.addEventListener(
+  "keydown",
+  e=>{
+
+    /*
+     * スペースを入力文字として
+     * 扱う必要がある場合に備える。
+     */
+
+    if(e.key===" "){
+
+      e.preventDefault();
+
+      onInput();
+
+    }
+
+  }
+);
+
+
+/*
+ * ペーストされた日本語などを
+ * ローマ字だけにする。
+ */
+
+typing.addEventListener(
+  "paste",
+  ()=>{
+
+    setTimeout(()=>{
+
+      const cleaned=
+        cleanRomanInput(
+          typing.value
+        );
+
+      typing.value=cleaned;
+
+      updateHighlights();
+
+    },0);
+
+  }
+);
+
+
+/* =========================================
+   初期化
+   ========================================= */
+
+prepareTypingInput();
+
+renderKeyboard();
+
+</script>
+
+<script>
+
+/*
+ * 回答途中から最初の画面へ戻るボタン
+ *
+ * HTML側に
+ *
+ * id="backToStartBtn"
+ *
+ * のボタンを置いてください。
+ */
+
+</script>
+  
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+  const backBtn = document.getElementById("backToStartBtn");
+
+  if (!backBtn) return;
+
+  function backToStart(e) {
+
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+
+    const ok = confirm(
+      "大会（たいかい）を中断（ちゅうだん）して、最初（さいしょ）の画面（がめん）にもどりますか？"
+    );
+
+    if (!ok) return;
+
+    // タイマー停止
+    if (typeof timer !== "undefined") {
+      clearInterval(timer);
+      timer = null;
+    }
+
+    // 回答欄をリセット
+    const input = document.getElementById("typing");
+    if (input) {
+      input.value = "";
+      input.blur();
+    }
+
+    // ゲーム状態をリセット
+    if (typeof locked !== "undefined") locked = false;
+    if (typeof current !== "undefined") current = null;
+
+    // スタート画面へ
+    if (typeof show === "function") {
+      show("home");
+    }
+
+    // 名前入力欄に戻る
+    setTimeout(function () {
+      const grade = document.getElementById("grade");
+      if (grade) grade.focus();
+    }, 100);
+  }
+
+  /*
+   * iPadでも1回だけ反応するようにする
+   * clickだけを使うので、touchendとの二重反応を防止
+   */
+  backBtn.addEventListener("click", backToStart);
+
+});
+</script>
+  
+</body>
+</html>
