@@ -607,46 +607,6 @@ function startGame(){
     document.getElementById("homeNotice").textContent="学年・組・番号を入力してください。";
     return;
   }
-
-/* =========================================
-   6桁番号のリアルタイム表示
-   ========================================= */
-
-function updateNumberPreview(){
-
-  const grade=document.getElementById("grade").value;
-  const klass=document.getElementById("klass").value;
-  const number=document.getElementById("number").value;
-
-  const preview=document.querySelector("#numberPreview strong");
-
-  if(!preview)return;
-
-  if(grade && klass && number){
-
-    const studentNumber=
-      String(grade).padStart(2,"0")+
-      String(klass).padStart(2,"0")+
-      String(number).padStart(2,"0");
-
-    preview.textContent=studentNumber;
-
-  }else{
-
-    preview.textContent="------";
-
-  }
-}
-
-/* 学年・組・番号を入力するたびに更新 */
-document.getElementById("grade")
-  .addEventListener("input",updateNumberPreview);
-
-document.getElementById("klass")
-  .addEventListener("input",updateNumberPreview);
-
-document.getElementById("number")
-  .addEventListener("input",updateNumberPreview);
   
   // 6桁の番号を作成
   const studentNumber =
@@ -689,6 +649,56 @@ document.getElementById("number")
   clearInterval(timer);
   timer=setInterval(tick,50);
 }
+
+
+/* =========================================
+   6桁番号のリアルタイム表示
+   ========================================= */
+
+function updateNumberPreview(){
+
+  const grade=document.getElementById("grade").value;
+  const klass=document.getElementById("klass").value;
+  const number=document.getElementById("number").value;
+
+  const preview=document.querySelector("#numberPreview strong");
+
+  if(!preview)return;
+
+  if(grade && klass && number){
+
+    const studentNumber=
+      String(grade).padStart(2,"0")+
+      String(klass).padStart(2,"0")+
+      String(number).padStart(2,"0");
+
+    preview.textContent=studentNumber;
+
+  }else{
+
+    preview.textContent="------";
+
+  }
+}
+
+
+/* 学年・組・番号を入力するたびに更新 */
+["grade","klass","number"].forEach(function(id){
+
+  const input=document.getElementById(id);
+
+  if(input){
+
+    input.addEventListener("input",updateNumberPreview);
+    input.addEventListener("change",updateNumberPreview);
+
+  }
+
+});
+
+
+/* 最初にも一度表示を更新 */
+updateNumberPreview();
 
 
 /* =========================================
