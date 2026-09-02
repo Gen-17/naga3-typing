@@ -134,13 +134,12 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:lin
 </div>
 
 <div class="field" style="grid-column:1/-1">
-  <label>
+  <label style="display:flex;align-items:center;gap:12px;">
     ニックネーム
+    <span style="color:var(--red);font-size:13px;font-weight:700;">
+      ※ <ruby>本名<rt>ほんみょう</rt></ruby>などの<ruby>個人情報<rt>こじんじょうほう</rt></ruby>は<ruby>入力<rt>にゅうりょく</rt></ruby>しないこと！
+    </span>
   </label>
-
-  <div style="color:var(--red);font-size:13px;margin-top:6px;font-weight:700;text-align:center;">
-    ※ <ruby>本名<rt>ほんみょう</rt></ruby>などの<ruby>個人情報<rt>こじんじょうほう</rt></ruby>は<ruby>入力<rt>にゅうりょく</rt></ruby>しないこと！
-  </div>
 
   <input
     id="nickname"
@@ -149,7 +148,6 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:lin
     placeholder="ニックネームを入力"
     autocomplete="off"
   >
-
 </div>
     
 <div id="numberPreview" class="number-preview">
