@@ -285,7 +285,7 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:lin
       <button type="button" class="btn secondary" onclick="teacherReset()">先生用：ランキングをリセット</button>
     </div>
 
-    <div class="small">ランキングはこのブラウザに保存されます。</div>
+    <div class="small">ランキングは全タブレットで共有されます。</div>
   </div>
 </section>
 
@@ -1560,7 +1560,7 @@ async function finish(){
    ＝ ${score}`;
   
 
-  const rank=ranks.findIndex(x=>x.date===entry.date&&x.studentNumber===entry.studentNumber)+1;
+  const rank=ranks.findIndex(x=>Number(x.date)===Number(entry.date)&&String(x.student_number)===String(entry.studentNumber))+1;
 
 
   document
