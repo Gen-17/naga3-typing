@@ -18,7 +18,7 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:lin
 .card{background:linear-gradient(145deg,rgba(17,28,49,.96),rgba(7,14,27,.96));border:1px solid rgba(24,169,255,.32);border-radius:20px;box-shadow:0 15px 60px #0008,0 0 30px rgba(24,169,255,.08);padding:28px}
 .rules{border-left:4px solid var(--yellow);background:#080f1c;padding:16px 18px;border-radius:12px;line-height:1.9}
 .rules b{color:var(--yellow)}
-.form{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:22px 0;align-items:start}
+.form{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:22px 0}
 .field label{display:block;color:var(--muted);font-size:14px;margin-bottom:7px}
 .field input{width:100%;padding:15px;border-radius:10px;border:1px solid #29445f;background:#050b16;color:#fff;font-size:20px;outline:none}
 .field input:focus{border-color:var(--blue);box-shadow:0 0 0 3px #18a9ff22}
@@ -27,7 +27,7 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:lin
 .btn.secondary{background:#17283c;color:#dceeff;border:1px solid #31516e}
 .actions{text-align:center;margin-top:20px}
 .notice{min-height:24px;color:var(--red);font-weight:700;text-align:center;margin-top:10px}
-.number-preview{grid-column:1/-1;text-align:center;margin-top:35px;padding:12px 18px;border:2px solid var(--yellow);border-radius:14px;background:#111a28;color:var(--muted);font-size:17px;font-weight:800;}
+.number-preview{grid-column:1/-1;text-align:center;margin-top:0;padding:12px 18px;border:2px solid var(--yellow);border-radius:14px;background:#111a28;color:var(--muted);font-size:17px;font-weight:800;}
 .number-preview strong{display:block;margin-top:3px;color:var(--yellow);font-size:42px;line-height:1.1;letter-spacing:.12em;text-shadow:0 0 18px rgba(255,213,46,.65);}
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:18px}
 .stat{background:#08111f;border:1px solid #1c3b57;border-radius:12px;padding:12px;text-align:center}
@@ -66,13 +66,18 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:lin
 .thumb.on{background:var(--yellow);box-shadow:0 0 15px #ffd52e}
 .handlabel{text-align:center;color:var(--muted);font-size:12px;margin-top:8px}
 .feedback{text-align:center;min-height:28px;font-weight:800}
-.ranking{width:100%;border-collapse:collapse;margin-top:15px}
-.ranking th,.ranking td{padding:11px 8px;border-bottom:1px solid #20384e;text-align:center}
-.ranking th{color:var(--yellow);font-size:13px}
+.ranking-wrap{width:100%;overflow-x:auto;margin-top:15px;border-radius:12px}
+.ranking{width:100%;min-width:760px;border-collapse:collapse}
+.ranking th,.ranking td{padding:11px 8px;border-bottom:1px solid #20384e;text-align:center;white-space:nowrap}
+.ranking th{color:var(--yellow);font-size:13px;background:#08111f;position:sticky;top:0}
+.ranking td:nth-child(2){font-weight:800}
+.ranking td:nth-child(3){font-weight:800;color:#fff}
+.rank-cell{font-size:20px;font-weight:900;color:var(--blue)}
+.score-cell{font-size:21px;font-weight:900;color:var(--yellow)}
+.rank1 .rank-cell{color:#ffe76a}
+.rank2 .rank-cell{color:#d9e5f2}
+.rank3 .rank-cell{color:#e7aa76}
 .me{background:#14314a}
-.rank1{color:#ffe76a;font-weight:900}
-.rank2{color:#d9e5f2;font-weight:900}
-.rank3{color:#e7aa76;font-weight:900}
 .result{text-align:center}
 .bigscore{font-size:58px;color:var(--yellow);font-weight:900}
 .score-formula{margin:10px auto 22px;padding:12px 18px;max-width:700px;border-radius:12px;background:#08111f;border:1px solid #29445c;color:#8ca4bc;font-size:16px;font-weight:700;line-height:1.7;}
@@ -122,24 +127,20 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:lin
         <input id="grade" type="number" min="1" max="6" placeholder="例：1">
       </div>
 
-    <div class="field">
+      <div class="field">
         <label><ruby>組<rt>くみ</rt></ruby></label>
         <input id="klass" type="number" min="1" max="9" placeholder="例：1">
       </div>
 
     <div class="field">
-  <label><ruby>番号<rt>ばんごう</rt></ruby></label>
-  <input id="number" type="number" min="1" max="99" placeholder="例：1">
-</div>
+    　　<label><ruby>番号<rt>ばんごう</rt></ruby></label>
+    　　<input id="number" type="number" min="1" max="99" placeholder="例：1">
+ 　　 </div>
 </div>
 
 <div class="field" style="grid-column:1/-1">
-  <label style="display:flex;align-items:center;gap:12px;">
+  <label>
     ニックネーム
-    <span style="color:var(--red);font-size:13px;font-weight:700;">
-    ※ <ruby>本名<rt>ほんみょう</rt></ruby>などの<ruby>個人情報<rt>こじんじょうほう</rt></ruby>は<ruby>入力<rt>にゅうりょく</rt></ruby>しないこと！
-    </span>
-    
   </label>
 
   <input
@@ -149,6 +150,10 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:lin
     placeholder="ニックネームを入力"
     autocomplete="off"
   >
+
+  <div style="color:var(--red);font-size:13px;margin-top:6px;font-weight:700;text-align:center;">
+    ※ <ruby>本名<rt>ほんみょう</rt></ruby>などの<ruby>個人情報<rt>こじんじょうほう</rt></ruby>は<ruby>入力<rt>にゅうりょく</rt></ruby>しないこと！
+  </div>
 </div>
     
 <div id="numberPreview" class="number-preview">
@@ -267,18 +272,22 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:lin
   </div>
 
   <div class="card">
-    <table class="ranking">
-      <thead>
-        <tr>
-          <th>順位</th>
-          <th>番号</th>
-          <th>スコア</th>
-          <th>正確さ</th>
-          <th>速さ</th>
-        </tr>
-      </thead>
-      <tbody id="rankBody"></tbody>
-    </table>
+    <div class="ranking-wrap">
+      <table class="ranking">
+        <thead>
+          <tr>
+            <th>順位</th>
+            <th>番号</th>
+            <th>ニックネーム</th>
+            <th>文字数</th>
+            <th>正確さ</th>
+            <th>速さ</th>
+            <th>総合スコア</th>
+          </tr>
+        </thead>
+        <tbody id="rankBody"></tbody>
+      </table>
+    </div>
 
     <div class="actions">
       <button type="button" class="btn yellow" onclick="goHome()">大会に挑戦する</button>
@@ -304,7 +313,6 @@ let rankingRefreshTimer = null;
 async function supabaseRequest(path, options = {}) {
   const headers = {
     "apikey": SUPABASE_KEY,
-    "Authorization": `Bearer ${SUPABASE_KEY}`,
     "Content-Type": "application/json",
     ...(options.headers || {})
   };
@@ -1496,6 +1504,7 @@ async function finish(){
 
     ...player,
 
+    typedChars,
     score,
     accuracy,
     speed,
@@ -1593,6 +1602,7 @@ async function saveEntry(e){
     number: Number(e.number),
     student_number: e.studentNumber,
     nickname: e.nickname,
+    typed_chars: Number(e.typedChars),
     score: Number(e.score),
     accuracy: Number(e.accuracy),
     speed: Number(e.speed),
@@ -1612,7 +1622,7 @@ async function renderRankingTable(){
   const body = document.getElementById("rankBody");
   if(!body)return;
 
-  body.innerHTML = '<tr><td colspan="5">ランキングを読み込み中……</td></tr>';
+  body.innerHTML = '<tr><td colspan="7">ランキングを読み込み中……</td></tr>';
 
   try {
     const ranks = await fetchRanks();
@@ -1622,24 +1632,32 @@ async function renderRankingTable(){
       const tr = document.createElement("tr");
       tr.className = i<3 ? "rank"+(i+1) : "";
 
+      const typed = Number(r.typed_chars);
+      const typedText = Number.isFinite(typed) && typed > 0 ? typed : "—";
+      const accuracy = Number(r.accuracy);
+      const speed = Number(r.speed);
+      const score = Number(r.score);
+
       tr.innerHTML =
-        `<td>${i+1}</td>
+        `<td class="rank-cell">${i+1}位</td>
          <td>${escapeHtml(String(r.student_number ?? ""))}</td>
-         <td>${Number(r.score)}</td>
-         <td>${Math.round(Number(r.accuracy)*100)}%</td>
-         <td>${Number(r.speed).toFixed(1)}</td>`;
+         <td>${escapeHtml(String(r.nickname ?? ""))}</td>
+         <td>${typedText}</td>
+         <td>${Math.round(accuracy*100)}%</td>
+         <td>${speed.toFixed(1)}</td>
+         <td class="score-cell">${score}</td>`;
 
       body.appendChild(tr);
     });
 
     if(!body.children.length){
       body.innerHTML =
-        '<tr><td colspan="5">まだランキング記録がありません</td></tr>';
+        '<tr><td colspan="7">まだランキング記録がありません</td></tr>';
     }
   } catch(error){
     console.error(error);
     body.innerHTML =
-      '<tr><td colspan="5">ランキングを読み込めませんでした。通信状態を確認してください。</td></tr>';
+      '<tr><td colspan="7">ランキングを読み込めませんでした。通信状態を確認してください。</td></tr>';
   }
 }
 
