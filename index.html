@@ -89,7 +89,8 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:lin
 
 @media(max-width:800px){
 .game-grid{grid-template-columns:1fr}
-.form,.stats{grid-template-columns:1fr 1fr}
+.form{grid-template-columns:repeat(3,minmax(0,1fr));}
+.stats{grid-template-columns:1fr 1fr;}
 .key{min-width:25px;padding:0 4px;font-size:11px;height:38px}
 .key.space{min-width:150px}
 .hands{gap:10px}
