@@ -102,6 +102,70 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:lin
 .key.wide{min-width:45px}
 .key.space{min-width:100px}
 }
+
+.ranking-wrap{
+  width:100%;
+  overflow-x:auto;
+}
+
+.ranking{
+  width:100%;
+  min-width:720px;
+  border-collapse:collapse;
+  margin-top:15px;
+}
+
+.ranking th,
+.ranking td{
+  padding:12px 10px;
+  border-bottom:1px solid #20384e;
+  text-align:center;
+  white-space:nowrap;
+}
+
+.ranking th{
+  color:var(--yellow);
+  font-size:13px;
+}
+
+.ranking .rank-head{
+  color:#18a9ff;
+}
+
+.ranking .score-head{
+  color:#ffd52e;
+}
+
+.ranking td.rank-cell{
+  color:#18a9ff;
+  font-weight:900;
+  font-size:18px;
+}
+
+.ranking td.score-cell{
+  color:#ffd52e;
+  font-weight:900;
+  font-size:20px;
+}
+
+.ranking tr.rank1 td.rank-cell{
+  color:#ffe76a;
+}
+
+.ranking tr.rank2 td.rank-cell{
+  color:#d9e5f2;
+}
+
+.ranking tr.rank3 td.rank-cell{
+  color:#e7aa76;
+}
+
+.ranking tr.rank1 td.score-cell,
+.ranking tr.rank2 td.score-cell,
+.ranking tr.rank3 td.score-cell{
+  font-size:22px;
+}
+
 </style>
 </head>
 
@@ -276,25 +340,33 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:lin
       <table class="ranking">
         <thead>
           <tr>
-            <th>順位</th>
+            <th class="rank-head">順位</th>
             <th>番号</th>
             <th>ニックネーム</th>
             <th>文字数</th>
             <th>正確さ</th>
             <th>速さ</th>
-            <th>総合スコア</th>
+            <th class="score-head">総合スコア</th>
           </tr>
         </thead>
+
         <tbody id="rankBody"></tbody>
       </table>
     </div>
 
     <div class="actions">
-      <button type="button" class="btn yellow" onclick="goHome()">大会に挑戦する</button>
-      <button type="button" class="btn secondary" onclick="teacherReset()">先生用：ランキングをリセット</button>
+      <button type="button" class="btn yellow" onclick="goHome()">
+        大会に挑戦する
+      </button>
+
+      <button type="button" class="btn secondary" onclick="teacherReset()">
+        先生用：ランキングをリセット
+      </button>
     </div>
 
-    <div class="small">ランキングは全タブレットで共有されます。</div>
+    <div class="small">
+      ランキングは全タブレットで共有されます。
+    </div>
   </div>
 </section>
 
