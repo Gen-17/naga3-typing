@@ -57,18 +57,21 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:lin
 .key.wide{min-width:68px}
 .key.space{min-width:260px}
 .key.next{background:var(--yellow);color:#111;border-color:#fff2a0;box-shadow:0 0 18px #ffd52e99;transform:translateY(-2px)}
-.hands{display:flex;justify-content:center;gap:50px;margin-top:18px}
-.hand{position:relative;width:150px;height:125px;border:none;background:transparent;isolation:isolate;}
-.hand::after{content:"";position:absolute;z-index:0;left:49px;bottom:0;width:52px;height:34px;border:1px solid #35536d;border-radius:12px 12px 20px 20px;background:#0f2033;}
-.hand::before{content:"";position:absolute;z-index:1;left:22px;bottom:20px;width:106px;height:68px;border:2px solid #31516e;border-radius:48% 48% 38% 38%;background:#0a1627;box-shadow:0 5px 12px #0005;}
-.finger{position:absolute;z-index:3;width:25px;border-radius:15px 15px 10px 10px;background:#15283e;border:1px solid #35536d;box-shadow:inset 0 -8px 10px #07111d55;}
-.finger.on{background:var(--yellow);border-color:#fff2a0;box-shadow:0 0 18px #ffd52e, inset 0 -8px 10px #b8870055;}
-.f1{left:19px;bottom:57px;height:53px;transform:rotate(-14deg)}
-.f2{left:46px;bottom:67px;height:70px;transform:rotate(-3deg)}
-.f3{left:75px;bottom:70px;height:77px;transform:rotate(2deg)}
-.f4{left:103px;bottom:62px;height:69px;transform:rotate(11deg)}
-.thumb{position:absolute;z-index:4;width:58px;height:25px;border-radius:18px 12px 12px 18px;background:#15283e;border:1px solid #35536d;bottom:28px;left:67px;transform:rotate(-38deg);transform-origin:left center;}
-.thumb.on{background:var(--yellow);border-color:#fff2a0;box-shadow:0 0 18px #ffd52e;}
+.hands{display:flex;justify-content:center;gap:70px;margin-top:18px;}
+.hand-box{text-align:center;}
+.hand-svg{width:150px;height:160px;display:block;margin:auto;overflow:visible;}
+/* 手のひら */
+.hand-svg .palm{fill:#0a1627;stroke:#31516e;stroke-width:3;}
+/* 指 */
+.hand-svg .svg-finger{fill:#15283e;stroke:#35536d;stroke-width:2;transition:.15s;}
+/* 使う指 */
+.hand-svg .svg-finger.on{fill:var(--yellow);stroke:#fff2a0;filter:drop-shadow(0 0 7px #ffd52e);}
+/* 親指 */
+.hand-svg .svg-thumb{fill:#15283e;stroke:#35536d;stroke-width:2;transition:.15s;}
+.hand-svg .svg-thumb.on{fill:var(--yellow);stroke:#fff2a0;filter:drop-shadow(0 0 7px #ffd52e);}
+/* 右手は左右反転 */
+#rightHand{transform:scaleX(-1);}
+.handlabel{margin-top:6px;font-size:15px;font-weight:700;}
 /* 右手を左右反転 */
 #rightHand{transform:scaleX(-1);}
 .handlabel{text-align:center;color:var(--muted);font-size:12px;margin-top:8px}
@@ -339,15 +342,118 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:lin
 
       <h3 style="margin-top:18px">✋ <ruby>使<rt>つか</rt></ruby>う<ruby>指<rt>ゆび</rt></ruby></h3>
       <div class="hands">
-        <div>
-          <div id="leftHand" class="hand"></div>
-          <div class="handlabel"><ruby>左手<rt>ひだりて</rt></ruby></div>
-        </div>
-        <div>
-          <div id="rightHand" class="hand"></div>
-          <div class="handlabel"><ruby>右手<rt>みぎて</rt></ruby></div>
-        </div>
-      </div>
+        <div class="hands">
+
+  <div class="hand-box">
+    <svg id="leftHand" class="hand-svg" viewBox="0 0 180 190">
+      <!-- 手のひら -->
+      <path class="palm"
+        d="M48 135
+           C35 125 31 107 36 91
+           L48 58
+           C51 51 59 50 63 56
+           L66 69
+           L70 28
+           C71 19 83 18 85 28
+           L88 68
+           L91 20
+           C92 11 104 12 106 21
+           L108 68
+           L112 27
+           C113 18 125 19 126 28
+           L126 75
+           L132 48
+           C134 40 145 42 145 50
+           L143 94
+           C142 119 130 139 111 149
+           C91 159 65 153 48 135 Z">
+      </path>
+
+      <!-- 指 -->
+      <path class="svg-finger f1"
+        d="M48 58 L48 94 Q48 101 55 101 Q62 101 63 94 L63 61 Q61 52 55 52 Q50 52 48 58Z"/>
+      
+      <path class="svg-finger f2"
+        d="M70 28 L70 88 Q70 96 78 96 Q86 96 86 88 L85 28 Q83 20 77 20 Q71 20 70 28Z"/>
+
+      <path class="svg-finger f3"
+        d="M91 20 L91 88 Q91 96 99 96 Q107 96 108 88 L106 21 Q104 13 98 13 Q92 13 91 20Z"/>
+
+      <path class="svg-finger f4"
+        d="M112 27 L112 90 Q112 98 119 98 Q127 98 127 90 L126 28 Q124 20 118 20 Q113 20 112 27Z"/>
+
+      <!-- 親指 -->
+      <path class="svg-thumb"
+        d="M49 91
+           L29 105
+           Q21 111 25 119
+           Q29 127 38 123
+           L60 109
+           Q67 104 63 97
+           Q59 91 49 91Z">
+      </path>
+    </svg>
+
+    <div class="handlabel">
+      <ruby>左手<rt>ひだりて</rt></ruby>
+    </div>
+  </div>
+
+
+  <div class="hand-box">
+    <svg id="rightHand" class="hand-svg" viewBox="0 0 180 190">
+      <!-- 手のひら -->
+      <path class="palm"
+        d="M48 135
+           C35 125 31 107 36 91
+           L48 58
+           C51 51 59 50 63 56
+           L66 69
+           L70 28
+           C71 19 83 18 85 28
+           L88 68
+           L91 20
+           C92 11 104 12 106 21
+           L108 68
+           L112 27
+           C113 18 125 19 126 28
+           L126 75
+           L132 48
+           C134 40 145 42 145 50
+           L143 94
+           C142 119 130 139 111 149
+           C91 159 65 153 48 135 Z">
+      </path>
+
+      <path class="svg-finger f1"
+        d="M48 58 L48 94 Q48 101 55 101 Q62 101 63 94 L63 61 Q61 52 55 52 Q50 52 48 58Z"/>
+
+      <path class="svg-finger f2"
+        d="M70 28 L70 88 Q70 96 78 96 Q86 96 86 88 L85 28 Q83 20 77 20 Q71 20 70 28Z"/>
+
+      <path class="svg-finger f3"
+        d="M91 20 L91 88 Q91 96 99 96 Q107 96 108 88 L106 21 Q104 13 98 13 Q92 13 91 20Z"/>
+
+      <path class="svg-finger f4"
+        d="M112 27 L112 90 Q112 98 119 98 Q127 98 127 90 L126 28 Q124 20 118 20 Q113 20 112 27Z"/>
+
+      <path class="svg-thumb"
+        d="M49 91
+           L29 105
+           Q21 111 25 119
+           Q29 127 38 123
+           L60 109
+           Q67 104 63 97
+           Q59 91 49 91Z">
+      </path>
+    </svg>
+
+    <div class="handlabel">
+      <ruby>右手<rt>みぎて</rt></ruby>
+    </div>
+  </div>
+
+</div>
     </div>
   </div>
 </section>
@@ -1950,68 +2056,65 @@ function updateHighlights(){
 
 function addFingers(ch){
 
-  const c=
-    ch.toLowerCase();
+  const left = document.getElementById("leftHand");
+  const right = document.getElementById("rightHand");
 
+  // いったん全部消す
+  left.querySelectorAll(".on").forEach(el => el.classList.remove("on"));
+  right.querySelectorAll(".on").forEach(el => el.classList.remove("on"));
 
-  let side="L";
-  let f=0;
+  const c = ch.toLowerCase();
 
+  let side = "L";
+  let f = 0;
 
-  if("qaz".includes(c))
-    f=1;
+  // 左手
+  if("qaz".includes(c)){
+    f = 1;              // 小指
+  }
+  else if("wsx".includes(c)){
+    f = 2;              // 薬指
+  }
+  else if("edc".includes(c)){
+    f = 3;              // 中指
+  }
+  else if("rfvtgb".includes(c)){
+    f = 4;              // 人差し指
+  }
 
-  else if("wsx".includes(c))
-    f=2;
+  // 右手
+  else if("yhnujm".includes(c)){
+    side = "R";
+    f = 4;              // 人差し指
+  }
+  else if("ik,".includes(c)){
+    side = "R";
+    f = 3;              // 中指
+  }
+  else if("ol.".includes(c)){
+    side = "R";
+    f = 2;              // 薬指
+  }
+  else if("p;/".includes(c)){
+    side = "R";
+    f = 1;              // 小指
+  }
 
-  else if("edc".includes(c))
-    f=3;
-
-  else if("rfvtgb".includes(c))
-    f=4;
-
-  else if("yhnujm".includes(c))
-    side="R",f=4;
-
-  else if("ik,".includes(c))
-    side="R",f=3;
-
-  else if("ol.".includes(c))
-    side="R",f=2;
-
-  else if("p;/".includes(c))
-    side="R",f=1;
-
-  else if(c===" "){
-
-    document
-      .getElementById("leftHand")
-      .innerHTML=
-        '<div class="thumb on"></div>';
-
-    document
-      .getElementById("rightHand")
-      .innerHTML=
-        '<div class="thumb on"></div>';
-
+  // スペースキーは両親指
+  else if(c === " "){
+    left.querySelector(".svg-thumb").classList.add("on");
+    right.querySelector(".svg-thumb").classList.add("on");
     return;
   }
 
+  if(f === 0) return;
 
-  const h=
-    document.createElement("div");
+  const hand = side === "L" ? left : right;
+  const finger = hand.querySelector(".f" + f);
 
-
-  h.className=
-    "finger on f"+f;
-
-
-  (
-    side==="L"
-    ?document.getElementById("leftHand")
-    :document.getElementById("rightHand")
-  )
-  .appendChild(h);
+  if(finger){
+    finger.classList.add("on");
+  }
 }
 
 
