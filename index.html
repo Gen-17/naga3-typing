@@ -342,7 +342,6 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:lin
 
       <h3 style="margin-top:18px">✋ <ruby>使<rt>つか</rt></ruby>う<ruby>指<rt>ゆび</rt></ruby></h3>
       <div class="hands">
-        <div class="hands">
 
   <div class="hand-box">
     <svg id="leftHand" class="hand-svg" viewBox="0 0 180 190">
@@ -397,7 +396,6 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:lin
     <div class="handlabel">
       <ruby>左手<rt>ひだりて</rt></ruby>
     </div>
-  </div>
 
 
   <div class="hand-box">
@@ -2033,24 +2031,22 @@ function updateHighlights(){
     key.classList.add("next");
 
 
-  const hand=
-    document.getElementById(
-      "leftHand"
-    );
+  const hand =
+  document.getElementById("leftHand");
 
+const rh =
+  document.getElementById("rightHand");
 
-  const rh=
-    document.getElementById(
-      "rightHand"
-    );
+// 黄色のハイライトだけ消す
+hand.querySelectorAll(".on").forEach(
+  el => el.classList.remove("on")
+);
 
+rh.querySelectorAll(".on").forEach(
+  el => el.classList.remove("on")
+);
 
-  hand.innerHTML="";
-
-  rh.innerHTML="";
-
-
-  addFingers(first);
+addFingers(first);
 }
 
 
