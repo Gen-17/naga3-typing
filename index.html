@@ -170,6 +170,36 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:lin
   font-size:22px;
 }
 
+.input-wrap{
+  position:relative;
+}
+
+.input-wrap input{
+  width:100%;
+  box-sizing:border-box;
+}
+
+.input-placeholder{
+  position:absolute;
+  left:16px;
+  top:50%;
+  transform:translateY(-50%);
+  color:#888;
+  pointer-events:none;
+  display:flex;
+  align-items:center;
+  gap:2px;
+}
+
+.input-placeholder ruby{
+  ruby-position:over;
+}
+
+.input-placeholder rt{
+  font-size:10px;
+  line-height:1;
+}
+
 </style>
 </head>
 
@@ -192,17 +222,32 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:lin
     <div class="form">
       <div class="field">
         <label><ruby>年<rt>ねん</rt></ruby></label>
-        <input id="grade" type="number" min="1" max="6" placeholder="例：1">
+        <div class="input-wrap">
+          <input id="grade" type="number" min="1" max="6">
+          <div class="input-placeholder">
+          <ruby>例<rt>れい</rt></ruby>：6
+          </div>
+        </div>
       </div>
 
       <div class="field">
         <label><ruby>組<rt>くみ</rt></ruby></label>
-        <input id="klass" type="number" min="1" max="9" placeholder="例：1">
+        <div class="input-wrap">
+          <input id="klass" type="number" min="1" max="10">
+          <div class="input-placeholder">
+            <ruby>例<rt>れい</rt></ruby>：1
+          </div>
+        </div>
       </div>
 
     <div class="field">
   <label><ruby>番号<rt>ばんごう</rt></ruby></label>
-  <input id="number" type="number" min="1" max="99" placeholder="例：1">
+  <div class="input-wrap">
+    <input id="number" type="number" min="1" max="99">
+    <div class="input-placeholder">
+      <ruby>例<rt>れい</rt></ruby>：1
+    </div>
+  </div>
 </div>
 </div>
 
@@ -2190,6 +2235,18 @@ document.addEventListener("DOMContentLoaded", function () {
   backBtn.addEventListener("click", backToStart);
 
 });
+
+document.querySelectorAll('.input-wrap input').forEach(input => {
+  const placeholder = input.parentElement.querySelector('.input-placeholder');
+
+  function updatePlaceholder(){
+    placeholder.style.display = input.value ? 'none' : 'flex';
+  }
+
+  input.addEventListener('input', updatePlaceholder);
+  updatePlaceholder();
+});
+  
 </script>
   
 </body>
