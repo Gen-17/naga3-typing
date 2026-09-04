@@ -253,13 +253,17 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:lin
 
 <div class="field" style="grid-column:1/-1; margin-bottom:30px">
   <label>ニックネーム<span style="color:var(--red);font-size:13px;font-weight:700;margin-left:12px;">※<ruby>本名<rt>ほんみょう</rt></ruby>などの<ruby>個人情報<rt>こじんじょうほう</rt></ruby>は<ruby>入力<rt>にゅうりょく</rt></ruby>しないこと！</span></label>
+  <div class="input-wrap">
   <input
     id="nickname"
     type="text"
     maxlength="12"
-    placeholder="例：ナガサンマン"
     autocomplete="off"
   >
+  <div class="input-placeholder">
+    <ruby>例<rt>れい</rt></ruby>：ナガサンマン
+  </div>
+</div>
 </div>
     
 <div id="numberPreview" class="number-preview">
