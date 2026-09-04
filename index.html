@@ -361,7 +361,7 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:lin
 
     <div class="substats">
       <div><ruby>正解<rt>せいかい</rt></ruby> <b id="resultCorrect">0</b></div>
-      <div><ruby>ミス <b id="resultMiss">0</b></div>
+      <div>ミス <b id="resultMiss">0</b></div>
       <div><ruby>正確<rt>せいかく</rt></ruby>さ <b id="resultAccuracy">0%</b></div>
       <div><ruby>速<rt>はや</rt></ruby>さ <b id="resultSpeed">0.0</b></div>
     </div>
@@ -1681,7 +1681,7 @@ async function finish(){
 
   document
     .getElementById("scoreFormula").innerHTML =
-  `<b>スコア計算</b><br>
+  `<b>スコア<ruby>計算<rt>けいさん</rt></ruby></b><br>
    <ruby>入力<rt>にゅうりょく</rt></ruby>した<ruby>文字数<rt>もじすう</rt></ruby> × <ruby>正確<rt>せいかく</rt></ruby>さ × <ruby>速<rt>はや</rt></ruby>さボーナス<br>
    ${typedChars} × ${Math.round(accuracy*100)}% × ${(1+Math.min(speed/10,1)).toFixed(2)}
    ＝ ${score}`;
