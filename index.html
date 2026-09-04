@@ -330,18 +330,18 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:lin
     </div>
 
     <div class="card support">
-      <h3>⌨️ キーボード　次のキーを確認しよう</h3>
+      <h3>⌨️ キーボード　<ruby>次<rt>つぎ</rt></ruby>のキーを<ruby>確認<rt>かくにん</rt></ruby>しよう</h3>
       <div id="keyboard" class="keyboard"></div>
 
-      <h3 style="margin-top:18px">✋ 使う指</h3>
+      <h3 style="margin-top:18px">✋ <ruby>使<rt>つか</rt></ruby>う<ruby>指<rt>ゆび</rt></ruby></h3>
       <div class="hands">
         <div>
           <div id="leftHand" class="hand"></div>
-          <div class="handlabel">左手</div>
+          <div class="handlabel"><ruby>左手<rt>ひだりて</rt></ruby></div>
         </div>
         <div>
           <div id="rightHand" class="hand"></div>
-          <div class="handlabel">右手</div>
+          <div class="handlabel"><ruby>右手<rt>みぎて</rt></ruby></div>
         </div>
       </div>
     </div>
@@ -814,7 +814,7 @@ const nickname=document.getElementById("nickname").value.trim();
 
  if(!g||!k||!num||!nickname){
   document.getElementById("homeNotice").textContent=
-    "学年・組・番号・ニックネームを入力してください。";
+    "<ruby>学年<rt>がくねん</rt></ruby>・<ruby>組<rt>くみ</rt></ruby>・<ruby>番号<rt>ばんごう</rt></ruby>・ニックネームを<ruby>入力<rt>にゅうりょく</rt></ruby>してください。";
   return;
 }
   
@@ -1638,7 +1638,7 @@ async function finish(){
     ranks = cachedRanks;
   } catch (error) {
     console.error(error);
-    alert("ランキングへの保存に失敗しました。通信状態を確認してください。");
+    alert("ランキングへの<ruby>保存<rt>ほぞん</rt></ruby>に<ruby>失敗<rt>しっぱい</rt></ruby>しました。<ruby>通信状態<rt>つうしんじょうたい</rt></ruby>を<ruby>確認<rt>かくにん</rt></ruby>してください。");
     try { ranks = await fetchRanks(); } catch(e) {}
   }
 
@@ -1682,7 +1682,7 @@ async function finish(){
   document
     .getElementById("scoreFormula").innerHTML =
   `<b>スコア計算</b><br>
-   入力した文字数 × 正確さ × 速さボーナス<br>
+   <ruby>入力<rt>にゅうりょく</rt></ruby>した<ruby>文字数<rt>もじすう</rt></ruby> × <ruby>正確<rt>せいかく</rt></ruby>さ × <ruby>速<rt>はや</rt></ruby>さボーナス<br>
    ${typedChars} × ${Math.round(accuracy*100)}% × ${(1+Math.min(speed/10,1)).toFixed(2)}
    ＝ ${score}`;
   
@@ -1696,9 +1696,9 @@ async function finish(){
 
       rank>0&&rank<=20
 
-      ?`🏆 現在 ${rank}位！`
+      ?`🏆 <ruby>現在<rt>げんざい</rt></ruby> ${rank}<ruby>位<rt>い</rt></ruby>！`
 
-      :"ランキング入りをめざそう！";
+      :"ランキング<ruby>入<rt>い</rt></ruby>りをめざそう！";
 
 
   show("result");
@@ -1740,7 +1740,7 @@ async function renderRankingTable(){
   const body = document.getElementById("rankBody");
   if(!body)return;
 
-  body.innerHTML = '<tr><td colspan="7">ランキングを読み込み中……</td></tr>';
+  body.innerHTML = '<tr><td colspan="7">ランキングを<ruby>読<rt>よ</rt></ruby>み<ruby>込<rt>こ</rt></ruby>み<ruby>中<rt>ちゅう</rt></ruby>……</td></tr>';
 
   try {
     const ranks = await fetchRanks();
@@ -1770,12 +1770,12 @@ async function renderRankingTable(){
 
     if(!body.children.length){
       body.innerHTML =
-        '<tr><td colspan="7">まだランキング記録がありません</td></tr>';
+        '<tr><td colspan="7">まだランキング<ruby>記録<rt>きろく</rt></ruby>がありません</td></tr>';
     }
   } catch(error){
     console.error(error);
     body.innerHTML =
-      '<tr><td colspan="7">ランキングを読み込めませんでした。通信状態を確認してください。</td></tr>';
+      '<tr><td colspan="7">ランキングを<ruby>読<rt>よ</rt></ruby>み<ruby>込<rt>こ</rt></ruby>めませんでした。<ruby>通信状態<rt>つうしんじょうたい</rt></ruby>を<ruby>確認<rt>かくにん</rt></ruby>してください。</td></tr>';
   }
 }
 
@@ -1790,7 +1790,7 @@ async function showRanking(){
    ========================================= */
 async function teacherReset(){
   const pw = prompt(
-    "先生用機能です。\nパスワードを入力してください。"
+    "<ruby>先生用機能<rt>せんせいようきのう</rt></ruby>です。\nパスワードを<ruby>入力<rt>にゅうりょく</rt></ruby>してください。"
   );
 
   if(pw===null)return;
