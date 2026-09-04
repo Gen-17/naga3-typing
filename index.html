@@ -58,15 +58,19 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:lin
 .key.space{min-width:260px}
 .key.next{background:var(--yellow);color:#111;border-color:#fff2a0;box-shadow:0 0 18px #ffd52e99;transform:translateY(-2px)}
 .hands{display:flex;justify-content:center;gap:50px;margin-top:18px}
-.hand{position:relative;width:150px;height:105px;border:2px solid #31516e;border-radius:55px 55px 35px 35px;background:#0a1627}
-.finger{position:absolute;width:25px;height:72px;border-radius:16px;background:#15283e;border:1px solid #35536d;bottom:55px}
-.finger.on{background:var(--yellow);border-color:#fff2a0;box-shadow:0 0 15px #ffd52e}
-.f1{left:17px;transform:rotate(-25deg)}
-.f2{left:45px;bottom:68px}
-.f3{left:75px;bottom:72px}
-.f4{left:105px;bottom:61px;transform:rotate(20deg)}
-.thumb{position:absolute;width:55px;height:24px;border-radius:16px;background:#15283e;border:1px solid #35536d;bottom:14px;left:48px;transform:rotate(-18deg)}
-.thumb.on{background:var(--yellow);box-shadow:0 0 15px #ffd52e}
+.hand{position:relative;width:150px;height:125px;border:none;background:transparent;isolation:isolate;}
+.hand::after{content:"";position:absolute;z-index:0;left:49px;bottom:0;width:52px;height:34px;border:1px solid #35536d;border-radius:12px 12px 20px 20px;background:#0f2033;}
+.hand::before{content:"";position:absolute;z-index:1;left:22px;bottom:20px;width:106px;height:68px;border:2px solid #31516e;border-radius:48% 48% 38% 38%;background:#0a1627;box-shadow:0 5px 12px #0005;}
+.finger{position:absolute;z-index:3;width:25px;border-radius:15px 15px 10px 10px;background:#15283e;border:1px solid #35536d;box-shadow:inset 0 -8px 10px #07111d55;}
+.finger.on{background:var(--yellow);border-color:#fff2a0;box-shadow:0 0 18px #ffd52e, inset 0 -8px 10px #b8870055;}
+.f1{left:19px;bottom:57px;height:53px;transform:rotate(-14deg)}
+.f2{left:46px;bottom:67px;height:70px;transform:rotate(-3deg)}
+.f3{left:75px;bottom:70px;height:77px;transform:rotate(2deg)}
+.f4{left:103px;bottom:62px;height:69px;transform:rotate(11deg)}
+.thumb{position:absolute;z-index:4;width:58px;height:25px;border-radius:18px 12px 12px 18px;background:#15283e;border:1px solid #35536d;bottom:28px;left:67px;transform:rotate(-38deg);transform-origin:left center;}
+.thumb.on{background:var(--yellow);border-color:#fff2a0;box-shadow:0 0 18px #ffd52e;}
+/* 右手を左右反転 */
+#rightHand{transform:scaleX(-1);}
 .handlabel{text-align:center;color:var(--muted);font-size:12px;margin-top:8px}
 .feedback{text-align:center;min-height:28px;font-weight:800}
 .ranking-wrap{width:100%;overflow-x:auto;margin-top:15px;border-radius:12px}
