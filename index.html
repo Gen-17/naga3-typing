@@ -57,24 +57,21 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:lin
 .key.wide{min-width:68px}
 .key.space{min-width:260px}
 .key.next{background:var(--yellow);color:#111;border-color:#fff2a0;box-shadow:0 0 18px #ffd52e99;transform:translateY(-2px)}
-.hands{display:flex;justify-content:center;gap:70px;margin-top:18px;}
+.hands{display:flex;justify-content:center;align-items:flex-start;gap:45px;margin-top:18px;}
 .hand-box{text-align:center;}
-.hand-svg{width:150px;height:160px;display:block;margin:auto;overflow:visible;}
-/* 手のひら */
+.hand-svg{width:150px;height:170px;display:block;margin:auto;overflow:visible;}
+/* 手の甲 */
 .hand-svg .palm{fill:#0a1627;stroke:#31516e;stroke-width:3;}
-/* 指 */
-.hand-svg .svg-finger{fill:#15283e;stroke:#35536d;stroke-width:2;transition:.15s;}
+/* 4本の指 */
+.hand-svg .svg-finger{fill:#15283e;stroke:#35536d;stroke-width:2.5;transition:.15s;}
 /* 使う指 */
 .hand-svg .svg-finger.on{fill:var(--yellow);stroke:#fff2a0;filter:drop-shadow(0 0 7px #ffd52e);}
 /* 親指 */
-.hand-svg .svg-thumb{fill:#15283e;stroke:#35536d;stroke-width:2;transition:.15s;}
+.hand-svg .svg-thumb{fill:#15283e;stroke:#35536d;stroke-width:2.5;transition:.15s;}
 .hand-svg .svg-thumb.on{fill:var(--yellow);stroke:#fff2a0;filter:drop-shadow(0 0 7px #ffd52e);}
 /* 右手は左右反転 */
 #rightHand{transform:scaleX(-1);}
-.handlabel{margin-top:6px;font-size:15px;font-weight:700;}
-/* 右手を左右反転 */
-#rightHand{transform:scaleX(-1);}
-.handlabel{text-align:center;color:var(--muted);font-size:12px;margin-top:8px}
+.handlabel{text-align:center;color:var(--muted);font-size:13px;margin-top:5px;font-weight:700;}
 .feedback{text-align:center;min-height:28px;font-weight:800}
 .ranking-wrap{width:100%;overflow-x:auto;margin-top:15px;border-radius:12px}
 .ranking{width:100%;min-width:760px;border-collapse:collapse}
@@ -341,114 +338,244 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:lin
       <div id="keyboard" class="keyboard"></div>
 
       <h3 style="margin-top:18px">✋ <ruby>使<rt>つか</rt></ruby>う<ruby>指<rt>ゆび</rt></ruby></h3>
+      
       <div class="hands">
 
+  <!-- 左手 -->
   <div class="hand-box">
-    <svg id="leftHand" class="hand-svg" viewBox="0 0 180 190">
+
+    <svg id="leftHand" class="hand-svg" viewBox="0 0 180 200">
+
       <!-- 手のひら -->
       <path class="palm"
-        d="M48 135
-           C35 125 31 107 36 91
-           L48 58
-           C51 51 59 50 63 56
-           L66 69
-           L70 28
-           C71 19 83 18 85 28
-           L88 68
-           L91 20
-           C92 11 104 12 106 21
-           L108 68
-           L112 27
-           C113 18 125 19 126 28
-           L126 75
-           L132 48
-           C134 40 145 42 145 50
-           L143 94
-           C142 119 130 139 111 149
-           C91 159 65 153 48 135 Z">
+        d="
+        M52 112
+        C43 104 40 94 42 83
+        L45 72
+        L47 45
+        C47 39 51 35 56 35
+        C61 35 64 39 64 45
+        L64 69
+
+        L66 25
+        C66 19 70 15 75 15
+        C80 15 83 19 83 25
+        L83 68
+
+        L85 20
+        C85 14 89 10 94 10
+        C99 10 102 14 102 20
+        L102 68
+
+        L105 25
+        C105 19 109 16 114 16
+        C119 16 122 20 122 26
+        L122 73
+
+        L128 45
+        C129 39 134 36 139 38
+        C144 40 146 44 145 50
+        L139 91
+
+        C137 111 128 130 113 143
+        C99 155 78 159 63 150
+        C54 145 49 137 48 128
+        C47 121 48 116 52 112
+        Z
+        ">
       </path>
 
-      <!-- 指 -->
+      <!-- 小指 -->
       <path class="svg-finger f1"
-        d="M48 58 L48 94 Q48 101 55 101 Q62 101 63 94 L63 61 Q61 52 55 52 Q50 52 48 58Z"/>
-      
+        d="
+        M47 45
+        C47 39 51 35 56 35
+        C61 35 64 39 64 45
+        L64 91
+        C64 97 60 101 55 101
+        C50 101 46 97 46 91
+        Z
+        ">
+      </path>
+
+      <!-- 薬指 -->
       <path class="svg-finger f2"
-        d="M70 28 L70 88 Q70 96 78 96 Q86 96 86 88 L85 28 Q83 20 77 20 Q71 20 70 28Z"/>
+        d="
+        M66 25
+        C66 19 70 15 75 15
+        C80 15 83 19 83 25
+        L83 91
+        C83 97 79 101 74 101
+        C69 101 65 97 65 91
+        Z
+        ">
+      </path>
 
+      <!-- 中指 -->
       <path class="svg-finger f3"
-        d="M91 20 L91 88 Q91 96 99 96 Q107 96 108 88 L106 21 Q104 13 98 13 Q92 13 91 20Z"/>
+        d="
+        M85 20
+        C85 14 89 10 94 10
+        C99 10 102 14 102 20
+        L102 91
+        C102 97 98 101 93 101
+        C88 101 84 97 84 91
+        Z
+        ">
+      </path>
 
+      <!-- 人差し指 -->
       <path class="svg-finger f4"
-        d="M112 27 L112 90 Q112 98 119 98 Q127 98 127 90 L126 28 Q124 20 118 20 Q113 20 112 27Z"/>
+        d="
+        M105 25
+        C105 19 109 16 114 16
+        C119 16 122 20 122 26
+        L122 92
+        C122 98 118 102 113 102
+        C108 102 104 98 104 92
+        Z
+        ">
+      </path>
 
       <!-- 親指 -->
       <path class="svg-thumb"
-        d="M49 91
-           L29 105
-           Q21 111 25 119
-           Q29 127 38 123
-           L60 109
-           Q67 104 63 97
-           Q59 91 49 91Z">
+        d="
+        M52 112
+        L31 97
+        C26 93 20 95 18 100
+        C16 105 18 110 23 113
+        L49 131
+        C55 135 62 133 65 127
+        C68 121 63 116 58 113
+        Z
+        ">
       </path>
+
     </svg>
 
     <div class="handlabel">
       <ruby>左手<rt>ひだりて</rt></ruby>
     </div>
 
+  </div>
 
+
+  <!-- 右手 -->
   <div class="hand-box">
-    <svg id="rightHand" class="hand-svg" viewBox="0 0 180 190">
+
+    <svg id="rightHand" class="hand-svg" viewBox="0 0 180 200">
+
       <!-- 手のひら -->
       <path class="palm"
-        d="M48 135
-           C35 125 31 107 36 91
-           L48 58
-           C51 51 59 50 63 56
-           L66 69
-           L70 28
-           C71 19 83 18 85 28
-           L88 68
-           L91 20
-           C92 11 104 12 106 21
-           L108 68
-           L112 27
-           C113 18 125 19 126 28
-           L126 75
-           L132 48
-           C134 40 145 42 145 50
-           L143 94
-           C142 119 130 139 111 149
-           C91 159 65 153 48 135 Z">
+        d="
+        M52 112
+        C43 104 40 94 42 83
+        L45 72
+        L47 45
+        C47 39 51 35 56 35
+        C61 35 64 39 64 45
+        L64 69
+
+        L66 25
+        C66 19 70 15 75 15
+        C80 15 83 19 83 25
+        L83 68
+
+        L85 20
+        C85 14 89 10 94 10
+        C99 10 102 14 102 20
+        L102 68
+
+        L105 25
+        C105 19 109 16 114 16
+        C119 16 122 20 122 26
+        L122 73
+
+        L128 45
+        C129 39 134 36 139 38
+        C144 40 146 44 145 50
+        L139 91
+
+        C137 111 128 130 113 143
+        C99 155 78 159 63 150
+        C54 145 49 137 48 128
+        C47 121 48 116 52 112
+        Z
+        ">
       </path>
 
+      <!-- 小指 -->
       <path class="svg-finger f1"
-        d="M48 58 L48 94 Q48 101 55 101 Q62 101 63 94 L63 61 Q61 52 55 52 Q50 52 48 58Z"/>
-
-      <path class="svg-finger f2"
-        d="M70 28 L70 88 Q70 96 78 96 Q86 96 86 88 L85 28 Q83 20 77 20 Q71 20 70 28Z"/>
-
-      <path class="svg-finger f3"
-        d="M91 20 L91 88 Q91 96 99 96 Q107 96 108 88 L106 21 Q104 13 98 13 Q92 13 91 20Z"/>
-
-      <path class="svg-finger f4"
-        d="M112 27 L112 90 Q112 98 119 98 Q127 98 127 90 L126 28 Q124 20 118 20 Q113 20 112 27Z"/>
-
-      <path class="svg-thumb"
-        d="M49 91
-           L29 105
-           Q21 111 25 119
-           Q29 127 38 123
-           L60 109
-           Q67 104 63 97
-           Q59 91 49 91Z">
+        d="
+        M47 45
+        C47 39 51 35 56 35
+        C61 35 64 39 64 45
+        L64 91
+        C64 97 60 101 55 101
+        C50 101 46 97 46 91
+        Z
+        ">
       </path>
+
+      <!-- 薬指 -->
+      <path class="svg-finger f2"
+        d="
+        M66 25
+        C66 19 70 15 75 15
+        C80 15 83 19 83 25
+        L83 91
+        C83 97 79 101 74 101
+        C69 101 65 97 65 91
+        Z
+        ">
+      </path>
+
+      <!-- 中指 -->
+      <path class="svg-finger f3"
+        d="
+        M85 20
+        C85 14 89 10 94 10
+        C99 10 102 14 102 20
+        L102 91
+        C102 97 98 101 93 101
+        C88 101 84 97 84 91
+        Z
+        ">
+      </path>
+
+      <!-- 人差し指 -->
+      <path class="svg-finger f4"
+        d="
+        M105 25
+        C105 19 109 16 114 16
+        C119 16 122 20 122 26
+        L122 92
+        C122 98 118 102 113 102
+        C108 102 104 98 104 92
+        Z
+        ">
+      </path>
+
+      <!-- 親指 -->
+      <path class="svg-thumb"
+        d="
+        M52 112
+        L31 97
+        C26 93 20 95 18 100
+        C16 105 18 110 23 113
+        L49 131
+        C55 135 62 133 65 127
+        C68 121 63 116 58 113
+        Z
+        ">
+      </path>
+
     </svg>
 
     <div class="handlabel">
       <ruby>右手<rt>みぎて</rt></ruby>
     </div>
+
   </div>
 
 </div>
