@@ -193,28 +193,29 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:lin
 
 .thumb{
   position:absolute;
-  z-index:2;
 
-  width:48px;
-  height:27px;
+  /* 手の甲より前に出す */
+  z-index:4;
+
+  width:46px;
+  height:26px;
 
   background:#15283e;
   border:3px solid #35536d;
 
-  border-radius:
-    17px 15px 15px 17px;
+  border-radius:17px 15px 15px 17px;
 
   /*
-   * 人差し指と重ならないように
-   * 少し下げる
+   * 少し下から出す
+   * → 人差し指と重なりにくい
    */
-  top:94px;
-  left:77px;
+  top:91px;
+  left:76px;
 
   /*
-   * 手のひらから内側へ自然に伸ばす
+   * 手のひらから斜めに出る
    */
-  transform:rotate(-43deg);
+  transform:rotate(-38deg);
 
   transform-origin:left center;
 
@@ -226,9 +227,7 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:lin
 .thumb.on{
   background:var(--yellow);
   border-color:#fff2a0;
-
-  box-shadow:
-    0 0 15px #ffd52e;
+  box-shadow:0 0 15px #ffd52e;
 }
 
 
