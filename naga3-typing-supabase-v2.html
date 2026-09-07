@@ -18,7 +18,10 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:lin
 .card{background:linear-gradient(145deg,rgba(17,28,49,.96),rgba(7,14,27,.96));border:1px solid rgba(24,169,255,.32);border-radius:20px;box-shadow:0 15px 60px #0008,0 0 30px rgba(24,169,255,.08);padding:28px}
 .rules{border-left:4px solid var(--yellow);background:#080f1c;padding:16px 18px;border-radius:12px;line-height:1.9}
 .rules b{color:var(--yellow)}
-.form{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:22px 0}
+.form{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:22px 0;}
+.field{min-width:0;}
+.field input,
+.field select{width:100%;box-sizing:border-box;}
 .field label{display:block;color:var(--muted);font-size:14px;margin-bottom:7px}
 .field input{width:100%;padding:15px;border-radius:10px;border:1px solid #29445f;background:#050b16;color:#fff;font-size:20px;outline:none}
 .field input:focus{border-color:var(--blue);box-shadow:0 0 0 3px #18a9ff22}
@@ -27,7 +30,7 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:lin
 .btn.secondary{background:#17283c;color:#dceeff;border:1px solid #31516e}
 .actions{text-align:center;margin-top:20px}
 .notice{min-height:24px;color:var(--red);font-weight:700;text-align:center;margin-top:10px}
-.number-preview{grid-column:1/-1;text-align:center;margin-top:0;padding:12px 18px;border:2px solid var(--yellow);border-radius:14px;background:#111a28;color:var(--muted);font-size:17px;font-weight:800;}
+.number-preview{grid-column:1/-1;text-align:center;margin-top:30px;padding:12px 18px;border:2px solid var(--yellow);border-radius:14px;background:#111a28;color:var(--muted);font-size:17px;font-weight:800;}
 .number-preview strong{display:block;margin-top:3px;color:var(--yellow);font-size:42px;line-height:1.1;letter-spacing:.12em;text-shadow:0 0 18px rgba(255,213,46,.65);}
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:18px}
 .stat{background:#08111f;border:1px solid #1c3b57;border-radius:12px;padding:12px;text-align:center}
@@ -54,25 +57,214 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:lin
 .key.wide{min-width:68px}
 .key.space{min-width:260px}
 .key.next{background:var(--yellow);color:#111;border-color:#fff2a0;box-shadow:0 0 18px #ffd52e99;transform:translateY(-2px)}
-.hands{display:flex;justify-content:center;gap:50px;margin-top:18px}
-.hand{position:relative;width:150px;height:105px;border:2px solid #31516e;border-radius:55px 55px 35px 35px;background:#0a1627}
-.finger{position:absolute;width:25px;height:72px;border-radius:16px;background:#15283e;border:1px solid #35536d;bottom:55px}
-.finger.on{background:var(--yellow);border-color:#fff2a0;box-shadow:0 0 15px #ffd52e}
-.f1{left:17px;transform:rotate(-25deg)}
-.f2{left:45px;bottom:68px}
-.f3{left:75px;bottom:72px}
-.f4{left:105px;bottom:61px;transform:rotate(20deg)}
-.thumb{position:absolute;width:55px;height:24px;border-radius:16px;background:#15283e;border:1px solid #35536d;bottom:14px;left:48px;transform:rotate(-18deg)}
-.thumb.on{background:var(--yellow);box-shadow:0 0 15px #ffd52e}
-.handlabel{text-align:center;color:var(--muted);font-size:12px;margin-top:8px}
+/* =========================
+   手形
+   ========================= */
+
+.hands{
+  display:flex;
+  justify-content:center;
+  gap:55px;
+  margin-top:25px;
+}
+
+.hand{
+  position:relative;
+  width:150px;
+  height:150px;
+  margin:auto;
+}
+
+
+/* =========================
+   手の甲
+   ========================= */
+
+.hand::before{
+  content:"";
+  position:absolute;
+
+  /*
+   * 指の根元より少し下から
+   * 手の甲を作る
+   */
+  left:30px;
+  top:65px;
+
+  width:90px;
+  height:73px;
+
+  background:#0a1627;
+  border:3px solid #31516e;
+
+  /*
+   * 上側をゆるく、
+   * 下側を大きく丸める
+   */
+  border-radius:
+    24px 24px 40px 40px;
+
+  /*
+   * 指・親指より前に出す
+   * → 根元を手の甲に隠して自然につなげる
+   */
+  z-index:3;
+}
+
+
+/* =========================
+   4本の指
+   ========================= */
+
+.finger{
+  position:absolute;
+
+  /*
+   * 手の甲の後ろに配置
+   * 根元を手の甲に隠す
+   */
+  z-index:2;
+
+  width:25px;
+
+  background:#15283e;
+
+  border:3px solid #35536d;
+
+  /*
+   * 指先だけ丸くする
+   */
+  border-radius:
+    14px 14px 5px 5px;
+
+  transition:.15s;
+}
+
+
+/* 小指 */
+.f1{
+  left:27px;
+  top:52px;
+  height:61px;
+  transform:rotate(-16deg);
+}
+
+
+/* 薬指 */
+.f2{
+  left:50px;
+  top:27px;
+  height:86px;
+  transform:rotate(-3deg);
+}
+
+
+/* 中指 */
+.f3{
+  left:74px;
+  top:20px;
+  height:92px;
+  transform:rotate(1deg);
+}
+
+
+/* 人差し指 */
+.f4{
+  left:98px;
+  top:32px;
+  height:81px;
+  transform:rotate(8deg);
+}
+
+
+/* 指が光る */
+.finger.on{
+  background:var(--yellow);
+  border-color:#fff2a0;
+
+  box-shadow:
+    0 0 15px #ffd52e;
+}
+
+
+/* =========================
+   親指
+   ========================= */
+
+.thumb{
+  position:absolute;
+
+  /*
+   * 手の甲の輪郭より後ろ
+   * → 根元は手の甲につながる
+   */
+  z-index:2;
+
+  width:52px;
+  height:29px;
+
+  background:#15283e;
+  border:3px solid #35536d;
+
+  border-radius:18px 16px 16px 18px;
+
+  /*
+   * 手の甲の「横」から出す
+   */
+  top:99px;
+  left:98px;
+
+  /*
+   * 横向きに近い角度
+   * → 人差し指と重ならない
+   */
+  transform:rotate(-28deg);
+
+  transform-origin:left center;
+
+  transition:.15s;
+}
+
+
+/* 親指が光る */
+.thumb.on{
+  background:var(--yellow);
+  border-color:#fff2a0;
+  box-shadow:0 0 15px #ffd52e;
+}
+
+/* =========================
+   右手
+   ========================= */
+
+#rightHand{
+  transform:scaleX(-1);
+}
+
+
+/* =========================
+   手の名前
+   ========================= */
+
+.handlabel{
+  text-align:center;
+  color:var(--muted);
+  font-size:12px;
+  margin-top:8px;
+}
 .feedback{text-align:center;min-height:28px;font-weight:800}
-.ranking{width:100%;border-collapse:collapse;margin-top:15px}
-.ranking th,.ranking td{padding:11px 8px;border-bottom:1px solid #20384e;text-align:center}
-.ranking th{color:var(--yellow);font-size:13px}
+.ranking-wrap{width:100%;overflow-x:auto;margin-top:15px;border-radius:12px}
+.ranking{width:100%;min-width:760px;border-collapse:collapse}
+.ranking th,.ranking td{padding:11px 8px;border-bottom:1px solid #20384e;text-align:center;white-space:nowrap}
+.ranking th{color:var(--yellow);font-size:13px;background:#08111f;position:sticky;top:0}
+.ranking td:nth-child(2){font-weight:800}
+.ranking td:nth-child(3){font-weight:800;color:#fff}
+.rank-cell{font-size:20px;font-weight:900;color:var(--blue)}
+.score-cell{font-size:21px;font-weight:900;color:var(--yellow)}
+.rank1 .rank-cell{color:#ffe76a}
+.rank2 .rank-cell{color:#d9e5f2}
+.rank3 .rank-cell{color:#e7aa76}
 .me{background:#14314a}
-.rank1{color:#ffe76a;font-weight:900}
-.rank2{color:#d9e5f2;font-weight:900}
-.rank3{color:#e7aa76;font-weight:900}
 .result{text-align:center}
 .bigscore{font-size:58px;color:var(--yellow);font-weight:900}
 .score-formula{margin:10px auto 22px;padding:12px 18px;max-width:700px;border-radius:12px;background:#08111f;border:1px solid #29445c;color:#8ca4bc;font-size:16px;font-weight:700;line-height:1.7;}
@@ -84,19 +276,114 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:lin
 
 @media(max-width:800px){
 .game-grid{grid-template-columns:1fr}
-.form,.stats{grid-template-columns:1fr 1fr}
+.form{grid-template-columns:repeat(3,minmax(0,1fr));}
+.stats{grid-template-columns:1fr 1fr;}
 .key{min-width:25px;padding:0 4px;font-size:11px;height:38px}
 .key.space{min-width:150px}
 .hands{gap:10px}
 .card{padding:18px}
 }
 @media(max-width:480px){
-.stats{grid-template-columns:1fr 1fr}
-.form{grid-template-columns:1fr}
-.key{min-width:20px;font-size:9px}
-.key.wide{min-width:45px}
-.key.space{min-width:100px}
+  .stats{grid-template-columns:1fr 1fr}
+  .form{grid-template-columns:repeat(3,1fr)}
+  .key{min-width:20px;font-size:9px}
+  .key.wide{min-width:45px}
+  .key.space{min-width:100px}
 }
+
+.ranking-wrap{
+  width:100%;
+  overflow-x:auto;
+}
+
+.ranking{
+  width:100%;
+  min-width:720px;
+  border-collapse:collapse;
+  margin-top:15px;
+}
+
+.ranking th,
+.ranking td{
+  padding:12px 10px;
+  border-bottom:1px solid #20384e;
+  text-align:center;
+  white-space:nowrap;
+}
+
+.ranking th{
+  color:var(--yellow);
+  font-size:13px;
+}
+
+.ranking .rank-head{
+  color:#18a9ff;
+}
+
+.ranking .score-head{
+  color:#ffd52e;
+}
+
+.ranking td.rank-cell{
+  color:#18a9ff;
+  font-weight:900;
+  font-size:18px;
+}
+
+.ranking td.score-cell{
+  color:#ffd52e;
+  font-weight:900;
+  font-size:20px;
+}
+
+.ranking tr.rank1 td.rank-cell{
+  color:#ffe76a;
+}
+
+.ranking tr.rank2 td.rank-cell{
+  color:#d9e5f2;
+}
+
+.ranking tr.rank3 td.rank-cell{
+  color:#e7aa76;
+}
+
+.ranking tr.rank1 td.score-cell,
+.ranking tr.rank2 td.score-cell,
+.ranking tr.rank3 td.score-cell{
+  font-size:22px;
+}
+
+.input-wrap{
+  position:relative;
+}
+
+.input-wrap input{
+  width:100%;
+  box-sizing:border-box;
+}
+
+.input-placeholder{
+  position:absolute;
+  left:16px;
+  top:50%;
+  transform:translateY(-50%);
+  color:#888;
+  pointer-events:none;
+  display:flex;
+  align-items:center;
+  gap:2px;
+}
+
+.input-placeholder ruby{
+  ruby-position:over;
+}
+
+.input-placeholder rt{
+  font-size:10px;
+  line-height:1;
+}
+
 </style>
 </head>
 
@@ -113,42 +400,54 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:lin
     <div class="rules">
       <b><ruby>大会<rt>たいかい</rt></ruby>ルール</b><br>
       ① <ruby>休<rt>やす</rt></ruby>み<ruby>時間<rt>じかん</rt></ruby>にタイピング<ruby>大会<rt>たいかい</rt></ruby>をするときは、かならず<ruby>先生<rt>せんせい</rt></ruby>に<ruby>伝<rt>つた</rt></ruby>えましょう。<br>
-      ② この<ruby>大会<rt>たいかい</rt></ruby>はランキング<ruby>制<rt>せい</rt></ruby>です。<ruby>始<rt>はじ</rt></ruby>める<ruby>時<rt>とき</rt></ruby>に<ruby>最初<rt>さいしょ</rt></ruby>にクラスと<ruby>名前<rt>なまえ</rt></ruby>を<ruby>書<rt>か</rt></ruby>きましょう。
+      ② この<ruby>大会<rt>たいかい</rt></ruby>はランキング<ruby>制<rt>せい</rt></ruby>です。<ruby>最初<rt>さいしょ</rt></ruby>にクラスとニックネームを<ruby>書<rt>か</rt></ruby>きましょう。
     </div>
 
     <div class="form">
       <div class="field">
-        <label><ruby>年<rt>ねん</rt></ruby></label>
-        <input id="grade" type="number" min="1" max="6" placeholder="例：1">
+        <label><ruby>学年<rt>がくねん</rt></ruby></label>
+        <div class="input-wrap">
+          <input id="grade" type="number" min="1" max="6">
+          <div class="input-placeholder">
+          <ruby>例<rt>れい</rt></ruby>：1
+          </div>
+        </div>
       </div>
 
       <div class="field">
         <label><ruby>組<rt>くみ</rt></ruby></label>
-        <input id="klass" type="number" min="1" max="9" placeholder="例：1">
+        <div class="input-wrap">
+          <input id="klass" type="number" min="1" max="10">
+          <div class="input-placeholder">
+            <ruby>例<rt>れい</rt></ruby>：1
+          </div>
+        </div>
       </div>
 
     <div class="field">
-    　　<label><ruby>番号<rt>ばんごう</rt></ruby></label>
-    　　<input id="number" type="number" min="1" max="99" placeholder="例：1">
- 　　 </div>
+  <label><ruby>番号<rt>ばんごう</rt></ruby></label>
+  <div class="input-wrap">
+    <input id="number" type="number" min="1" max="99">
+    <div class="input-placeholder">
+      <ruby>例<rt>れい</rt></ruby>：1
+    </div>
+  </div>
+</div>
 </div>
 
-<div class="field" style="grid-column:1/-1">
-  <label>
-    ニックネーム
-  </label>
-
+<div class="field" style="grid-column:1/-1; margin-bottom:30px">
+  <label>ニックネーム<span style="color:var(--red);font-size:13px;font-weight:700;margin-left:12px;">※<ruby>本名<rt>ほんみょう</rt></ruby>などの<ruby>個人情報<rt>こじんじょうほう</rt></ruby>は<ruby>入力<rt>にゅうりょく</rt></ruby>しないこと！</span></label>
+  <div class="input-wrap">
   <input
     id="nickname"
     type="text"
     maxlength="12"
-    placeholder="ニックネームを入力"
     autocomplete="off"
   >
-
-  <div style="color:var(--red);font-size:13px;margin-top:6px;font-weight:700;text-align:center;">
-    ※ <ruby>本名<rt>ほんみょう</rt></ruby>などの<ruby>個人情報<rt>こじんじょうほう</rt></ruby>は<ruby>入力<rt>にゅうりょく</rt></ruby>しないこと！
+  <div class="input-placeholder">
+    <ruby>例<rt>れい</rt></ruby>：ナガサンマン
   </div>
+</div>
 </div>
     
 <div id="numberPreview" class="number-preview">
@@ -157,13 +456,13 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:lin
 </div>
 
 <div class="actions">
-      <button type="button" class="btn yellow" onclick="startGame()">大会スタート</button>
+      <button type="button" class="btn yellow" onclick="startGame()"><ruby>大会<rt>たいかい</rt></ruby>スタート</button>
     </div>
 
     <div id="homeNotice" class="notice"></div>
 
     <div class="actions">
-      <button type="button" class="btn secondary" onclick="showRanking()">🏆 ランキングを見る</button>
+      <button type="button" class="btn secondary" onclick="showRanking()">🏆 ランキングを<ruby>見<rt>み</rt></ruby>る</button>
     </div>
   </div>
 </section>
@@ -176,8 +475,8 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:lin
 
   <div class="stats">
     <div class="stat timer"><span>TIME</span><strong id="time">60.0</strong></div>
-    <div class="stat"><span>正確さ</span><strong id="accuracy">100%</strong></div>
-    <div class="stat"><span>速さ</span><strong id="speed">0.0</strong></div>
+    <div class="stat"><span><ruby>正確<rt>せいかく</rt></ruby>さ</span><strong id="accuracy">100%</strong></div>
+    <div class="stat"><span><ruby>速<rt>はや</rt></ruby>さ</span><strong id="speed">0.0</strong></div>
     <div class="stat"><span>スコア</span><strong id="score">0</strong></div>
   </div>
 
@@ -207,29 +506,46 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:lin
 
 <div class="actions">
   <button type="button" id="backToStartBtn" class="btn secondary">
-    ⬅️ スタート画面にもどる
+    ⬅️ スタート<ruby>画面<rt>がめん</rt></ruby>にもどる
   </button>
 </div>
 
-<div class="small">次に入力するキーと指が黄色に光ります</div>
+<div class="small"><ruby>次<rt>つぎ</rt></ruby>に<ruby>入力<rt>にゅうりょく</rt></ruby>するキーと<ruby>指<rt>ゆび</rt></ruby>が<ruby>黄色<rt>きいろ</rt></ruby>に<ruby>光<rt>ひか</rt></ruby>ります</div>
     </div>
 
     <div class="card support">
-      <h3>⌨️ キーボード　次のキーを確認しよう</h3>
+      <h3>⌨️ キーボード　<ruby>次<rt>つぎ</rt></ruby>のキーを<ruby>確認<rt>かくにん</rt></ruby>しよう</h3>
       <div id="keyboard" class="keyboard"></div>
 
-      <h3 style="margin-top:18px">✋ 使う指</h3>
+      <h3 style="margin-top:18px">✋ <ruby>使<rt>つか</rt></ruby>う<ruby>指<rt>ゆび</rt></ruby></h3>
+      
       <div class="hands">
-        <div>
-          <div id="leftHand" class="hand"></div>
-          <div class="handlabel">左手</div>
-        </div>
-        <div>
-          <div id="rightHand" class="hand"></div>
-          <div class="handlabel">右手</div>
-        </div>
-      </div>
+
+  <!-- 左手 -->
+  <div class="hand-box">
+
+    <div id="leftHand" class="hand"></div>
+
+    <div class="handlabel">
+      <ruby>左手<rt>ひだりて</rt></ruby>
     </div>
+
+  </div>
+
+
+  <!-- 右手 -->
+  <div class="hand-box">
+
+    <div id="rightHand" class="hand"></div>
+
+    <div class="handlabel">
+      <ruby>右手<rt>みぎて</rt></ruby>
+    </div>
+
+  </div>
+
+</div>
+</div>
   </div>
 </section>
 
@@ -245,17 +561,17 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:lin
      <div id="scoreFormula" class="score-formula"></div>
 
     <div class="substats">
-      <div>正解 <b id="resultCorrect">0</b></div>
+      <div><ruby>正解<rt>せいかい</rt></ruby> <b id="resultCorrect">0</b></div>
       <div>ミス <b id="resultMiss">0</b></div>
-      <div>正確さ <b id="resultAccuracy">0%</b></div>
-      <div>速さ <b id="resultSpeed">0.0</b></div>
+      <div><ruby>正確<rt>せいかく</rt></ruby>さ <b id="resultAccuracy">0%</b></div>
+      <div><ruby>速<rt>はや</rt></ruby>さ <b id="resultSpeed">0.0</b></div>
     </div>
 
     <h2 id="resultRank"></h2>
 
     <div class="actions">
-      <button type="button" class="btn yellow" onclick="showRanking()">🏆 ランキングを見る</button>
-      <button type="button" class="btn secondary" onclick="goHome()">もう一度挑戦</button>
+      <button type="button" class="btn yellow" onclick="showRanking()">🏆 ランキングを<ruby>見<rt>み</rt></ruby>る</button>
+      <button type="button" class="btn secondary" onclick="goHome()">もう<ruby>一度挑戦<rt>いちどちょうせん</rt></ruby></button>
     </div>
   </div>
 </section>
@@ -267,25 +583,37 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:lin
   </div>
 
   <div class="card">
-    <table class="ranking">
-      <thead>
-        <tr>
-          <th>順位</th>
-          <th>番号</th>
-          <th>スコア</th>
-          <th>正確さ</th>
-          <th>速さ</th>
-        </tr>
-      </thead>
-      <tbody id="rankBody"></tbody>
-    </table>
+    <div class="ranking-wrap">
+      <table class="ranking">
+        <thead>
+          <tr>
+            <th class="rank-head"> <ruby>順位<rt>じゅんい</rt></ruby></th>
+            <th><ruby>番号<rt>ばんごう</rt></ruby></th>
+            <th>ニックネーム</th> 
+            <th><ruby>文字数<rt>もじすう</rt></ruby></th>
+            <th><ruby>正確<rt>せいかく</rt></ruby>さ</th>
+            <th><ruby>速<rt>はや</rt></ruby>さ</th>
+            <th class="score-head"><ruby>総合<rt>そうごう</rt></ruby>スコア</th>
+          </tr>
+        </thead>
 
-    <div class="actions">
-      <button type="button" class="btn yellow" onclick="goHome()">大会に挑戦する</button>
-      <button type="button" class="btn secondary" onclick="teacherReset()">先生用：ランキングをリセット</button>
+        <tbody id="rankBody"></tbody>
+      </table>
     </div>
 
-    <div class="small">ランキングは全タブレットで共有されます。</div>
+    <div class="actions">
+      <button type="button" class="btn yellow" onclick="goHome()">
+        スタート<ruby>画面<rt>がめん</rt></ruby>に<ruby>戻<rt>もど</rt></ruby>る
+      </button>
+
+      <button type="button" class="btn secondary" onclick="teacherReset()">
+        <ruby>先生用<rt>せんせいよう</rt></ruby>：ランキングをリセット
+      </button>
+    </div>
+
+    <div class="small">
+      ランキングは<ruby>全<rt>ぜん</rt></ruby>タブレットで<ruby>共有<rt>きょうゆう</rt></ruby>されます
+    </div>
   </div>
 </section>
 
@@ -304,7 +632,6 @@ let rankingRefreshTimer = null;
 async function supabaseRequest(path, options = {}) {
   const headers = {
     "apikey": SUPABASE_KEY,
-    "Authorization": `Bearer ${SUPABASE_KEY}`,
     "Content-Type": "application/json",
     ...(options.headers || {})
   };
@@ -1496,6 +1823,7 @@ async function finish(){
 
     ...player,
 
+    typedChars,
     score,
     accuracy,
     speed,
@@ -1511,7 +1839,7 @@ async function finish(){
     ranks = cachedRanks;
   } catch (error) {
     console.error(error);
-    alert("ランキングへの保存に失敗しました。通信状態を確認してください。");
+    alert("ランキングへの<ruby>保存<rt>ほぞん</rt></ruby>に<ruby>失敗<rt>しっぱい</rt></ruby>しました。<ruby>通信状態<rt>つうしんじょうたい</rt></ruby>を<ruby>確認<rt>かくにん</rt></ruby>してください。");
     try { ranks = await fetchRanks(); } catch(e) {}
   }
 
@@ -1554,8 +1882,8 @@ async function finish(){
 
   document
     .getElementById("scoreFormula").innerHTML =
-  `<b>スコア計算</b><br>
-   入力した文字数 × 正確さ × 速さボーナス<br>
+  `<b>スコア<ruby>計算<rt>けいさん</rt></ruby></b><br>
+   <ruby>入力<rt>にゅうりょく</rt></ruby>した<ruby>文字数<rt>もじすう</rt></ruby> × <ruby>正確<rt>せいかく</rt></ruby>さ × <ruby>速<rt>はや</rt></ruby>さボーナス<br>
    ${typedChars} × ${Math.round(accuracy*100)}% × ${(1+Math.min(speed/10,1)).toFixed(2)}
    ＝ ${score}`;
   
@@ -1571,7 +1899,7 @@ async function finish(){
 
       ?`🏆 現在 ${rank}位！`
 
-      :"ランキング入りをめざそう！";
+      :"ランキング<ruby>入<rt>い</rt></ruby>りをめざそう！";
 
 
   show("result");
@@ -1593,6 +1921,7 @@ async function saveEntry(e){
     number: Number(e.number),
     student_number: e.studentNumber,
     nickname: e.nickname,
+    typed_chars: Number(e.typedChars),
     score: Number(e.score),
     accuracy: Number(e.accuracy),
     speed: Number(e.speed),
@@ -1612,7 +1941,7 @@ async function renderRankingTable(){
   const body = document.getElementById("rankBody");
   if(!body)return;
 
-  body.innerHTML = '<tr><td colspan="5">ランキングを読み込み中……</td></tr>';
+  body.innerHTML = '<tr><td colspan="7">ランキングを<ruby>読<rt>よ</rt></ruby>み<ruby>込<rt>こ</rt></ruby>み<ruby>中<rt>ちゅう</rt></ruby>……</td></tr>';
 
   try {
     const ranks = await fetchRanks();
@@ -1622,24 +1951,32 @@ async function renderRankingTable(){
       const tr = document.createElement("tr");
       tr.className = i<3 ? "rank"+(i+1) : "";
 
+      const typed = Number(r.typed_chars);
+      const typedText = Number.isFinite(typed) && typed > 0 ? typed : "—";
+      const accuracy = Number(r.accuracy);
+      const speed = Number(r.speed);
+      const score = Number(r.score);
+
       tr.innerHTML =
-        `<td>${i+1}</td>
+        `<td class="rank-cell">${i+1}位</td>
          <td>${escapeHtml(String(r.student_number ?? ""))}</td>
-         <td>${Number(r.score)}</td>
-         <td>${Math.round(Number(r.accuracy)*100)}%</td>
-         <td>${Number(r.speed).toFixed(1)}</td>`;
+         <td>${escapeHtml(String(r.nickname ?? ""))}</td>
+         <td>${typedText}</td>
+         <td>${Math.round(accuracy*100)}%</td>
+         <td>${speed.toFixed(1)}</td>
+         <td class="score-cell">${score}</td>`;
 
       body.appendChild(tr);
     });
 
     if(!body.children.length){
       body.innerHTML =
-        '<tr><td colspan="5">まだランキング記録がありません</td></tr>';
+        '<tr><td colspan="7">まだランキング<ruby>記録<rt>きろく</rt></ruby>がありません</td></tr>';
     }
   } catch(error){
     console.error(error);
     body.innerHTML =
-      '<tr><td colspan="5">ランキングを読み込めませんでした。通信状態を確認してください。</td></tr>';
+      '<tr><td colspan="7">ランキングを<ruby>読<rt>よ</rt></ruby>み<ruby>込<rt>こ</rt></ruby>めませんでした。<ruby>通信状態<rt>つうしんじょうたい</rt></ruby>を<ruby>確認<rt>かくにん</rt></ruby>してください。</td></tr>';
   }
 }
 
@@ -1654,7 +1991,7 @@ async function showRanking(){
    ========================================= */
 async function teacherReset(){
   const pw = prompt(
-    "先生用機能です。\nパスワードを入力してください。"
+    "先生用機能（せんせいようきのう）です。\nパスワードを入力（にゅうりょく）してください。"
   );
 
   if(pw===null)return;
@@ -1787,36 +2124,37 @@ function updateHighlights(){
     key.classList.add("next");
 
 
-  const hand=
-    document.getElementById(
-      "leftHand"
-    );
+  const hand =
+  document.getElementById("leftHand");
 
+const rh =
+  document.getElementById("rightHand");
 
-  const rh=
-    document.getElementById(
-      "rightHand"
-    );
+// 手形を毎回描き直す
+hand.innerHTML=
+  '<div class="finger f1"></div>' +
+  '<div class="finger f2"></div>' +
+  '<div class="finger f3"></div>' +
+  '<div class="finger f4"></div>' +
+  '<div class="thumb"></div>';
 
+rh.innerHTML=
+  '<div class="finger f1"></div>' +
+  '<div class="finger f2"></div>' +
+  '<div class="finger f3"></div>' +
+  '<div class="finger f4"></div>' +
+  '<div class="thumb"></div>';
 
-  hand.innerHTML="";
-
-  rh.innerHTML="";
-
-
-  addFingers(first);
+addFingers(first);
 }
-
 
 function addFingers(ch){
 
   const c=
     ch.toLowerCase();
 
-
   let side="L";
   let f=0;
-
 
   if("qaz".includes(c))
     f=1;
@@ -1843,35 +2181,33 @@ function addFingers(ch){
     side="R",f=1;
 
   else if(c===" "){
-
     document
       .getElementById("leftHand")
-      .innerHTML=
-        '<div class="thumb on"></div>';
+      .querySelector(".thumb")
+      .classList.add("on");
 
     document
       .getElementById("rightHand")
-      .innerHTML=
-        '<div class="thumb on"></div>';
+      .querySelector(".thumb")
+      .classList.add("on");
 
     return;
   }
 
+  if(f===0)
+    return;
 
-  const h=
-    document.createElement("div");
-
-
-  h.className=
-    "finger on f"+f;
-
-
-  (
+  const hand =
     side==="L"
-    ?document.getElementById("leftHand")
-    :document.getElementById("rightHand")
-  )
-  .appendChild(h);
+      ? document.getElementById("leftHand")
+      : document.getElementById("rightHand");
+
+  const finger =
+    hand.querySelector(".f"+f);
+
+  if(finger){
+    finger.classList.add("on");
+  }
 }
 
 
@@ -2062,7 +2398,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     const ok = confirm(
-      "大会（たいかい）を中断（ちゅうだん）して、最初（さいしょ）の画面（がめん）にもどりますか？"
+      "大会(たいかい)を中断(ちゅうだん)して、スタート画面（がめん）にもどりますか？"
     );
 
     if (!ok) return;
@@ -2103,6 +2439,18 @@ document.addEventListener("DOMContentLoaded", function () {
   backBtn.addEventListener("click", backToStart);
 
 });
+
+document.querySelectorAll('.input-wrap input').forEach(input => {
+  const placeholder = input.parentElement.querySelector('.input-placeholder');
+
+  function updatePlaceholder(){
+    placeholder.style.display = input.value ? 'none' : 'flex';
+  }
+
+  input.addEventListener('input', updatePlaceholder);
+  updatePlaceholder();
+});
+  
 </script>
   
 </body>
