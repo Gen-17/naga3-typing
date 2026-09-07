@@ -194,28 +194,31 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:lin
 .thumb{
   position:absolute;
 
-  /* 手の甲より前に出す */
-  z-index:4;
+  /*
+   * 手の甲の輪郭より後ろ
+   * → 根元は手の甲につながる
+   */
+  z-index:2;
 
-  width:46px;
-  height:26px;
+  width:52px;
+  height:29px;
 
   background:#15283e;
   border:3px solid #35536d;
 
-  border-radius:17px 15px 15px 17px;
+  border-radius:18px 16px 16px 18px;
 
   /*
-   * 少し下から出す
-   * → 人差し指と重なりにくい
+   * 手の甲の「横」から出す
    */
-  top:91px;
-  left:76px;
+  top:99px;
+  left:98px;
 
   /*
-   * 手のひらから斜めに出る
+   * 横向きに近い角度
+   * → 人差し指と重ならない
    */
-  transform:rotate(-38deg);
+  transform:rotate(-28deg);
 
   transform-origin:left center;
 
@@ -229,7 +232,6 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:lin
   border-color:#fff2a0;
   box-shadow:0 0 15px #ffd52e;
 }
-
 
 /* =========================
    右手
