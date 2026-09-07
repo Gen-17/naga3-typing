@@ -76,76 +76,76 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:lin
 }
 
 
-/* =================================
+/* =========================
    手の甲
-   ================================= */
+   ========================= */
 
 .hand::before{
   content:"";
-
   position:absolute;
 
   /*
-   * 指の根元を包み込む位置
+   * 指の根元より少し下から
+   * 手の甲を作る
    */
   left:30px;
-  top:62px;
+  top:65px;
 
   width:90px;
-  height:76px;
+  height:73px;
 
   background:#0a1627;
   border:3px solid #31516e;
 
   /*
-   * 上は指の根元につながるように
-   * 下は手のひららしく丸く
+   * 上側をゆるく、
+   * 下側を大きく丸める
    */
   border-radius:
-    22px 22px 40px 40px;
+    24px 24px 40px 40px;
 
   /*
-   * 指・親指の根元を隠す
+   * 指・親指より前に出す
+   * → 根元を手の甲に隠して自然につなげる
    */
   z-index:3;
 }
 
 
-/* =================================
+/* =========================
    4本の指
-   ================================= */
+   ========================= */
 
 .finger{
   position:absolute;
 
   /*
-   * 手の甲より後ろ
-   * → 根元が自然に隠れる
+   * 手の甲の後ろに配置
+   * 根元を手の甲に隠す
    */
   z-index:2;
 
   width:25px;
 
   background:#15283e;
+
   border:3px solid #35536d;
 
   /*
-   * 指先を丸く
+   * 指先だけ丸くする
    */
   border-radius:
-    13px 13px 7px 7px;
+    14px 14px 5px 5px;
 
-  transition:
-    .15s;
+  transition:.15s;
 }
 
 
 /* 小指 */
 .f1{
   left:27px;
-  top:48px;
+  top:52px;
   height:61px;
-
   transform:rotate(-16deg);
 }
 
@@ -153,9 +153,8 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:lin
 /* 薬指 */
 .f2{
   left:50px;
-  top:23px;
+  top:27px;
   height:86px;
-
   transform:rotate(-3deg);
 }
 
@@ -163,9 +162,8 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:lin
 /* 中指 */
 .f3{
   left:74px;
-  top:16px;
-  height:93px;
-
+  top:20px;
+  height:92px;
   transform:rotate(1deg);
 }
 
@@ -173,113 +171,80 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:lin
 /* 人差し指 */
 .f4{
   left:98px;
-  top:28px;
-  height:82px;
-
+  top:32px;
+  height:81px;
   transform:rotate(8deg);
 }
 
 
-/* =================================
-   指を押すと黄色
-   ================================= */
-
+/* 指が光る */
 .finger.on{
   background:var(--yellow);
-
   border-color:#fff2a0;
 
   box-shadow:
     0 0 15px #ffd52e;
-
-  /*
-   * 黄色になった指だけ
-   * 手の甲より前に出す
-   */
-  z-index:4;
 }
 
 
-/* =================================
+/* =========================
    親指
-   ================================= */
+   ========================= */
 
 .thumb{
   position:absolute;
 
   /*
-   * 手の甲より後ろ
-   *
-   * 根元は手の甲の中に入り、
-   * 外側だけが見える
+   * 手の甲の輪郭より後ろ
+   * → 根元は手の甲につながる
    */
   z-index:2;
 
-  width:51px;
-  height:28px;
+  width:52px;
+  height:29px;
 
   background:#15283e;
-
   border:3px solid #35536d;
 
-  border-radius:
-    17px 15px 15px 17px;
+  border-radius:18px 16px 16px 18px;
 
   /*
-   * 手の甲の右下から出す
-   *
-   * これで人差し指と重なりにくい
+   * 手の甲の「横」から出す
    */
-  left:91px;
-  top:96px;
+  top:99px;
+  left:98px;
 
   /*
-   * 少し上向きに伸ばす
+   * 横向きに近い角度
+   * → 人差し指と重ならない
    */
-  transform:rotate(-32deg);
+  transform:rotate(-28deg);
 
-  transform-origin:
-    left center;
+  transform-origin:left center;
 
   transition:.15s;
 }
 
 
-/* =================================
-   親指が光る
-   ================================= */
-
+/* 親指が光る */
 .thumb.on{
   background:var(--yellow);
-
   border-color:#fff2a0;
-
-  box-shadow:
-    0 0 15px #ffd52e;
-
-  /*
-   * 親指も黄色部分は見える
-   */
-  z-index:4;
+  box-shadow:0 0 15px #ffd52e;
 }
 
-
-/* =================================
+/* =========================
    右手
-   ================================= */
+   ========================= */
 
 #rightHand{
-  /*
-   * 左手を左右反転
-   * → 親指が中央側を向く
-   */
   transform:scaleX(-1);
 }
 
 
-/* =================================
+/* =========================
    手の名前
-   ================================= */
+   ========================= */
 
 .handlabel{
   text-align:center;
