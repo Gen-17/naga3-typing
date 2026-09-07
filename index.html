@@ -60,30 +60,169 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:lin
 /* =========================
    手形
    ========================= */
-.hands{display:flex;justify-content:center;gap:55px;margin-top:25px;}
-.hand{position:relative;width:150px;height:145px;margin:auto;}
-/* 手のひら */
-.hand::before{content:"";position:absolute;left:32px;top:58px;width:86px;height:78px;background:#0a1627;border:3px solid #31516e;border-radius:25px 25px 45px 45px;}
-/* 4本の指 */
-.finger{position:absolute;z-index:2;width:25px;background:#15283e;border:3px solid #35536d;border-radius:14px 14px 10px 10px;transition:.15s;}
+
+.hands{
+  display:flex;
+  justify-content:center;
+  gap:55px;
+  margin-top:25px;
+}
+
+.hand{
+  position:relative;
+  width:150px;
+  height:150px;
+  margin:auto;
+}
+
+/* 手のひら
+   指の根元を包み込むようにする */
+.hand::before{
+  content:"";
+  position:absolute;
+  z-index:3;
+
+  left:31px;
+  top:63px;
+  width:88px;
+  height:75px;
+
+  background:#0a1627;
+  border:3px solid #31516e;
+
+  border-radius:
+    25px 25px 38px 38px;
+
+  box-shadow:0 2px 0 rgba(0,0,0,.2);
+}
+
+
+/* =========================
+   4本の指
+   ========================= */
+
+.finger{
+  position:absolute;
+  z-index:2;
+
+  width:25px;
+
+  background:#15283e;
+  border:3px solid #35536d;
+
+  border-radius:
+    14px 14px 9px 9px;
+
+  transition:.15s;
+}
+
+
 /* 小指 */
-.f1{left:25px;top:55px;height:58px;transform:rotate(-18deg);}
+.f1{
+  left:28px;
+  top:48px;
+  height:58px;
+  transform:rotate(-16deg);
+}
+
+
 /* 薬指 */
-.f2{left:48px;top:25px;height:78px;}
+.f2{
+  left:50px;
+  top:23px;
+  height:82px;
+  transform:rotate(-3deg);
+}
+
+
 /* 中指 */
-.f3{left:74px;top:18px;height:85px;}
+.f3{
+  left:74px;
+  top:16px;
+  height:89px;
+  transform:rotate(1deg);
+}
+
+
 /* 人差し指 */
-.f4{left:100px;top:30px;height:73px;transform:rotate(10deg);}
-/* 黄色になる指 */
-.finger.on{background:var(--yellow);border-color:#fff2a0;box-shadow:0 0 15px #ffd52e;}
-/* 親指 */
-.thumb{position:absolute;z-index:3;width:48px;height:25px;background:#15283e;border:3px solid #35536d;border-radius:16px;top:88px;left:88px;transform:rotate(-38deg);transform-origin:left center;transition:.15s;}
+.f4{
+  left:98px;
+  top:28px;
+  height:78px;
+  transform:rotate(8deg);
+}
+
+
+/* 指が光る */
+.finger.on{
+  background:var(--yellow);
+  border-color:#fff2a0;
+  box-shadow:
+    0 0 15px #ffd52e;
+}
+
+
+/* =========================
+   親指
+   ========================= */
+
+.thumb{
+  position:absolute;
+  z-index:4;
+
+  width:50px;
+  height:27px;
+
+  background:#15283e;
+  border:3px solid #35536d;
+
+  border-radius:18px 14px 14px 18px;
+
+  /*
+   * 手のひらの横から
+   * 自然に生えているようにする
+   */
+  top:86px;
+  left:84px;
+
+  transform:
+    rotate(-38deg);
+
+  transform-origin:
+    left center;
+
+  transition:.15s;
+}
+
+
 /* 親指が光る */
-.thumb.on{background:var(--yellow);border-color:#fff2a0;box-shadow:0 0 15px #ffd52e;}
-/* 右手は左右反転
-   → 親指が中央側を向く */
-#rightHand{transform:scaleX(-1);}
-.handlabel{text-align:center;color:var(--muted);font-size:12px;margin-top:8px;}
+.thumb.on{
+  background:var(--yellow);
+  border-color:#fff2a0;
+  box-shadow:
+    0 0 15px #ffd52e;
+}
+
+
+/* =========================
+   右手
+   ========================= */
+
+/*
+ * 左手を左右反転することで
+ * 親指が中央側を向く
+ */
+#rightHand{
+  transform:scaleX(-1);
+}
+
+
+.handlabel{
+  text-align:center;
+  color:var(--muted);
+  font-size:12px;
+  margin-top:8px;
+}
 .feedback{text-align:center;min-height:28px;font-weight:800}
 .ranking-wrap{width:100%;overflow-x:auto;margin-top:15px;border-radius:12px}
 .ranking{width:100%;min-width:760px;border-collapse:collapse}
