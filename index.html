@@ -144,9 +144,8 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:lin
 /* 小指 */
 .f1{
   left:27px;
-  top:48px;
+  top:52px;
   height:61px;
-
   transform:rotate(-16deg);
 }
 
@@ -154,9 +153,8 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:lin
 /* 薬指 */
 .f2{
   left:50px;
-  top:23px;
+  top:27px;
   height:86px;
-
   transform:rotate(-3deg);
 }
 
@@ -164,9 +162,8 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:lin
 /* 中指 */
 .f3{
   left:74px;
-  top:16px;
+  top:20px;
   height:92px;
-
   transform:rotate(1deg);
 }
 
@@ -174,9 +171,8 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:lin
 /* 人差し指 */
 .f4{
   left:98px;
-  top:28px;
+  top:32px;
   height:81px;
-
   transform:rotate(8deg);
 }
 
@@ -197,41 +193,30 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:lin
 
 .thumb{
   position:absolute;
-
-  /*
-   * 手の甲の後ろに置く
-   * → 根元を手の甲が隠す
-   */
   z-index:2;
 
-  width:52px;
-  height:29px;
+  width:48px;
+  height:27px;
 
   background:#15283e;
-
   border:3px solid #35536d;
 
-  /*
-   * 親指の先と根元を丸く
-   */
   border-radius:
-    18px 16px 16px 18px;
+    17px 15px 15px 17px;
 
   /*
-   * 手のひらの右側から
-   * 親指が生えている位置
+   * 人差し指と重ならないように
+   * 少し下げる
    */
-  top:82px;
-  left:80px;
+  top:94px;
+  left:77px;
 
   /*
-   * 上方向＋外側へ自然に伸ばす
+   * 手のひらから内側へ自然に伸ばす
    */
-  transform:
-    rotate(-42deg);
+  transform:rotate(-43deg);
 
-  transform-origin:
-    left center;
+  transform-origin:left center;
 
   transition:.15s;
 }
