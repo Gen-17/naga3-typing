@@ -60,23 +60,30 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:lin
 /* =========================
    手形
    ========================= */
-.hands{display:flex;justify-content:center;gap:55px;margin-top:20px;}
-.hand-box{text-align:center;}
-.hand-svg{width:150px;height:170px;display:block;margin:auto;overflow:visible;}
+.hands{display:flex;justify-content:center;gap:55px;margin-top:25px;}
+.hand{position:relative;width:150px;height:145px;margin:auto;}
 /* 手のひら */
-.hand-svg .palm{fill:#0a1627;stroke:#31516e;stroke-width:3;}
+.hand::before{content:"";position:absolute;left:32px;top:58px;width:86px;height:78px;background:#0a1627;border:3px solid #31516e;border-radius:25px 25px 45px 45px;}
 /* 4本の指 */
-.hand-svg .svg-finger{fill:#15283e;stroke:#35536d;stroke-width:3;transition:.15s;}
-/* 使う指 */
-.hand-svg .svg-finger.on{fill:var(--yellow);stroke:#fff2a0;filter:drop-shadow(0 0 7px #ffd52e);}
+.finger{position:absolute;z-index:2;width:25px;background:#15283e;border:3px solid #35536d;border-radius:14px 14px 10px 10px;transition:.15s;}
+/* 小指 */
+.f1{left:25px;top:55px;height:58px;transform:rotate(-18deg);}
+/* 薬指 */
+.f2{left:48px;top:25px;height:78px;}
+/* 中指 */
+.f3{left:74px;top:18px;height:85px;}
+/* 人差し指 */
+.f4{left:100px;top:30px;height:73px;transform:rotate(10deg);}
+/* 黄色になる指 */
+.finger.on{background:var(--yellow);border-color:#fff2a0;box-shadow:0 0 15px #ffd52e;}
 /* 親指 */
-.hand-svg .svg-thumb{fill:#15283e;stroke:#35536d;stroke-width:3;transition:.15s;}
-/* 使う親指 */
-.hand-svg .svg-thumb.on{fill:var(--yellow);stroke:#fff2a0;filter:drop-shadow(0 0 7px #ffd52e);}
+.thumb{position:absolute;z-index:3;width:48px;height:25px;background:#15283e;border:3px solid #35536d;border-radius:16px;top:88px;left:88px;transform:rotate(-38deg);transform-origin:left center;transition:.15s;}
+/* 親指が光る */
+.thumb.on{background:var(--yellow);border-color:#fff2a0;box-shadow:0 0 15px #ffd52e;}
 /* 右手は左右反転
-   → 親指が内側になる */
+   → 親指が中央側を向く */
 #rightHand{transform:scaleX(-1);}
-.handlabel{text-align:center;color:var(--muted);font-size:12px;margin-top:8px;font-weight:700;}
+.handlabel{text-align:center;color:var(--muted);font-size:12px;margin-top:8px;}
 .feedback{text-align:center;min-height:28px;font-weight:800}
 .ranking-wrap{width:100%;overflow-x:auto;margin-top:15px;border-radius:12px}
 .ranking{width:100%;min-width:760px;border-collapse:collapse}
