@@ -17,7 +17,7 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:lin
 .brand p{margin:8px;color:var(--yellow);font-weight:800;letter-spacing:.25em}
 .card{background:linear-gradient(145deg,rgba(17,28,49,.96),rgba(7,14,27,.96));border:1px solid rgba(24,169,255,.32);border-radius:20px;box-shadow:0 15px 60px #0008,0 0 30px rgba(24,169,255,.08);padding:28px}
 .rules{border-left:4px solid var(--yellow);background:#080f1c;padding:16px 18px;border-radius:12px;line-height:1.9}
-.rules b{color:var(--yellow)}
+.rules b{color:var(--yellow);font-size:15px;}
 .form{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:22px 0;}
 .field{min-width:0;}
 .field input,
@@ -60,29 +60,12 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:lin
 /* =========================
    手形
    ========================= */
-
-.hands{
-  display:flex;
-  justify-content:center;
-  gap:55px;
-  margin-top:25px;
-}
-
-.hand{
-  position:relative;
-  width:150px;
-  height:150px;
-  margin:auto;
-}
-
-
+.hands{display:flex;justify-content:center;gap:55px;margin-top:25px;}
+.hand{position:relative;width:150px;height:150px;margin:auto;}
 /* =========================
    手の甲
    ========================= */
-
-.hand::before{
-  content:"";
-  position:absolute;
+.hand::before{content:"";position:absolute;
 
   /*
    * 指の根元より少し下から
