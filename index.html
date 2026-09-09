@@ -367,10 +367,64 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:lin
   line-height:1;
 }
 
+
+/* =========================
+   ゲーム開始カウントダウン
+   ========================= */
+#countdownOverlay{
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  background:rgba(3,6,13,.86);
+  backdrop-filter:blur(5px);
+}
+#countdownOverlay.active{display:flex}
+#countdownText{
+  color:#fff;
+  font-size:clamp(120px,28vw,280px);
+  line-height:1;
+  font-weight:1000;
+  text-align:center;
+  text-shadow:0 0 20px rgba(24,169,255,.9),0 0 50px rgba(24,169,255,.55);
+  transform:scale(.35);
+  opacity:0;
+}
+#countdownText.bounce{
+  animation:countdownBounce .72s cubic-bezier(.2,1.5,.35,1) forwards;
+}
+#countdownText.start{
+  color:var(--yellow);
+  font-size:clamp(72px,16vw,180px);
+  white-space:nowrap;
+  text-shadow:0 0 20px rgba(255,213,46,1),0 0 55px rgba(255,213,46,.7),0 0 100px rgba(255,213,46,.35);
+  animation:countdownStart .9s cubic-bezier(.15,1.35,.25,1) forwards;
+}
+@keyframes countdownBounce{
+  0%{transform:scale(.25) rotate(-8deg);opacity:0}
+  45%{transform:scale(1.18) rotate(3deg);opacity:1}
+  68%{transform:scale(.92) rotate(-1.5deg);opacity:1}
+  84%{transform:scale(1.06) rotate(.7deg);opacity:1}
+  100%{transform:scale(1) rotate(0);opacity:1}
+}
+@keyframes countdownStart{
+  0%{transform:scale(.25) rotate(-6deg);opacity:0}
+  40%{transform:scale(1.2) rotate(2deg);opacity:1}
+  65%{transform:scale(.94) rotate(-1deg);opacity:1}
+  82%{transform:scale(1.08) rotate(.5deg);opacity:1}
+  100%{transform:scale(1) rotate(0);opacity:1}
+}
+@media(max-width:480px){
+  #countdownText.start{font-size:clamp(56px,15vw,110px)}
+}
+
 </style>
 </head>
 
 <body>
+<div id="countdownOverlay" aria-hidden="true"><div id="countdownText"></div></div>
 <div class="wrap">
 
 <section id="home" class="screen active">
@@ -906,6 +960,8 @@ let targetChars=0;
 let locked=false;
 
 let player={};
+let countdownTimer=null;
+let countdownRunning=false;
 
 
 /*
@@ -937,6 +993,21 @@ function goHome(){
   if(timer){
     clearInterval(timer);
     timer=null;
+  }
+
+  clearTimeout(countdownTimer);
+  countdownTimer=null;
+  countdownRunning=false;
+
+  const overlay=document.getElementById("countdownOverlay");
+  const countdownText=document.getElementById("countdownText");
+  if(overlay){
+    overlay.classList.remove("active");
+    overlay.setAttribute("aria-hidden","true");
+  }
+  if(countdownText){
+    countdownText.className="";
+    countdownText.textContent="";
   }
 
   composing=false;
@@ -992,18 +1063,17 @@ function prepareTypingInput(){
    ========================================= */
 
 function startGame(){
-const g=document.getElementById("grade").value;
-const k=document.getElementById("klass").value;
-const num=document.getElementById("number").value;
-const nickname=document.getElementById("nickname").value.trim();
+  const g=document.getElementById("grade").value;
+  const k=document.getElementById("klass").value;
+  const num=document.getElementById("number").value;
+  const nickname=document.getElementById("nickname").value.trim();
 
- if(!g||!k||!num||!nickname){
-  document.getElementById("homeNotice").textContent=
-    "学年・組・番号・ニックネームを入力してください。";
-  return;
-}
-  
-  // 6桁の番号を作成
+  if(!g||!k||!num||!nickname){
+    document.getElementById("homeNotice").textContent=
+      "学年・組・番号・ニックネームを入力してください。";
+    return;
+  }
+
   const studentNumber =
     String(g).padStart(2,"0") +
     String(k).padStart(2,"0") +
@@ -1015,7 +1085,7 @@ const nickname=document.getElementById("nickname").value.trim();
     number:num,
     studentNumber:studentNumber,
     nickname:nickname
-};
+  };
 
   pool=shuffle([...WORDS]);
   idx=0;
@@ -1023,27 +1093,87 @@ const nickname=document.getElementById("nickname").value.trim();
   miss=0;
   typedChars=0;
   targetChars=0;
-  locked=false;
+
+  // カウントダウン中は入力・タイマーを開始しない
+  locked=true;
+  countdownRunning=true;
+
+  clearInterval(timer);
+  timer=null;
+  clearTimeout(countdownTimer);
+  countdownTimer=null;
 
   show("game");
   renderKeyboard();
   nextWord();
 
-  startTime=performance.now();
-  endTime=startTime+60000;
-
   const typing=document.getElementById("typing");
-
   typing.setAttribute("inputmode","latin");
   typing.setAttribute("lang","en");
   typing.setAttribute("autocorrect","off");
   typing.setAttribute("autocapitalize","off");
   typing.setAttribute("spellcheck","false");
+  typing.value="";
+  typing.blur();
 
+  runCountdown();
+}
+
+function runCountdown(){
+  const overlay=document.getElementById("countdownOverlay");
+  const text=document.getElementById("countdownText");
+
+  if(!overlay || !text){
+    beginActualGame();
+    return;
+  }
+
+  overlay.classList.add("active");
+  overlay.setAttribute("aria-hidden","false");
+
+  const sequence=["3","2","1","スタート！"];
+  let i=0;
+
+  const showNext=()=>{
+    text.className="";
+    text.textContent=sequence[i];
+
+    // 毎回アニメーションを最初から再生
+    void text.offsetWidth;
+
+    text.className=(i===sequence.length-1) ? "start" : "bounce";
+    i++;
+
+    if(i<sequence.length){
+      countdownTimer=setTimeout(showNext,850);
+    }else{
+      countdownTimer=setTimeout(()=>{
+        overlay.classList.remove("active");
+        overlay.setAttribute("aria-hidden","true");
+        text.className="";
+        text.textContent="";
+        beginActualGame();
+      },1000);
+    }
+  };
+
+  showNext();
+}
+
+function beginActualGame(){
+  countdownRunning=false;
+  locked=false;
+
+  startTime=performance.now();
+  endTime=startTime+60000;
+
+  const typing=document.getElementById("typing");
+  typing.value="";
   typing.focus();
 
   clearInterval(timer);
   timer=setInterval(tick,50);
+  updateStats();
 }
 
 
