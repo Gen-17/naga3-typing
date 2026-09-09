@@ -1823,7 +1823,7 @@ async function finish(){
     ranks = cachedRanks;
   } catch (error) {
     console.error(error);
-    alert("ランキングへの<ruby>保存<rt>ほぞん</rt></ruby>に<ruby>失敗<rt>しっぱい</rt></ruby>しました。<ruby>通信状態<rt>つうしんじょうたい</rt></ruby>を<ruby>確認<rt>かくにん</rt></ruby>してください。");
+    alert("ランキングへの保存に失敗しました。通信状態を確認してください。");
     try { ranks = await fetchRanks(); } catch(e) {}
   }
 
@@ -1894,41 +1894,27 @@ async function finish(){
    ランキング（Supabase共有）
    ========================================= */
 
-async function getRanks(){
-  return await fetchRanks();
-}
-
-async function saveEntry(e){
-  const payload = {
-    grade: Number(e.grade),
-    klass: Number(e.klass),
-    number: Number(e.number),
-    student_number: e.studentNumber,
-    nickname: e.nickname,
-    typed_chars: Number(e.typedChars),
-    score: Number(e.score),
-    accuracy: Number(e.accuracy),
-    speed: Number(e.speed),
-    date: Number(e.date)
-  };
-
-  await supabaseRequest(RANKINGS_TABLE, {
-    method: "POST",
-    headers: { "Prefer": "return=minimal" },
-    body: JSON.stringify(payload)
-  });
-
-  await fetchRanks();
-}
-
-async function renderRankingTable(){
+async function renderRankingTable(force = false){
   const body = document.getElementById("rankBody");
   if(!body)return;
 
-  body.innerHTML = '<tr><td colspan="7">ランキングを<ruby>読<rt>よ</rt></ruby>み<ruby>込<rt>こ</rt></ruby>み<ruby>中<rt>ちゅう</rt></ruby>……</td></tr>';
+  // 更新前のランキングを保存
+  const previousRanks = JSON.stringify(cachedRanks);
 
   try {
+    // Supabaseから最新ランキングを取得
     const ranks = await fetchRanks();
+
+    // 内容が変わっていなければ、画面を書き換えない
+    const newRanks = JSON.stringify(ranks);
+
+    if(!force && previousRanks === newRanks){
+      return;
+    }
+
+    // 実際に画面を書き換える直前のスクロール位置を保存
+    const scrollY = window.scrollY;
+
     body.innerHTML = "";
 
     ranks.forEach((r,i)=>{
@@ -1957,15 +1943,24 @@ async function renderRankingTable(){
       body.innerHTML =
         '<tr><td colspan="7">まだランキング<ruby>記録<rt>きろく</rt></ruby>がありません</td></tr>';
     }
+
+    // スクロール位置を元に戻す
+    window.scrollTo(0, scrollY);
+
   } catch(error){
     console.error(error);
-    body.innerHTML =
-      '<tr><td colspan="7">ランキングを<ruby>読<rt>よ</rt></ruby>み<ruby>込<rt>こ</rt></ruby>めませんでした。<ruby>通信状態<rt>つうしんじょうたい</rt></ruby>を<ruby>確認<rt>かくにん</rt></ruby>してください。</td></tr>';
+
+    // 初回表示時だけエラー表示
+    // 更新時は現在のランキングをそのまま残す
+    if(force){
+      body.innerHTML =
+        '<tr><td colspan="7">ランキングを<ruby>読<rt>よ</rt></ruby>み<ruby>込<rt>こ</rt></ruby>めませんでした。<ruby>通信状態<rt>つうしんじょうたい</rt></ruby>を<ruby>確認<rt>かくにん</rt></ruby>してください。</td></tr>';
+    }
   }
 }
 
 async function showRanking(){
-  await renderRankingTable();
+  await renderRankingTable(true);
   show("rank");
   startRankingRefresh();
 }
