@@ -443,6 +443,34 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:lin
 .challenge-reading{font-size:clamp(20px,3vw,30px)!important;line-height:1.6;letter-spacing:.04em}.challenge-roman{font-size:clamp(15px,2vw,22px)!important;line-height:1.6;word-break:break-all}
 @media(max-width:700px){.mode-grid{grid-template-columns:1fr}.personal-item{grid-template-columns:52px 1fr}.personal-score{font-size:18px}}
 
+/* =========================
+   モード選択画面：立体ボタン
+   ========================= */
+.mode-choice-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;margin:24px 0 12px}
+.mode-choice-btn{position:relative;border:0;border-radius:24px;min-height:190px;padding:24px 18px 28px;color:#fff;cursor:pointer;text-align:center;font-family:inherit;transition:transform .14s ease,box-shadow .14s ease,filter .14s ease;box-shadow:0 9px 0 rgba(0,0,0,.28),0 16px 28px rgba(0,0,0,.24);overflow:hidden}
+.mode-choice-btn::before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.28),transparent 42%);pointer-events:none}
+.mode-choice-btn:hover{transform:translateY(-4px);filter:brightness(1.05);box-shadow:0 13px 0 rgba(0,0,0,.25),0 22px 34px rgba(0,0,0,.27)}
+.mode-choice-btn:active{transform:translateY(5px);box-shadow:0 4px 0 rgba(0,0,0,.28),0 8px 16px rgba(0,0,0,.22)}
+.mode-choice-btn.practice{background:linear-gradient(180deg,#f06a4f,#d9472d);border:2px solid rgba(255,255,255,.24)}
+.mode-choice-btn.ranking{background:linear-gradient(180deg,#ffe45d,#f2c719);color:#241f00;border:2px solid rgba(255,255,255,.35)}
+.mode-choice-icon{font-size:54px;line-height:1;margin-bottom:12px;position:relative}
+.mode-choice-title{font-size:30px;font-weight:1000;letter-spacing:.03em;position:relative}
+.mode-choice-desc{font-size:14px;font-weight:800;margin-top:8px;opacity:.9;position:relative}
+.mode-choice-badge{display:inline-block;margin-top:14px;padding:6px 12px;border-radius:999px;background:rgba(0,0,0,.16);font-size:12px;font-weight:900;position:relative}
+.stage-select-title{text-align:center;font-size:22px;font-weight:1000;margin:4px 0 18px}
+.stage-choice-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin:18px 0 24px}
+.stage-choice-btn{position:relative;border-radius:22px;min-height:170px;padding:22px 16px;border:2px solid rgba(255,255,255,.22);cursor:pointer;text-align:center;color:#102033;font-family:inherit;transition:transform .14s ease,box-shadow .14s ease,border-color .14s ease;box-shadow:0 7px 0 rgba(0,0,0,.25),0 14px 24px rgba(0,0,0,.2)}
+.stage-choice-btn:hover{transform:translateY(-3px);box-shadow:0 10px 0 rgba(0,0,0,.22),0 18px 28px rgba(0,0,0,.24)}
+.stage-choice-btn:active{transform:translateY(4px);box-shadow:0 3px 0 rgba(0,0,0,.24),0 7px 14px rgba(0,0,0,.2)}
+.stage-choice-btn.quick{background:linear-gradient(180deg,#9eeaff,#57cbed)}
+.stage-choice-btn.challenge{background:linear-gradient(180deg,#f7f8fa,#bfc4cb);color:#20242a}
+.stage-choice-btn.selected{border-color:#fff;box-shadow:0 0 0 4px rgba(255,255,255,.22),0 8px 0 rgba(0,0,0,.26),0 18px 30px rgba(0,0,0,.24)}
+.stage-choice-icon{font-size:48px;line-height:1;margin-bottom:10px}
+.stage-choice-name{font-size:25px;font-weight:1000}
+.stage-choice-time{font-size:16px;font-weight:900;margin-top:5px}
+.stage-choice-desc{font-size:13px;font-weight:800;margin-top:7px;opacity:.8}
+@media(max-width:700px){.mode-choice-grid,.stage-choice-grid{grid-template-columns:1fr}.mode-choice-btn{min-height:160px}.stage-choice-btn{min-height:145px}}
+
 </style>
 </head>
 
@@ -517,26 +545,50 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:lin
   <strong>------</strong>
 </div>
 
-<div class="mode-title">🏆 <ruby>ランキング<rt>らんきんぐ</rt></ruby>モード</div>
-    <div class="mode-grid">
-      <div class="mode-card selected" id="quickModeCard" onclick="selectStage('quick')">
-        <div class="mode-icon">⚡</div><div class="mode-name">クイックステージ</div><div class="mode-time">1<ruby>分間<rt>ぷんかん</rt></ruby></div><div class="mode-desc">いつものスピードで勝負！</div>
-      </div>
-      <div class="mode-card" id="challengeModeCard" onclick="selectStage('challenge')">
-        <div class="mode-icon">🔥</div><div class="mode-name">チャレンジステージ</div><div class="mode-time">3<ruby>分間<rt>ぷんかん</rt></ruby></div><div class="mode-desc">文章タイピングに挑戦！</div>
-      </div>
-      <div class="mode-card" id="practiceModeCard" onclick="selectStage('practice')">
-        <div class="mode-icon">✏️</div><div class="mode-name">練習モード</div><div class="mode-time">1<ruby>分間<rt>ぷんかん</rt></ruby></div><div class="mode-desc">記録は残りません</div>
-      </div>
-    </div>
-    <div class="actions">
-      <button type="button" class="btn yellow" onclick="startSelectedStage()">ステージスタート</button>
+<div class="mode-title">🎮 <ruby>モード<rt>もーど</rt></ruby>をえらぼう</div>
+    <div class="mode-choice-grid">
+      <button type="button" class="mode-choice-btn practice" onclick="startPracticeMode()">
+        <div class="mode-choice-icon">✏️</div>
+        <div class="mode-choice-title"><ruby>練習<rt>れんしゅう</rt></ruby>モード</div>
+        <div class="mode-choice-desc">気軽にタイピングの練習をしよう！</div>
+        <div class="mode-choice-badge">1<ruby>分間<rt>ぷんかん</rt></ruby>・<ruby>記録<rt>きろく</rt></ruby>なし</div>
+      </button>
+      <button type="button" class="mode-choice-btn ranking" onclick="openRankingMode()">
+        <div class="mode-choice-icon">🏆</div>
+        <div class="mode-choice-title"><ruby>ランキング<rt>らんきんぐ</rt></ruby>モード</div>
+        <div class="mode-choice-desc">みんなとスコアを競おう！</div>
+        <div class="mode-choice-badge">クイック・チャレンジ</div>
+      </button>
     </div>
 
     <div id="homeNotice" class="notice"></div>
+  </div>
+</section>
 
+<section id="stageSelect" class="screen">
+  <div class="brand">
+    <h1 style="font-size:42px">🏆 <ruby>ランキング<rt>らんきんぐ</rt></ruby>モード</h1>
+    <p><ruby>ステージ<rt>すてーじ</rt></ruby>をえらぼう</p>
+  </div>
+  <div class="card">
+    <div class="stage-select-title">どちらのステージで<ruby>勝負<rt>しょうぶ</rt></ruby>する？</div>
+    <div class="stage-choice-grid">
+      <button type="button" class="stage-choice-btn quick selected" id="quickStageCard" onclick="selectStage('quick')">
+        <div class="stage-choice-icon">⚡</div>
+        <div class="stage-choice-name">クイックステージ</div>
+        <div class="stage-choice-time">1<ruby>分間<rt>ぷんかん</rt></ruby></div>
+        <div class="stage-choice-desc">いつものスピードで勝負！</div>
+      </button>
+      <button type="button" class="stage-choice-btn challenge" id="challengeStageCard" onclick="selectStage('challenge')">
+        <div class="stage-choice-icon">🔥</div>
+        <div class="stage-choice-name">チャレンジステージ</div>
+        <div class="stage-choice-time">3<ruby>分間<rt>ぷんかん</rt></ruby></div>
+        <div class="stage-choice-desc">文章タイピングに挑戦！</div>
+      </button>
+    </div>
     <div class="actions">
-      <button type="button" class="btn secondary" onclick="showRanking()">🏆 ランキングを<ruby>見<rt>み</rt></ruby>る</button>
+      <button type="button" class="btn yellow" onclick="startSelectedStage()">このステージでスタート ➡️</button>
+      <button type="button" class="btn secondary" onclick="goHome()">⬅️ モード選択にもどる</button>
     </div>
   </div>
 </section>
@@ -919,9 +971,9 @@ const variants={
   "ちゅ":["tyu","chu"],
   "ちょ":["tyo","cho"],
 
-  "じゃ":["zya","ja","jya"],
-  "じゅ":["zyu","ju","jyu"],
-  "じょ":["zyo","jo","jyo"],
+  "じゃ":["zya","ja"],
+  "じゅ":["zyu","ju"],
+  "じょ":["zyo","jo"],
 
   "きゅ":["kyu"]
 };
@@ -2602,9 +2654,21 @@ const CHALLENGE_SENTENCES=[
 
 function selectStage(stage){
  selectedStage=stage;
- ['quick','challenge','practice'].forEach(x=>{const e=document.getElementById(x+'ModeCard');if(e)e.classList.toggle('selected',x===stage);});
+ ['quick','challenge'].forEach(x=>{const e=document.getElementById(x+'StageCard');if(e)e.classList.toggle('selected',x===stage);});
 }
-function startSelectedStage(){startGame();}
+function openRankingMode(){
+ selectedStage='quick';
+ selectStage('quick');
+ document.getElementById('homeNotice').textContent='';
+ show('stageSelect');
+}
+function startPracticeMode(){
+ selectedStage='practice';
+ startGame();
+}
+function startSelectedStage(){
+ startGame();
+}
 
 window.startGame=function(){
  const g=document.getElementById('grade').value,k=document.getElementById('klass').value,num=document.getElementById('number').value,nickname=document.getElementById('nickname').value.trim();
