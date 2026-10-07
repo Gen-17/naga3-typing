@@ -480,62 +480,7 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:lin
   transform:translateY(-5px) scale(1.04);
   z-index:2;
 }
-/* =========================
-   学年ランキング・全校ランキング
-   選択中を強調
-   ========================= */
 
-.ranking-view-switch{
-  display:flex;
-  gap:12px;
-  justify-content:center;
-  align-items:stretch;
-}
-
-.ranking-view-btn{
-  position:relative;
-  transition:
-    transform .18s ease,
-    box-shadow .18s ease,
-    border-color .18s ease,
-    background .18s ease;
-}
-
-/* 選択中 */
-.ranking-view-btn.active{
-  background:var(--yellow);
-  color:#111;
-  border:3px solid #fff;
-  box-shadow:
-    0 0 0 5px rgba(255,213,46,.28),
-    0 0 24px rgba(255,213,46,.55),
-    0 10px 0 rgba(0,0,0,.22),
-    0 18px 28px rgba(0,0,0,.30);
-  transform:translateY(-6px) scale(1.035);
-  z-index:2;
-}
-
-/* 選択中の表示 */
-.ranking-view-btn.active::after{
-  content:"✓ 表示中";
-  position:absolute;
-  top:-16px;
-  left:50%;
-  transform:translateX(-50%);
-  background:#fff;
-  color:#17283c;
-  padding:5px 14px;
-  border-radius:999px;
-  font-size:14px;
-  font-weight:1000;
-  white-space:nowrap;
-  box-shadow:0 4px 10px rgba(0,0,0,.28);
-}
-
-/* 選択されていない方 */
-.ranking-view-btn:not(.active){
-  opacity:.82;
-}
 .ranking tbody tr.self-rank{background:rgba(255,213,46,.18)!important;box-shadow:inset 4px 0 0 var(--yellow)}
 .ranking tbody tr.self-rank td{font-weight:1000}.self-badge{display:inline-block;margin-left:5px;padding:2px 7px;border-radius:999px;background:var(--yellow);color:#111;font-size:11px}
 .personal-list{display:grid;gap:10px;margin-top:16px}.personal-item{display:grid;grid-template-columns:64px 1fr auto;align-items:center;gap:12px;padding:14px 16px;border-radius:14px;background:#0f1a2d;border:1px solid rgba(255,255,255,.08)}.personal-item.best{border-color:rgba(255,213,46,.65)}.personal-rank{font-size:24px;font-weight:1000;color:var(--yellow)}.personal-score{font-size:22px;font-weight:1000}.personal-meta{color:var(--muted);font-size:12px}
@@ -574,18 +519,8 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:lin
 .stage-choice-btn:hover{transform:translateY(-3px);box-shadow:0 10px 0 rgba(0,0,0,.22),0 18px 28px rgba(0,0,0,.24)}
 .stage-choice-btn:active{transform:translateY(4px);box-shadow:0 3px 0 rgba(0,0,0,.24),0 7px 14px rgba(0,0,0,.2)}
 .stage-choice-btn.quick{background:linear-gradient(180deg,#9eeaff,#57cbed)}
-.stage-choice-btn.challenge{background:linear-gradient(180deg,#f7f8fa,#bfc4cb);color:#20242a}
-.stage-choice-btn.selected{
-  border:4px solid #fff;
-  box-shadow:
-    0 0 0 6px rgba(255,255,255,.45),
-    0 0 28px rgba(255,255,255,.75),
-    0 12px 0 rgba(0,0,0,.28),
-    0 22px 35px rgba(0,0,0,.35);
-  transform:translateY(-7px) scale(1.035);
-  filter:brightness(1.12);
-  z-index:3;
-}
+.stage-choice-btn.challenge{background:linear-gradient(180deg,#d9f7df,#9edbaa);color:#16351d}
+.stage-choice-btn.selected{border:4px solid #fff;box-shadow:0 0 0 6px rgba(255,255,255,.45),0 0 28px rgba(255,255,255,.75),0 12px 0 rgba(0,0,0,.28),0 22px 35px rgba(0,0,0,.35);transform:translateY(-7px) scale(1.035);filter:brightness(1.12);z-index:3;}
 
 /* =========================
    ステージ開始確認
@@ -762,30 +697,7 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:lin
   align-items:center;
   justify-content:center;
 }
-.ranking-view-switch{
-  width:100%;
-}
-.ranking-view-btn{
-  width:220px;
-  min-height:58px;
-  padding:12px 18px;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  flex:0 1 220px;
-}
-.ranking-view-btn.active{
-  transform:translateY(-3px);
-  box-shadow:
-    0 0 0 4px rgba(255,213,46,.28),
-    0 8px 0 rgba(0,0,0,.22),
-    0 15px 24px rgba(0,0,0,.28);
-}
-.ranking-view-btn.active::after{
-  top:-13px;
-  font-size:12px;
-  padding:4px 11px;
-}
+
 .grade-select-tabs{
   align-items:center;
 }
@@ -810,12 +722,7 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:lin
   min-width:190px;
   min-height:52px;
 }
-@media(max-width:700px){
-  .ranking-view-btn{
-    width:calc(50% - 6px);
-    flex-basis:calc(50% - 6px);
-  }
-}
+
 @media(max-width:480px){
   .mode-choice-grid .mode-choice-btn{
     height:160px;
@@ -831,10 +738,6 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:lin
   }
   .rank-tab{
     min-width:132px;
-  }
-  .ranking-view-btn{
-    min-height:54px;
-    font-size:15px;
   }
 }
 
@@ -988,10 +891,20 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:lin
     </div>
 
     <div class="actions">
-      <button type="button" class="btn secondary" onclick="goHome()">⬅️ スタート<ruby>画面<rt>がめん</rt></ruby>にもどる</button>
-    </div>
-    <div class="small">ランキングは<ruby>全<rt>ぜん</rt></ruby>タブレットで<ruby>共有<rt>きょうゆう</rt></ruby>されます</div>
-  </div>
+  <button type="button" class="btn secondary" onclick="goHome()">
+    ⬅️ スタート<ruby>画面<rt>がめん</rt></ruby>にもどる
+  </button>
+</div>
+
+<div class="actions" style="margin-top:18px">
+  <button type="button" class="btn secondary" onclick="teacherReset()">
+    🔒 先生用：ランキングをリセット
+  </button>
+</div>
+
+<div class="small">
+  ランキングは<ruby>全<rt>ぜん</rt></ruby>タブレットで<ruby>共有<rt>きょうゆう</rt></ruby>されます
+</div>
 </section>
 
 <section id="stageSelect" class="screen">
@@ -1123,7 +1036,7 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:lin
   <div class="card result">
     <div id="resultStage" class="small"></div><div id="resultName"></div>
     <div class="bigscore" id="resultScore">0</div><div id="scoreFormula" class="score-formula"></div>
-    <div class="substats"><div><ruby>正解<rt>せいかい</rt></ruby> <b id="resultCorrect">0</b></div><div>ミス <b id="resultMiss">0</b></div><div><ruby>正確<rt>せいかく</rt></ruby>さ <b id="resultAccuracy">0%</b></div><div><ruby>速<rt>はや</rt></ruby>さ <b id="resultSpeed">0.0</b></div></div>
+    <div class="substats"><div><ruby>正解<rt>せいかい</rt></ruby> <b id="resultCorrect">0</b></div><div><ruby>ミス<rt>　</rt></ruby> <b id="resultMiss">0</b></div><div><ruby>正確<rt>せいかく</rt></ruby>さ <b id="resultAccuracy">0%</b></div><div><ruby>速<rt>はや</rt></ruby>さ <b id="resultSpeed">0.0</b></div></div>
     <div class="rank-result-box"><div id="resultSchoolRank" class="big-rank">全校—位</div><div id="resultGradeRank" class="big-rank" style="margin-top:6px">学年—位</div></div>
     <div id="resultRank"></div>
     <div class="actions"><button type="button" class="btn yellow" onclick="continueFromResult()">次へ ➡️</button><button type="button" class="btn secondary" onclick="goHome()">スタート<ruby>画面<rt>がめん</rt></ruby>へ</button></div>
@@ -1134,64 +1047,7 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:lin
   <div class="brand"><h1 style="font-size:42px">📊 PERSONAL</h1><p><ruby>個人成績<rt>こじんせいせき</rt></ruby></p></div>
   <div class="card"><div class="tournament-head"><div><strong>あなたのベスト3</strong><div id="personalSubtitle" class="small"></div></div></div><div id="newRecordNotice" class="new-record">🎉 最高記録更新！ 🎉</div><div id="personalList" class="personal-list"></div><div class="actions"><button type="button" class="btn yellow" onclick="continueFromPersonal()">ランキングを<ruby>確認<rt>かくにん</rt></ruby>する ➡️</button></div></div>
 </section>
-<section id="gradeRank" class="screen">
-  <div class="brand"><h1 style="font-size:42px">🏫 GRADE RANKING</h1><p id="gradeRankHeading"><ruby>学年<rt>がくねん</rt></ruby>ランキング TOP 20</p></div>
-  <div class="card"><div class="tournament-head"><div><strong id="gradeRankingTitle">6年生ランキング</strong><div id="gradeRankingSubtitle" class="small">クイックステージ</div></div><span>TOP 20</span></div>
-  <div class="grade-select-tabs" aria-label="学年を選択">
-    <button type="button" class="grade-select-tab" onclick="selectRankingGrade(1)">1<ruby>年<rt>ねん</rt></ruby></button>
-    <button type="button" class="grade-select-tab" onclick="selectRankingGrade(2)">2<ruby>年<rt>ねん</rt></ruby></button>
-    <button type="button" class="grade-select-tab" onclick="selectRankingGrade(3)">3<ruby>年<rt>ねん</rt></ruby></button>
-    <button type="button" class="grade-select-tab" onclick="selectRankingGrade(4)">4<ruby>年<rt>ねん</rt></ruby></button>
-    <button type="button" class="grade-select-tab" onclick="selectRankingGrade(5)">5<ruby>年<rt>ねん</rt></ruby></button>
-    <button type="button" class="grade-select-tab active" onclick="selectRankingGrade(6)">6<ruby>年<rt>ねん</rt></ruby></button>
-  </div>
-  <div class="rank-tabs"><button class="rank-tab active" id="gradeQuickTab" onclick="setGradeRankingStage('quick')">⚡ クイック</button><button class="rank-tab" id="gradeChallengeTab" onclick="setGradeRankingStage('challenge')">🔥 チャレンジ</button></div><div class="ranking-wrap"><table class="ranking"><thead><tr><th class="rank-head"><ruby>順位<rt>じゅんい</rt></ruby></th><th><ruby>番号<rt>ばんごう</rt></ruby></th><th>ニックネーム</th><th><ruby>文字数<rt>もじすう</rt></ruby></th><th><ruby>正確<rt>せいかく</rt></ruby>さ</th><th><ruby>速<rt>はや</rt></ruby>さ</th><th class="score-head"><ruby>総合<rt>そうごう</rt></ruby>スコア</th></tr></thead><tbody id="gradeRankBody"></tbody></table></div><div class="actions"><button type="button" class="btn yellow" onclick="continueFromGrade()">全校ランキングへ ➡️</button><button type="button" class="btn secondary" onclick="goHome()">スタート画面へ</button></div></div>
-</section>
-<section id="rank" class="screen">
-  <div class="brand"><h1 style="font-size:42px">🏆 RANKING</h1><p><ruby>長三<rt>ながさん</rt></ruby>タイピング<ruby>大会<rt>たいかい</rt></ruby> <b>TOP 20</b></p></div>
-  <div class="card">
-    <div class="tournament-head"><div><strong id="rankingTitle"><ruby>全校<rt>ぜんこう</rt></ruby>ランキング</strong><div id="rankingSubtitle" class="small">クイックステージ</div></div><span>TOP 20</span></div>
-    <div class="rank-tabs">
-  <button
-    class="rank-tab active"
-    id="rankQuickTab"
-    onclick="setRankingStage('quick')">
-    ⚡ クイック
-  </button>
-
-  <button
-    class="rank-tab"
-    id="rankChallengeTab"
-    onclick="setRankingStage('challenge')">
-    🔥 チャレンジ
-  </button>
 </div>
-
-<div class="actions ranking-view-switch" style="margin-bottom:14px">
-  <button
-    type="button"
-    id="gradeRankingViewBtn"
-    class="btn secondary ranking-view-btn active"
-    onclick="showGradeRanking()">
-    🏫 <ruby>学年<rt>がくねん</rt></ruby>ランキング
-  </button>
-
-  <button
-    type="button"
-    id="schoolRankingViewBtn"
-    class="btn secondary ranking-view-btn"
-    onclick="showSchoolRanking()">
-    🏆 <ruby>全校<rt>ぜんこう</rt></ruby>ランキング
-  </button>
-</div>
-    <div class="ranking-wrap"><table class="ranking"><thead><tr><th class="rank-head"><ruby>順位<rt>じゅんい</rt></ruby></th><th><ruby>番号<rt>ばんごう</rt></ruby></th><th>ニックネーム</th><th><ruby>文字数<rt>もじすう</rt></ruby></th><th><ruby>正確<rt>せいかく</rt></ruby>さ</th><th><ruby>速<rt>はや</rt></ruby>さ</th><th class="score-head"><ruby>総合<rt>そうごう</rt></ruby>スコア</th></tr></thead><tbody id="rankBody"></tbody></table></div>
-    <div class="actions"><button type="button" class="btn yellow" onclick="goHome()">スタート<ruby>画面<rt>がめん</rt></ruby>に<ruby>戻<rt>もど</rt></ruby>る</button><button type="button" class="btn secondary" onclick="teacherReset()">先生用：ランキングをリセット</button></div>
-    <div class="small">ランキングは<ruby>全<rt>ぜん</rt></ruby>タブレットで<ruby>共有<rt>きょうゆう</rt></ruby>されます</div>
-  </div>
-</section>
-
-</div>
-
 <script>
 /* =========================================
    Supabaseランキング設定
@@ -2614,37 +2470,6 @@ async function showRanking(){
   startRankingRefresh();
 }
 
-/* =========================================
-   先生用ランキングリセット
-   ========================================= */
-async function teacherReset(){
-  const pw = prompt(
-    "先生用機能（せんせいようきのう）です。\nパスワードを入力（にゅうりょく）してください。"
-  );
-
-  if(pw===null)return;
-
-  if(pw!=="NAGASAN-TEACHER"){
-    alert("パスワードがちがいます。");
-    return;
-  }
-
-  if(confirm("ランキングをすべて消去します。よろしいですか？")){
-    try {
-      await supabaseRequest(`${RANKINGS_TABLE}?id=not.is.null`, {
-        method: "DELETE",
-        headers: { "Prefer": "return=minimal" }
-      });
-      cachedRanks=[];
-      await renderRankingTable();
-      alert("ランキングをリセットしました。");
-    } catch(error){
-      console.error(error);
-      alert("ランキングのリセットに失敗しました。SupabaseのDELETEポリシーを確認してください。");
-    }
-  }
-}
-
 function clearRanking(){
   teacherReset();
 }
@@ -3094,15 +2919,11 @@ document.querySelectorAll('.input-wrap input').forEach(input => {
    長三タイピング大会・機能発展版オーバーライド
    ========================================================= */
 let selectedStage='quick';
-let rankingView='school';
-let currentRankingStage='quick';
 let currentRankSchool=0;
 let currentRankGrade=0;
 let lastEntry=null;
 let lastPersonalNewRecord=false;
 let personalStage='quick';
-let rankDataCache={quick:[],challenge:[]};
-let selectedRankingGrade='';
 
 const CHALLENGE_SENTENCES=[
 
@@ -3388,7 +3209,7 @@ window.nextWord=function(){
 };
 
 window.beginActualGame=function(){countdownRunning=false;locked=false;startTime=performance.now();const seconds=gameStage==='challenge'?180:60;endTime=startTime+seconds*1000;document.getElementById('time').textContent=seconds.toFixed(1);const typing=document.getElementById('typing');typing.value='';typing.focus();clearInterval(timer);timer=setInterval(tick,50);updateStats();};
-window.updateStats=function(){const elapsed=Math.max(.001,(performance.now()-startTime)/1000),accuracy=typedChars+miss?typedChars/(typedChars+miss):1,speed=typedChars/elapsed,sc=Math.round(typedChars*accuracy*(1+Math.min(speed/10,1))*10);document.getElementById('accuracy').textContent=Math.round(accuracy*100)+'%';document.getElementById('speed').textContent=speed.toFixed(1);document.getElementById('score').textContent=sc;};
+window.updateStats=function(){const elapsed=Math.max(.001,(performance.now()-startTime)/1000),accuracy=typedChars+miss?typedChars/(typedChars+miss):1,speed=typedChars/elapsed,sc=Math.round(typedChars*accuracy*(1+Math.min(speed/10,1))*100);document.getElementById('accuracy').textContent=Math.round(accuracy*100)+'%';document.getElementById('speed').textContent=speed.toFixed(1);document.getElementById('score').textContent=sc;};
 window.tick=function(){const left=Math.max(0,endTime-performance.now());document.getElementById('time').textContent=(left/1000).toFixed(1);updateStats();if(left<=0)finish();};
 
 async function saveEntryV2(entry){
@@ -3422,11 +3243,11 @@ function findStudentRank(list,studentNumber){const i=list.findIndex(r=>String(r.
 function localKey(stage){return 'nagas3_personal_'+stage+'_'+String(player.studentNumber||'');}
 function getPersonal(stage){try{return JSON.parse(localStorage.getItem(localKey(stage))||'[]')}catch(e){return[]}}
 function savePersonal(stage,entry){let arr=getPersonal(stage);const oldBest=arr[0]?.score||0;arr.push({score:entry.score,accuracy:entry.accuracy,speed:entry.speed,typedChars:entry.typedChars,date:entry.date});arr=rankSort(arr).slice(0,3);localStorage.setItem(localKey(stage),JSON.stringify(arr));return entry.score>oldBest;}
-function renderPersonal(stage,isNew){const list=document.getElementById('personalList');const arr=getPersonal(stage);document.getElementById('personalSubtitle').textContent=stage==='challenge'?'🔥 チャレンジステージ（3分）':'⚡ クイックステージ（1分）';document.getElementById('newRecordNotice').classList.toggle('show',!!isNew);list.innerHTML='';if(!arr.length){list.innerHTML='<div class="small">まだ記録がありません。</div>';return;}arr.forEach((r,i)=>{const d=document.createElement('div');d.className='personal-item'+(i===0?' best':'');d.innerHTML=`<div class="personal-rank">${i+1}位</div><div><div class="personal-score">${Number(r.score)}</div><div class="personal-meta">文字数 ${Number(r.typedChars)}　正確さ ${Math.round(Number(r.accuracy)*100)}%　速さ ${Number(r.speed).toFixed(1)}</div></div><div class="personal-meta">${new Date(Number(r.date)).toLocaleDateString('ja-JP')}</div>`;list.appendChild(d);});}
+function renderPersonal(stage,isNew){const list=document.getElementById('personalList');const arr=getPersonal(stage);document.getElementById('personalSubtitle').textContent=stage==='challenge'?'🔥 チャレンジステージ（3分）':'⚡ クイックステージ（1分）';document.getElementById('newRecordNotice').classList.toggle('show',!!isNew);list.innerHTML='';if(!arr.length){list.innerHTML='<div class="small">まだ記録がありません。</div>';return;}arr.forEach((r,i)=>{const d=document.createElement('div');d.className='personal-item'+(i===0?' best':'');d.innerHTML=`<div class="personal-rank">${i+1}位</div><div><div class="personal-score">${Number(r.score)}</div><div class="personal-meta">文字数 ${Number.isFinite(Number(r.typedChars)) ? Number(r.typedChars) : '—'}　正確さ ${Math.round(Number(r.accuracy)*100)}%　速さ ${Number(r.speed).toFixed(1)}</div></div></div><div class="personal-meta">${new Date(Number(r.date)).toLocaleDateString('ja-JP')}</div>`;list.appendChild(d);});}
 
 function showAchievement(schoolRank,gradeRank){if(!(schoolRank&&schoolRank<=20) && !(gradeRank&&gradeRank<=20))return;const ov=document.getElementById('achievementOverlay'),main=document.getElementById('achievementMain'),sub=document.getElementById('achievementSub');let text='';if(schoolRank&&schoolRank<=20)text=`🏆 全校${schoolRank}位！`;else text=`🏫 学年${gradeRank}位！`;main.textContent=text;sub.textContent=schoolRank&&schoolRank<=20&&gradeRank&&gradeRank<=20?`学年${gradeRank}位にもランクイン！`:'すごい！ランキング入りです！';ov.classList.add('active');ov.setAttribute('aria-hidden','false');setTimeout(()=>{ov.classList.remove('active');ov.setAttribute('aria-hidden','true');},2400);}
 
-window.finish=async function(){if(locked||countdownRunning)return;locked=true;clearInterval(timer);timer=null;document.getElementById('typing').blur();const elapsed=gameStage==='challenge'?180:60;const accuracy=typedChars+miss?typedChars/(typedChars+miss):1,speed=typedChars/elapsed,score=Math.round(typedChars*accuracy*(1+Math.min(speed/10,1))*10);
+window.finish=async function(){if(locked||countdownRunning)return;locked=true;clearInterval(timer);timer=null;document.getElementById('typing').blur();const elapsed=gameStage==='challenge'?180:60;const accuracy=typedChars+miss?typedChars/(typedChars+miss):1,speed=typedChars/elapsed,score=Math.round(typedChars*accuracy*(1+Math.min(speed/10,1))*100);
 const entry={
   student_number:player.studentNumber,
   grade:player.grade,
@@ -3464,7 +3285,16 @@ if(gameStage==='practice'){
 
 }};
 
-window.continueFromResult=function(){if(gameStage==='practice'){goHome();return;}personalStage=gameStage;currentRankingStage=gameStage;renderPersonal(personalStage,lastPersonalNewRecord);show('personal');};
+window.continueFromResult=function(){
+  if(gameStage==='practice'){
+    goHome();
+    return;
+  }
+
+  personalStage=gameStage;
+  renderPersonal(personalStage,lastPersonalNewRecord);
+  show('personal');
+};
 window.continueFromPersonal=async function(){
 
   /*
@@ -3543,94 +3373,7 @@ window.continueFromPersonal=async function(){
 
   }
 };
-window.continueFromGrade=function(){showSchoolRanking();};
 
-async function renderRankingV2(type,stage,force){
-  const body=document.getElementById(type==='school'?'rankBody':'gradeRankBody');
-  if(!body)return;
-
-  const grade=String(
-    selectedRankingGrade ||
-    player.grade ||
-    document.getElementById('grade').value ||
-    '6'
-  );
-
-  const ranks=await getRanks(stage,grade);
-  const list=type==='school'?ranks.school:ranks.grade;
-  rankDataCache[stage]=ranks.school;
-
-  const me=String(player.studentNumber||'');
-  const html=list.map((r,i)=>{
-    const self=me&&String(r.student_number)===me;
-    return `<tr class="${i<3?'rank'+(i+1):''}${self?' self-rank':''}">
-      <td class="rank-cell">${i+1}位</td>
-      <td>${escapeHtml(String(r.student_number??''))}</td>
-      <td>${escapeHtml(String(r.nickname??''))}${self?'<span class="self-badge">あなた</span>':''}</td>
-      <td>${Number(r.typed_chars)||'—'}</td>
-      <td>${Math.round(Number(r.accuracy)*100)}%</td>
-      <td>${Number(r.speed).toFixed(1)}</td>
-      <td class="score-cell">${Number(r.score)}</td>
-    </tr>`;
-  }).join('');
-
-  const newHtml=html||'<tr><td colspan="7">まだランキング記録がありません</td></tr>';
-
-  // 内容が変わっていないときはDOMを書き換えない。
-  // 3秒ごとの自動更新でもスクロール位置が動かないようにする。
-  if(!force && body.dataset.renderedHtml===newHtml){
-    return;
-  }
-
-  const scrollY=window.scrollY;
-  body.innerHTML=newHtml;
-  body.dataset.renderedHtml=newHtml;
-  window.scrollTo(0,scrollY);
-
-  if(type==='school'){
-    document.getElementById('rankingTitle').textContent='全校ランキング';
-    document.getElementById('rankingSubtitle').textContent=
-      stage==='challenge'?'🔥 チャレンジステージ（3分）':'⚡ クイックステージ（1分）';
-  }else{
-    document.getElementById('gradeRankingTitle').textContent=`${grade}年生ランキング`;
-    document.getElementById('gradeRankingSubtitle').textContent=
-      stage==='challenge'?'🔥 チャレンジステージ（3分）':'⚡ クイックステージ（1分）';
-  }
-}
-
-window.setRankingStage=async function(stage){currentRankingStage=stage;document.getElementById('rankQuickTab').classList.toggle('active',stage==='quick');document.getElementById('rankChallengeTab').classList.toggle('active',stage==='challenge');await renderRankingV2('school',stage,true);};
-window.setGradeRankingStage=async function(stage){
-  currentRankingStage=stage;
-  document.getElementById('gradeQuickTab')?.classList.toggle('active',stage==='quick');
-  document.getElementById('gradeChallengeTab')?.classList.toggle('active',stage==='challenge');
-
-  try{
-    await renderRankingV2('grade',stage,true);
-  }catch(e){
-    console.error('学年ランキング取得エラー:',e);
-    document.getElementById('gradeRankBody').innerHTML=
-      '<tr><td colspan="7">ランキングを読み込めませんでした</td></tr>';
-  }
-};
-
-window.selectRankingGrade=async function(grade){
-  selectedRankingGrade=String(grade);
-
-  document.querySelectorAll('.grade-select-tab').forEach(btn=>{
-    btn.classList.toggle('active', btn.textContent.trim()===`${grade}年`);
-  });
-
-  document.getElementById('gradeRankHeading').textContent =
-    `${grade}年生ランキング TOP 20`;
-
-  try{
-    await renderRankingV2('grade',currentRankingStage,true);
-  }catch(e){
-    console.error('学年ランキング取得エラー:',e);
-    document.getElementById('gradeRankBody').innerHTML=
-      '<tr><td colspan="7">ランキングを読み込めませんでした</td></tr>';
-  }
-};
 let checkRankingStage='quick';
 let checkRankingTarget='grade';
 let checkRankingGrade='6';
@@ -3707,113 +3450,91 @@ function startRankingCheckRefresh(){
   },3000);
 }
 
-window.showSchoolRanking=async function(){
-  rankingView='school';
-  selectedRankingGrade='';
-  if(!['quick','challenge'].includes(currentRankingStage)){
-    currentRankingStage='quick';
-  }
-  document.getElementById('gradeRankingViewBtn')
-  ?.classList.remove('active');
+window.teacherReset = async function(){
 
-document.getElementById('schoolRankingViewBtn')
-  ?.classList.add('active');
-
-  // 現在選択しているステージをそのまま維持
-  if(gameStage==='challenge' && currentRankingStage!=='challenge'){
-    currentRankingStage='challenge';
-  }
-
-  // 先に画面を表示
-  show('rank');
-
-  // タブの状態を更新
-  document.getElementById('rankQuickTab')
-    ?.classList.toggle('active',currentRankingStage==='quick');
-
-  document.getElementById('rankChallengeTab')
-    ?.classList.toggle('active',currentRankingStage==='challenge');
-
-  // ランキングを読み込む
-  try{
-    await renderRankingV2('school',currentRankingStage,true);
-  }catch(e){
-    console.error('全校ランキング取得エラー:',e);
-    document.getElementById('rankBody').innerHTML=
-      '<tr><td colspan="7">ランキングを読み込めませんでした</td></tr>';
-  }
-
-  startRankingRefreshV2();
-};
-
-
-window.showGradeRanking=async function(){
-  rankingView='grade';
-
-  if(!['quick','challenge'].includes(currentRankingStage)){
-    currentRankingStage = gameStage==='challenge' ? 'challenge' : 'quick';
-  }
-
-  show('gradeRank');
-
-  document.getElementById('schoolRankingViewBtn')
-    ?.classList.remove('active');
-  document.getElementById('gradeRankingViewBtn')
-    ?.classList.add('active');
-
-  document.getElementById('gradeQuickTab')
-    ?.classList.toggle('active',currentRankingStage==='quick');
-  document.getElementById('gradeChallengeTab')
-    ?.classList.toggle('active',currentRankingStage==='challenge');
-
-  // プレイ中の学年があればそれを初期選択。
-  // ランキング確認だけの場合は6年生を初期表示。
-  const grade=String(
-    player.grade ||
-    document.getElementById('grade').value ||
-    selectedRankingGrade ||
-    '6'
+  const pw = prompt(
+    '先生用機能です。\nパスワードを入力してください。'
   );
-  selectedRankingGrade=grade;
 
-  document.querySelectorAll('.grade-select-tab').forEach(btn=>{
-    btn.classList.toggle('active',btn.textContent.trim()===`${grade}年`);
-  });
+  if(pw === null) return;
 
-  document.getElementById('gradeRankHeading').textContent =
-    `${grade}年生ランキング TOP 20`;
-
-  try{
-    await renderRankingV2('grade',currentRankingStage,true);
-  }catch(e){
-    console.error('学年ランキング取得エラー:',e);
-    document.getElementById('gradeRankBody').innerHTML=
-      '<tr><td colspan="7">ランキングを読み込めませんでした</td></tr>';
+  if(
+    !confirm(
+      'クイック・チャレンジを含む、全校・全学年のランキング記録をすべて消去します。\n本当によろしいですか？'
+    )
+  ){
+    return;
   }
 
-  startRankingRefreshV2();
+  try{
+
+    const response = await fetch(
+      `${SUPABASE_URL}/functions/v1/reset-ranking`,
+      {
+        method: 'POST',
+
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': SUPABASE_KEY
+        },
+
+        body: JSON.stringify({
+          password: pw
+        })
+      }
+    );
+
+    const result = await response.json();
+
+    // パスワードが違う場合
+    if(response.status === 401){
+      alert('パスワードがちがいます。');
+      return;
+    }
+
+    // その他のエラー
+    if(!response.ok){
+      throw new Error(
+        result.error || 'ランキングの削除に失敗しました'
+      );
+    }
+
+    // HTML側に残っているランキング情報をクリア
+    cachedRanks = [];
+
+    // 統合ランキングを再読み込み
+    await renderRankingCheck(true);
+
+    alert('ランキングをリセットしました。');
+
+  }catch(error){
+
+    console.error(
+      'ランキングリセットエラー:',
+      error
+    );
+
+    alert(
+      'ランキングのリセットに失敗しました。\n通信状態を確認してください。'
+    );
+
+  }
 };
 
-window.showRanking=window.showSchoolRanking;
-function startRankingRefreshV2(){
-  clearInterval(rankingRefreshTimer);
-  rankingRefreshTimer=setInterval(async()=>{
-    try{
-      if(rankingView==='school' && document.getElementById('rank')?.classList.contains('active')){
-        await renderRankingV2('school',currentRankingStage,false);
-      }else if(rankingView==='grade' && document.getElementById('gradeRank')?.classList.contains('active')){
-        await renderRankingV2('grade',currentRankingStage,false);
-      }
-    }catch(e){
-      console.warn(e);
-    }
-  },3000);
-}
-window.teacherReset=async function(){const pw=prompt('先生用機能です。パスワードを入力してください。');if(pw===null)return;if(pw!=='NAGASAN-TEACHER'){alert('パスワードがちがいます。');return;}if(!confirm('全校・学年ランキングの記録をすべて消去します。よろしいですか？'))return;try{await supabaseRequest(`${RANKINGS_TABLE}?id=not.is.null`,{method:'DELETE',headers:{Prefer:'return=minimal'}});cachedRanks=[];await renderRankingV2('school',currentRankingStage,true);alert('ランキングをリセットしました。');}catch(e){console.error(e);alert('ランキングのリセットに失敗しました。SupabaseのDELETEポリシーを確認してください。');}};
-
-/* show を拡張：新しい画面にも対応 */
+/* show を拡張：統合ランキング画面の自動更新に対応 */
 const originalShow=window.show;
-window.show=function(id){originalShow(id);if(!['rank','rankingCheck'].includes(id))stopRankingRefresh();if(id==='rank')startRankingRefreshV2();if(id==='rankingCheck')startRankingCheckRefresh();};
+
+window.show=function(id){
+  originalShow(id);
+
+  if(id!=='rankingCheck'){
+    stopRankingRefresh();
+  }
+
+  if(id==='rankingCheck'){
+    startRankingCheckRefresh();
+  }
+};
 </script>
 
 </body>
