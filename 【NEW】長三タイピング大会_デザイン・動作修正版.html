@@ -3242,7 +3242,28 @@ function findStudentRank(list,studentNumber){const i=list.findIndex(r=>String(r.
 
 function localKey(stage){return 'nagas3_personal_'+stage+'_'+String(player.studentNumber||'');}
 function getPersonal(stage){try{return JSON.parse(localStorage.getItem(localKey(stage))||'[]')}catch(e){return[]}}
-function savePersonal(stage,entry){let arr=getPersonal(stage);const oldBest=arr[0]?.score||0;arr.push({score:entry.score,accuracy:entry.accuracy,speed:entry.speed,typedChars:entry.typedChars,date:entry.date});arr=rankSort(arr).slice(0,3);localStorage.setItem(localKey(stage),JSON.stringify(arr));return entry.score>oldBest;}
+function savePersonal(stage,entry){
+  let arr=getPersonal(stage);
+
+  const oldBest=arr[0]?.score||0;
+
+  arr.push({
+    score:entry.score,
+    accuracy:entry.accuracy,
+    speed:entry.speed,
+    typedChars:entry.typed_chars,
+    date:entry.date
+  });
+
+  arr=rankSort(arr).slice(0,3);
+
+  localStorage.setItem(
+    localKey(stage),
+    JSON.stringify(arr)
+  );
+
+  return entry.score>oldBest;
+}
 function renderPersonal(stage,isNew){const list=document.getElementById('personalList');const arr=getPersonal(stage);document.getElementById('personalSubtitle').textContent=stage==='challenge'?'🔥 チャレンジステージ（3分）':'⚡ クイックステージ（1分）';document.getElementById('newRecordNotice').classList.toggle('show',!!isNew);list.innerHTML='';if(!arr.length){list.innerHTML='<div class="small">まだ記録がありません。</div>';return;}arr.forEach((r,i)=>{const d=document.createElement('div');d.className='personal-item'+(i===0?' best':'');d.innerHTML=`<div class="personal-rank">${i+1}位</div><div><div class="personal-score">${Number(r.score)}</div><div class="personal-meta">文字数 ${Number.isFinite(Number(r.typedChars)) ? Number(r.typedChars) : '—'}　正確さ ${Math.round(Number(r.accuracy)*100)}%　速さ ${Number(r.speed).toFixed(1)}</div></div></div><div class="personal-meta">${new Date(Number(r.date)).toLocaleDateString('ja-JP')}</div>`;list.appendChild(d);});}
 
 function showAchievement(schoolRank,gradeRank){if(!(schoolRank&&schoolRank<=20) && !(gradeRank&&gradeRank<=20))return;const ov=document.getElementById('achievementOverlay'),main=document.getElementById('achievementMain'),sub=document.getElementById('achievementSub');let text='';if(schoolRank&&schoolRank<=20)text=`🏆 全校${schoolRank}位！`;else text=`🏫 学年${gradeRank}位！`;main.textContent=text;sub.textContent=schoolRank&&schoolRank<=20&&gradeRank&&gradeRank<=20?`学年${gradeRank}位にもランクイン！`:'すごい！ランキング入りです！';ov.classList.add('active');ov.setAttribute('aria-hidden','false');setTimeout(()=>{ov.classList.remove('active');ov.setAttribute('aria-hidden','true');},2400);}
