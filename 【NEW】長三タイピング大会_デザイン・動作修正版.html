@@ -1112,17 +1112,120 @@ function stopRankingRefresh(){
 
 
 const WORDS=[
-["あさ","asa"],["いぬ","inu"],["うみ","umi"],["えき","eki"],["おと","oto"],["かさ","kasa"],["きつね","kitune","kitsune"],["くるま","kuruma"],["けしき","kesiki","keshiki"],["こえ","koe"],
-["さくら","sakura"],["しお","sio","shio"],["すいか","suika"],["せかい","sekai"],["そら","sora"],["たこ","tako"],["ちず","tizu","chizu"],["つき","tuki","tsuki"],["てがみ","tegami"],["とけい","tokei"],
-["なつ","natu","natsu"],["にじ","nizi","niji"],["ぬの","nuno"],["ねこ","neko"],["のり","nori"],["はな","hana"],["ひこうき","hikouki"],["ふね","hune","fune"],["へや","heya"],["ほし","hosi","hoshi"],
-["まど","mado"],["みず","mizu"],["むし","musi","mushi"],["めがね","megane"],["もり","mori"],["やま","yama"],["ゆき","yuki"],["よる","yoru"],["らいおん","raionn"],["りんご","rinngo"],["るすばん","rusubann"],["れきし","rekisi","rekishi"],["ろうそく","rousoku"],
-["わに","wani"],["でんしゃ","dennsya","dennsha"],["しんぶん","sinnbunn","shinnbunn"],["がっこう","gakkou"],["せんせい","sennsei"],["ともだち","tomodati","tomodachi"],["きょうしつ","kyousitu","kyousitsu","kyoushitu","kyoushitsu"],["べんきょう","bennkyou"],["じかん","zikann","jikann"],["じてんしゃ","zitensya","jitensya","zitensha","jitensha"],
-["しょうがくせい","syougakusei","shougakusei"],["しゅくだい","syukudai","shukudai"],["しょくいんしつ","shokuinnshitu","shokuinnshitsu","shokuinnsitu","shokuinnsitsu","syokuinnshitu","syokuinnshitsu","syokuinnsitu","syokuinnsitsu"],
-["ちょうちょ","tyoutyo","choutyo","tyoucho","choucho"],["ちゅうしゃじょう","chuushazyou","chuushajou","chuushajyou","chuusyazyou","chuusyajou","chuusyajyou","tyuushazyou","tyuushajou","tyuushajyou","tyuusyazyou","tyuusyajou","tyuusyajyou"],["ちょきん","tyokinn","chokinn"],["じゃんけん","zyannkenn","jannkenn","jyannkenn"],["じゅぎょう","zyugyou","jugyou","jyugyou"],["じょうず","zyouzu","jouzu","jyouzu"],
-["でんき","dennki"],["きゅうしょく","kyuusyoku","kyuushoku"],["きょうかしょ","kyoukasyo","kyoukasho"],["たいいく","taiiku"],["おんがく","onngaku"],["さんすう","sannsuu"],["こくご","kokugo"],["りか","rika"],["しゃかい","syakai","shakai"],["ずこう","zukou"],["どうぶつ","doubutu","doubutsu"],
-["くつ","kutu","kutsu"],["ぼうし","bousi","boushi"],["えんぴつ","ennpitu","ennpitsu"],["けしごむ","kesigomu","keshigomu"],["じょうぎ","zyougi","jougi","jyougi"],["きゅうけい","kyuukei"],["うんどうかい","unndoukai"],["たんじょうび","tannjoubi","tannzyoubi"],["おしょうがつ","osyougatu","oshougatsu","osyougatsu","oshougatu"],["なかよし","nakayosi","nakayoshi"],
-["あいさつ","aisatu","aisatsu"],["ありがとう","arigatou"],["おはよう","ohayou"],["こんにちは","konnnichiha","konnnitiha"],["さようなら","sayounara"],["いただきます","itadakimasu"],["ごちそうさま","gotisousama","gochisousama"],["がんばる","gannbaru"],["たのしい","tanosii","tanoshii"],["うれしい","uresii","ureshii"],
-["でんしゃ","dennsya","dennsha"],["しょうぼうしゃ","syoubousya","syoubousha","shoubousha","shoubousya"],["きゅうきゅうしゃ","kyuukyuusya","kyuukyuusha"],["ゆうびんきょく","yuubinnkyoku"],["としょかん","tosyokann","toshokann"],["こうえん","kouen"],["すいぞくかん","suizokukan"],["どうぶつえん","doubutuen","doubutsuen"],["おしろ","osiro","oshiro"],["えいが","eiga"]
+
+["あさ","asa"],
+["いぬ","inu"],
+["うみ","umi"],
+["えき","eki"],
+["おと","oto"],
+["かさ","kasa"],
+["きつね","kitune"],
+["くるま","kuruma"],
+["けしき","kesiki"],
+["こえ","koe"],
+
+["さくら","sakura"],
+["しお","sio"],
+["すいか","suika"],
+["せかい","sekai"],
+["そら","sora"],
+["たこ","tako"],
+["ちず","tizu"],
+["つき","tuki"],
+["てがみ","tegami"],
+["とけい","tokei"],
+
+["なつ","natu"],
+["にじ","nizi"],
+["ぬの","nuno"],
+["ねこ","neko"],
+["のり","nori"],
+["はな","hana"],
+["ひこうき","hikouki"],
+["ふね","hune"],
+["へや","heya"],
+["ほし","hosi"],
+
+["まど","mado"],
+["みず","mizu"],
+["むし","musi"],
+["めがね","megane"],
+["もり","mori"],
+["やま","yama"],
+["ゆき","yuki"],
+["よる","yoru"],
+["らいおん","raionn"],
+["りんご","rinngo"],
+
+["るすばん","rusubann"],
+["れきし","rekisi"],
+["ろうそく","rousoku"],
+["わに","wani"],
+["でんしゃ","dennsya"],
+["しんぶん","sinnbunn"],
+["がっこう","gakkou"],
+["せんせい","sennsei"],
+["ともだち","tomodati"],
+["きょうしつ","kyousitu"],
+
+["べんきょう","bennkyou"],
+["じかん","zikann"],
+["じてんしゃ","zitennsya"],
+["しょうがくせい","syougakusei"],
+["しゅくだい","syukudai"],
+["しょくいんしつ","syokuinnsitu"],
+["ちょうちょ","tyoutyo"],
+["ちゅうしゃじょう","tyuusyazyou"],
+["ちょきん","tyokinn"],
+["じゃんけん","zyannkenn"],
+
+["じゅぎょう","zyugyou"],
+["じょうず","zyouzu"],
+["でんき","dennki"],
+["きゅうしょく","kyuusyoku"],
+["きょうかしょ","kyoukasyo"],
+["たいいく","taiiku"],
+["おんがく","onngaku"],
+["さんすう","sannsuu"],
+["こくご","kokugo"],
+["りか","rika"],
+
+["しゃかい","syakai"],
+["ずこう","zukou"],
+["どうぶつ","doubutu"],
+["くつ","kutu"],
+["ぼうし","bousi"],
+["えんぴつ","ennpitu"],
+["けしごむ","kesigomu"],
+["じょうぎ","zyougi"],
+["きゅうけい","kyuukei"],
+["うんどうかい","unndoukai"],
+
+["たんじょうび","tannzyoubi"],
+["おしょうがつ","osyougatu"],
+["なかよし","nakayosi"],
+["あいさつ","aisatu"],
+["ありがとう","arigatou"],
+["おはよう","ohayou"],
+["こんにちは","konnnitiha"],
+["さようなら","sayounara"],
+["いただきます","itadakimasu"],
+["ごちそうさま","gotisousama"],
+
+["がんばる","gannbaru"],
+["たのしい","tanosii"],
+["うれしい","uresii"],
+["しょうぼうしゃ","syoubousya"],
+["きゅうきゅうしゃ","kyuukyuusya"],
+["ゆうびんきょく","yuubinnkyoku"],
+["としょかん","tosyokann"],
+["こうえん","kouenn"],
+["すいぞくかん","suizokukann"],
+["どうぶつえん","doubutuenn"],
+
+["おしろ","osiro"],
+["えいが","eiga"]
+
 ];
 
 const DISPLAY_MAP={
@@ -1296,7 +1399,10 @@ function displayWord(word){
 
 const variants={
 
+  // ========================================
   // 基本音
+  // ========================================
+
   "し":["si","shi"],
   "ん":["nn"],
   "つ":["tu","tsu"],
@@ -1306,60 +1412,105 @@ const variants={
   "ぢ":["di","ji"],
   "づ":["du","zu"],
 
+
+  // ========================================
   // きゃ・きゅ・きょ
+  // ========================================
+
   "きゃ":["kya"],
   "きゅ":["kyu"],
   "きょ":["kyo"],
 
+
+  // ========================================
   // ぎゃ・ぎゅ・ぎょ
+  // ========================================
+
   "ぎゃ":["gya"],
   "ぎゅ":["gyu"],
   "ぎょ":["gyo"],
 
+
+  // ========================================
   // しゃ・しゅ・しょ
+  // ========================================
+
   "しゃ":["sya","sha"],
   "しゅ":["syu","shu"],
   "しょ":["syo","sho"],
 
+
+  // ========================================
   // じゃ・じゅ・じょ
-  "じゃ":["zya","ja"],
-  "じゅ":["zyu","ju"],
-  "じょ":["zyo","jo"],
+  // ========================================
 
+  "じゃ":["zya","ja","jya"],
+  "じゅ":["zyu","ju","jyu"],
+  "じょ":["zyo","jo","jyo"],
+
+
+  // ========================================
   // ちゃ・ちゅ・ちょ
-  "ちゃ":["tya","cha"],
-  "ちゅ":["tyu","chu"],
-  "ちょ":["tyo","cho"],
+  // ========================================
 
+  "ちゃ":["tya","cha","cya"],
+  "ちゅ":["tyu","chu","cyu"],
+  "ちょ":["tyo","cho","cyo"],
+
+
+  // ========================================
   // にゃ・にゅ・にょ
+  // ========================================
+
   "にゃ":["nya"],
   "にゅ":["nyu"],
   "にょ":["nyo"],
 
+
+  // ========================================
   // ひゃ・ひゅ・ひょ
+  // ========================================
+
   "ひゃ":["hya"],
   "ひゅ":["hyu"],
   "ひょ":["hyo"],
 
+
+  // ========================================
   // びゃ・びゅ・びょ
+  // ========================================
+
   "びゃ":["bya"],
   "びゅ":["byu"],
   "びょ":["byo"],
 
+
+  // ========================================
   // ぴゃ・ぴゅ・ぴょ
+  // ========================================
+
   "ぴゃ":["pya"],
   "ぴゅ":["pyu"],
   "ぴょ":["pyo"],
 
+
+  // ========================================
   // みゃ・みゅ・みょ
+  // ========================================
+
   "みゃ":["mya"],
   "みゅ":["myu"],
   "みょ":["myo"],
 
+
+  // ========================================
   // りゃ・りゅ・りょ
+  // ========================================
+
   "りゃ":["rya"],
   "りゅ":["ryu"],
   "りょ":["ryo"]
+
 };
 
 
@@ -1660,31 +1811,17 @@ function normalize(s){
 
 
 /* =========================================
-   正答候補生成
+   ローマ字入力判定・完全統一版
    ========================================= */
 
-function makeCandidates(word, roman){
-
-  /*
-   * 注意：
-   * 以前のように文章全体の候補を
-   * すべて組み合わせて生成しない。
-   *
-   * 長文では候補数が指数関数的に増えて
-   * ゲームが停止するため。
-   *
-   * 正答判定は isCorrectInput / isPrefix で
-   * 必要な部分だけ判定する。
-   */
-
-  return [roman];
-}
-
-
-/* =========================================
-   かな分割
-   ========================================= */
-
+/*
+ * かなを「1モーラずつ」に分割する。
+ *
+ * 例：
+ * じゅぎょう
+ * ↓
+ * ["じゅ","ぎょ","う"]
+ */
 function splitKana(s){
 
   const chars=[...s];
@@ -1693,19 +1830,15 @@ function splitKana(s){
   for(let i=0;i<chars.length;i++){
 
     const c=chars[i];
-    const n=chars[i+1]||"";
+    const n=chars[i+1] || "";
 
-    /*
-     * 「きゃ・きゅ・きょ」
-     * 「しゃ・しゅ・しょ」
-     * 「ちゃ・ちゅ・ちょ」
-     * 「じゃ・じゅ・じょ」
-     * など、
-     * variantsに登録されている拗音は
-     * 1つのまとまりとして扱う。
-     */
     const combined=c+n;
 
+    /*
+     * きゃ・しゅ・じょ等、
+     * variantsに登録されている拗音は
+     * 1つのまとまりにする。
+     */
     if(
       "ゃゅょ".includes(n) &&
       variants[combined]
@@ -1742,11 +1875,14 @@ function romanizeBasic(m){
     "こ":"ko",
 
     "さ":"sa",
+    "し":"si",
     "す":"su",
     "せ":"se",
     "そ":"so",
 
     "た":"ta",
+    "ち":"ti",
+    "つ":"tu",
     "て":"te",
     "と":"to",
 
@@ -1758,6 +1894,7 @@ function romanizeBasic(m){
 
     "は":"ha",
     "ひ":"hi",
+    "ふ":"hu",
     "へ":"he",
     "ほ":"ho",
 
@@ -1781,7 +1918,7 @@ function romanizeBasic(m){
     "を":"wo",
 
     /*
-     * 「ん」は nn
+     * 「ん」は nn のみ
      */
     "ん":"nn",
 
@@ -1792,6 +1929,7 @@ function romanizeBasic(m){
     "ご":"go",
 
     "ざ":"za",
+    "じ":"zi",
     "ず":"zu",
     "ぜ":"ze",
     "ぞ":"zo",
@@ -1817,25 +1955,25 @@ function romanizeBasic(m){
     "っ":"xtsu",
 
     "ー":"-"
-
   };
 
-
-  return map[m]||"";
+  return map[m] || "";
 }
 
+
 /* =========================================
-   クイック・チャレンジ共通
-   ローマ字入力判定
+   現在の問題の「かな」を取得
    ========================================= */
 
 function getTypingSource(){
 
-  if(gameStage === 'challenge'){
+  if(gameStage === "challenge"){
+
     return {
       kana: current[1],
       roman: current[2]
     };
+
   }
 
   return {
@@ -1845,56 +1983,81 @@ function getTypingSource(){
 }
 
 
+/* =========================================
+   1モーラごとの入力候補を作る
+   ========================================= */
+
 /*
- * かなをローマ字候補の「まとまり」に変換する。
- *
  * 例：
- * し     → si / shi
- * つ     → tu / tsu
- * しょ   → syo / sho
  *
- * っ は次の音とセットにして、
- * 促音として処理する。
+ * じゅぎょう
+ *
+ * [
+ *   ["zyu","ju"],
+ *   ["gyo"],
+ *   ["u"]
+ * ]
+ *
+ * のように保持する。
+ *
+ * 文章全体の全組み合わせは生成しないので、
+ * 長文でも候補数が爆発しない。
  */
 function getMoraChoices(word){
 
-  const mora = splitKana(word);
-  const tokens = [];
+  const mora=splitKana(word);
+  const tokens=[];
 
-  for(let i=0; i<mora.length; i++){
+  for(let i=0;i<mora.length;i++){
 
-    const m = mora[i];
+    const m=mora[i];
 
     /*
-     * っ
+     * 促音「っ」
      */
-    if(m === 'っ'){
+    if(m === "っ"){
 
-      const nextMora = mora[i + 1];
+      const nextMora=mora[i+1];
 
       if(!nextMora){
-        tokens.push(['xtsu']);
+
+        tokens.push(["xtsu"]);
         continue;
+
       }
 
-      const nextChoices =
+      const nextChoices=
         variants[nextMora] ||
         [romanizeBasic(nextMora)];
 
-      const choices = [];
+      const choices=[];
 
       for(const choice of nextChoices){
 
-        let consonant;
+        if(!choice) continue;
 
-        if(choice.startsWith('ch')){
-          consonant = 't';
+        let consonant="";
+
+        /*
+         * cha → tcha
+         * chu → tchu
+         * cho → tcho
+         */
+        if(choice.startsWith("ch")){
+          consonant="t";
         }
-        else if(choice.startsWith('sh')){
-          consonant = 's';
+
+        /*
+         * sha → ssha
+         * shu → sshu
+         * sho → ssho
+         */
+        else if(choice.startsWith("sh")){
+          consonant="s";
         }
+
         else{
-          consonant = choice.charAt(0);
+          consonant=choice.charAt(0);
         }
 
         choices.push(
@@ -1906,19 +2069,27 @@ function getMoraChoices(word){
         [...new Set(choices)]
       );
 
+      /*
+       * 次のモーラは
+       * 促音とセットで処理済み
+       */
       i++;
+
       continue;
     }
+
 
     /*
      * 通常のかな
      */
-    const choices =
+    const choices=
       variants[m] ||
       [romanizeBasic(m)];
 
     tokens.push(
-      [...new Set(choices)]
+      [...new Set(
+        choices.filter(Boolean)
+      )]
     );
   }
 
@@ -1926,184 +2097,183 @@ function getMoraChoices(word){
 }
 
 
+/* =========================================
+   入力状態を判定
+   ========================================= */
+
 /*
- * 入力 v が、
- * 「正しいローマ字の完成形」かどうか
+ * 戻り値
+ *
+ * "correct"
+ *   → 全部入力できた
+ *
+ * "prefix"
+ *   → 正しい入力の途中
+ *
+ * "wrong"
+ *   → どの候補にもつながらない
  */
-function isCorrectInput(v){
+function judgeRomanInput(value){
 
-  const source = getTypingSource();
-  const roman = source.roman;
+  const v=normalize(value);
 
-  /*
-   * 基本ローマ字は必ず正解
-   */
-  if(v === roman){
-    return true;
+  if(v === ""){
+    return "prefix";
   }
 
-  const tokens = getMoraChoices(source.kana);
+  const source=getTypingSource();
 
-  let positions = new Set([0]);
+  if(!source || !source.kana){
+    return "wrong";
+  }
+
+  const tokens=
+    getMoraChoices(source.kana);
+
+
+  /*
+   * positionsには、
+   *
+   * 「ここまで正しく入力できた位置」
+   *
+   * を保存する。
+   */
+  let positions=new Set([0]);
+
 
   for(const choices of tokens){
 
-    const nextPositions = new Set();
+    const nextPositions=new Set();
+
 
     for(const pos of positions){
+
+      /*
+       * この時点ですでに入力文字を
+       * 全部使い切っている場合。
+       *
+       * → 正しい途中入力。
+       */
+      if(pos === v.length){
+        return "prefix";
+      }
+
 
       for(const choice of choices){
 
         /*
-         * 入力文字列の該当位置と
-         * 候補が一致するか
+         * 現在位置から後ろに
+         * 入力されている文字。
+         */
+        const remaining=
+          v.slice(pos);
+
+
+        /*
+         * 候補を最後まで入力済み。
+         *
+         * 例：
+         * choice = "ju"
+         * remaining = "jug"
+         *
+         * → "ju"までは完成しているので
+         * 次のモーラへ進む。
          */
         if(
-          v.length >= pos + choice.length &&
-          v.slice(pos, pos + choice.length) === choice
+          remaining.length >= choice.length &&
+          remaining.slice(0,choice.length) === choice
         ){
+
           nextPositions.add(
             pos + choice.length
           );
+
+          continue;
         }
-      }
-    }
 
-    positions = nextPositions;
-
-    if(!positions.size){
-      return false;
-    }
-  }
-
-  return positions.has(v.length);
-}
-
-
-/*
- * 入力 v が、
- * 正しいローマ字の途中までかどうか
- */
-function isValidTypingPrefix(v){
-
-  if(v === ''){
-    return true;
-  }
-
-  const source = getTypingSource();
-  const roman = source.roman;
-
-  /*
-   * 基本ローマ字の途中ならOK
-   */
-  if(roman.startsWith(v)){
-    return true;
-  }
-
-  const tokens = getMoraChoices(source.kana);
-
-  let positions = new Set([0]);
-
-  for(const choices of tokens){
-
-    const nextPositions = new Set();
-
-    for(const pos of positions){
-
-      for(const choice of choices){
 
         /*
-         * まだ候補の途中までしか
-         * 入力されていない場合
+         * 候補の途中まで正しい。
+         *
+         * 例：
+         * choice = "ju"
+         * remaining = "j"
+         *
+         * → 正しい途中入力。
          */
-        const remaining = v.slice(pos);
-
         if(
-          remaining.length > 0 &&
+          remaining.length < choice.length &&
           choice.startsWith(remaining)
         ){
-          return true;
+
+          return "prefix";
         }
 
-        /*
-         * 候補を丸ごと入力できた場合
-         */
-        if(
-          v.slice(pos, pos + choice.length) === choice
-        ){
-          nextPositions.add(
-            pos + choice.length
-          );
-        }
       }
     }
 
-    positions = nextPositions;
 
-    if(!positions.size){
-      return false;
-    }
+    positions=nextPositions;
+
 
     /*
-     * 入力が全部終わったら、
-     * ここまで正しいのでprefix
+     * どの候補にもつながらなければ誤入力。
      */
-    if(
-      positions.has(v.length)
-    ){
-      return true;
+    if(!positions.size){
+      return "wrong";
     }
+
   }
 
-  return false;
+
+  /*
+   * 全モーラを処理して、
+   * 入力文字数と一致する位置まで
+   * 到達していれば正解。
+   */
+  if(positions.has(v.length)){
+    return "correct";
+  }
+
+
+  return "wrong";
 }
+
+
+/* =========================================
+   正解判定
+   ========================================= */
+
+function isCorrectInput(v){
+
+  return judgeRomanInput(v) === "correct";
+
+}
+
+
+/* =========================================
+   途中入力判定
+   ========================================= */
+
+function isValidTypingPrefix(v){
+
+  const result=
+    judgeRomanInput(v);
+
+  return (
+    result === "prefix" ||
+    result === "correct"
+  );
+}
+
 
 /* =========================================
    次の問題
    ========================================= */
 
-function nextWord(){ return window.nextWord(); }
-
-
-/* =========================================
-   正答候補
-   ========================================= */
-
-function expected(){
-
-  // クイック・チャレンジ共通の正答判定
-  // クイック：
-  //   current = [かな, ローマ字]
-  //
-  // チャレンジ：
-  //   current = [表示用HTML, かな, ローマ字]
-  //
-  // 最終的には、どちらも
-  // makeCandidates(かな, 基本ローマ字)
-  // に通す。
-
-  const kana = gameStage === 'challenge'
-    ? current[1]
-    : current[0];
-
-  const roman = gameStage === 'challenge'
-    ? current[2]
-    : current[1];
-
-  return makeCandidates(kana, roman);
+function nextWord(){
+  return window.nextWord();
 }
-
-
-/* =========================================
-   入力途中の判定
-   ========================================= */
-
-function isPrefix(v){
-
-  return expected()
-    .some(x=>x.startsWith(v));
-}
-
 
 /* =========================================
    iPad日本語IME対策
@@ -2526,32 +2696,87 @@ function updateHighlights(){
     normalize(el.value);
 
 
-  const cands=
-    expected();
+  const source=
+  getTypingSource();
+
+const tokens=
+  getMoraChoices(source.kana);
+
+const next=
+  new Set();
 
 
-  const next=
-    new Set();
+/*
+ * 現在の入力から、
+ * 次に押せる正しいキーを探す
+ */
+function collectNextKeys(
+  tokenIndex,
+  inputPos
+){
+
+  /*
+   * すべてのモーラを処理済み
+   */
+  if(tokenIndex >= tokens.length){
+    return;
+  }
 
 
-  for(const x of cands){
+  const choices=
+    tokens[tokenIndex];
 
+
+  for(const choice of choices){
+
+    const remaining=
+      v.slice(inputPos);
+
+
+    /*
+     * 現在のモーラをすでに
+     * 最後まで入力している場合
+     */
     if(
-      x.startsWith(v) &&
-      x.length>v.length
+      remaining.length >= choice.length &&
+      remaining.slice(0,choice.length) === choice
     ){
 
-      next.add(
-        x[v.length]
+      collectNextKeys(
+        tokenIndex + 1,
+        inputPos + choice.length
       );
+
+      continue;
+    }
+
+
+    /*
+     * 現在のモーラを入力途中
+     */
+    if(
+      remaining.length < choice.length &&
+      choice.startsWith(remaining)
+    ){
+
+      const nextChar=
+        choice[remaining.length];
+
+      if(nextChar){
+        next.add(nextChar);
+      }
 
     }
 
   }
+}
 
 
-  const first=
-    [...next][0]||"";
+collectNextKeys(0,0);
+
+
+const first=
+  [...next][0] || "";
 
 
   document
@@ -2928,7 +3153,7 @@ let personalStage='quick';
 const CHALLENGE_SENTENCES=[
 
 // =========================================
-// ① 低〜中学年向け 19問
+// ① 低〜中学年向け 18問
 // =========================================
 
 ['<ruby>朝<rt>あさ</rt></ruby>の<ruby>空<rt>そら</rt></ruby>は<ruby>青<rt>あお</rt></ruby>く<ruby>晴<rt>は</rt></ruby>れています',
@@ -2993,7 +3218,7 @@ const CHALLENGE_SENTENCES=[
 
 ['<ruby>朝<rt>あさ</rt></ruby>ごはんをしっかり<ruby>食<rt>た</rt></ruby>べて<ruby>元気<rt>げんき</rt></ruby>に<ruby>出<rt>で</rt></ruby>かけます',
  'あさごはんをしっかりたべてげんきにでかけます',
- 'asagohannwosikkaritatabetegennkinidekakemasu'],
+ 'asagohannwosikkaritabetegennkinidekakemasu'],
 
 ['<ruby>家<rt>いえ</rt></ruby>に<ruby>帰<rt>かえ</rt></ruby>ったら<ruby>今日<rt>きょう</rt></ruby>あったことを<ruby>話<rt>はな</rt></ruby>します',
  'いえにかえったらきょうあったことをはなします',
